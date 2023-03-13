@@ -1,6 +1,6 @@
 # ChatGLM-6B
 ## 介绍
-ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语言模型，基于 [GLM](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。ChatGLM-6B 使用了和 ChatGLM（内测中，地址 [https://chatglm.cn](https://chatglm.cn)）相同的技术面向中文问答和对话进行优化。
+ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。ChatGLM-6B 使用了和 ChatGLM（内测中，地址 [https://chatglm.cn](https://chatglm.cn)）相同的技术面向中文问答和对话进行优化。
 
 ## 使用方式
 使用前请先安装`transformers>=4.23.1`和`icetk`。
@@ -29,10 +29,15 @@ query = "晚上睡不着应该怎么办"
 response, history = model.chat(tokenizer, query, history=history)
 print(history)
 ```
+完整的模型实现可以在 [HuggingFace Hub](https://huggingface.co/THUDM/chatglm-6b) 上查看。
 
 ### Demo
 
-我们提供了一个基于 [Gradio](https://gradio.app) 的网页版 Demo 和一个命令行 Demo。
+我们提供了一个基于 [Gradio](https://gradio.app) 的网页版 Demo 和一个命令行 Demo。使用时首先需要下载本仓库：
+```shell
+git clone https://github.com/THUDM/ChatGLM-6B
+cd ChatGLM-6B
+```
 
 #### 网页版 Demo
 
@@ -44,7 +49,7 @@ print(history)
 pip install gradio
 ```
 
-然后下载仓库中的 [web_demo.py](web_demo.py) 并运行
+然后运行仓库中的 [web_demo.py](web_demo.py)： 
 
 ```shell
 python web_demo.py
@@ -56,7 +61,7 @@ python web_demo.py
 
 ![cli-demo](resources/cli-demo.png)
 
-下载仓库中的 [cli_demo.py](cli_demo.py) 并运行
+运行仓库中 [cli_demo.py](cli_demo.py)：
 
 ```shell
 python cli_demo.py
