@@ -1,22 +1,26 @@
 # ChatGLM-6B
+
 ## 介绍
-ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。ChatGLM-6B 使用了和 [ChatGLM]((https://chatglm.cn)) 相同的技术面向中文问答和对话进行优化。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。在经过了约 1T 标识符的中英双语训练，并辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的模型已经能生成相当符合人类偏好的回答。
+
+ChatGLM-6B 是一个开源的、支持中英双语问答的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。ChatGLM-6B 使用了和 [ChatGLM](https://chatglm.cn) 相同的技术，针对中文问答和对话进行了优化。经过约 1T 标识符的中英双语训练，辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的 ChatGLM-6B 已经能生成相当符合人类偏好的回答。
 
 ## 硬件需求
 
 | **量化等级**    | **最低 GPU 显存** |
-| -------------- |---------------|
-| FP16（无量化）   | 13 GB         |
-| INT8           | 9 GB          |
-| INT4           | 6 GB          |
+| -------------- | ----------------- |
+| FP16（无量化）   | 13 GB             |
+| INT8           | 10 GB              |
+| INT4           | 6 GB               |
 
 ## 使用方式
 
-使用前请先按照安装依赖：`pip install -r requirements.txt`，其中 transformers 的版本需要大于 4.23.1，推荐使用4.26.1。
+### 环境安装
+
+使用 pip 安装依赖：`pip install -r requirements.txt`，其中 `transformers` 库版本推荐为 `4.26.1`，但理论上不低于 `4.23.1` 即可。
 
 ### 代码调用 
 
-可以通过如下代码调用 ChatGLM-6B 模型来生成对话。
+可以通过如下代码调用 ChatGLM-6B 模型来生成对话：
 
 ```python
 from transformers import AutoTokenizer, AutoModel
@@ -49,13 +53,7 @@ cd ChatGLM-6B
 
 ![web-demo](resources/web-demo.png)
 
-首先安装 Gradio
-
-```shell
-pip install gradio
-```
-
-然后运行仓库中的 [web_demo.py](web_demo.py)： 
+首先安装 Gradio：`pip install gradio`，然后运行仓库中的 [web_demo.py](web_demo.py)： 
 
 ```shell
 python web_demo.py
@@ -76,23 +74,16 @@ python cli_demo.py
 程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入`clear`可以清空对话历史，输入`stop`终止程序。
 
 ## 模型量化
-默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 13GB 显存。如果你的 GPU 显存有限，可以尝试运行量化后的模型，即将下述代码
+默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 13GB 显存。如果你的 GPU 显存有限，可以尝试以量化方式加载模型，使用方法如下：
 
 ```python
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
-```
-
-替换为（8-bit 量化）
-```python
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().quantize(8).cuda()
-```
-
-或者（4-bit 量化）
-```python
+# 按需修改，目前只支持 4/8 bit 量化
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().quantize(4).cuda()
 ```
 
-进行 2 至 3 轮对话后，8-bit 量化下约占用 9GB 的 GPU 显存，4-bit 量化仅需占用 6GB 的 GPU 显存。随着对话轮数的增多，对应消耗显存也随之增长。
+进行 2 至 3 轮对话后，8-bit 量化下 GPU 显存占用约为 10GB，4-bit 量化下仅需 6GB 占用。随着对话轮数的增多，对应消耗显存也随之增长，由于采用了相对位置编码，理论上 ChatGLM-6B 支持无限长的 context-length，但总长度超过 2048（训练长度）后性能会逐渐下降。
+
+模型量化会带来一定的性能损失，经过测试，ChatGLM-6B 在 4-bit 量化下仍然能够进行自然流畅的生成，使用 [GPT-Q](https://arxiv.org/abs/2210.17323) 等量化方案可以进一步压缩量化精度/提升相同量化精度下的模型性能，我们期待开源社区本项目提供对应 Pull Request。
 
 ## 协议
 
