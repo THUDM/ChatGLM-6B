@@ -12,7 +12,7 @@ ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语
 
 ## 使用方式
 
-使用前请先按照安装依赖：`pip install -r requirements.txt`，其中 transformers 的版本需要大于 4.23.1。
+使用前请先按照安装依赖：`pip install -r requirements.txt`，其中 transformers 的版本需要大于 4.23.1，推荐使用4.26.1。
 
 ### 代码调用 
 
