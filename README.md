@@ -1,6 +1,6 @@
 # ChatGLM-6B
 ## 介绍
-ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。ChatGLM-6B 使用了和 ChatGLM（内测中，地址 [https://chatglm.cn](https://chatglm.cn)）相同的技术面向中文问答和对话进行优化。结合 INT4 量化技术，用户可以在消费级的显卡上进行本地部署（最低只需 6GB 显存）。在约 1T tokens 训练量、监督微调、反馈自助、人类反馈强化学习等技术的加持下，62 亿参数的模型已经能生成相当符合人类偏好的回答。
+ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。ChatGLM-6B 使用了和 ChatGLM（内测中，地址 [https://chatglm.cn](https://chatglm.cn)）相同的技术面向中文问答和对话进行优化。结合 INT4 量化技术，用户可以在消费级的显卡上进行本地部署（最低只需 6GB 显存）。在经过了约 1T tokens 中英双语训练，并辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的模型已经能生成相当符合人类偏好的回答。
 
 ## 硬件需求
 
@@ -76,7 +76,7 @@ python cli_demo.py
 程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入`clear`可以清空对话历史，输入`stop`终止程序。
 
 ## 模型量化
-默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 19GB 显存。如果你的 GPU 显存有限，可以尝试允许量化后的模型，即将下述代码
+默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 19GB 显存。如果你的 GPU 显存有限，可以尝试运行量化后的模型，即将下述代码
 
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
