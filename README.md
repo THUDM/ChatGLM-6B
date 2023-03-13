@@ -94,6 +94,10 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 
 进行 2 至 3 轮对话后，8-bit 量化下约占用 10GB 的 GPU 显存，4-bit 量化仅需占用 6GB 的 GPU 显存。随着对话轮数的增多，对应消耗显存也随之增长。
 
+## 协议
+
+本仓库的代码依照 [Apache-2.0](LICENSE) 协议开源，ChatGLM-6B 模型的权重的使用则需要遵循 [Model License](MODEL_LICENSE)。
+
 ## 引用
 
 如果你觉得我们的工作有帮助的话，请考虑引用下列论文
