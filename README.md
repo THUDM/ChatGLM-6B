@@ -5,10 +5,10 @@ ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语
 ## 硬件需求
 
 | **量化等级**    | **最低 GPU 显存** |
-| -------------- | ----------------- |
-| FP16（无量化）   | 19 GB             |
-| INT8           | 10 GB              |
-| INT4           | 6 GB               |
+| -------------- |---------------|
+| FP16（无量化）   | 13 GB         |
+| INT8           | 9 GB          |
+| INT4           | 6 GB          |
 
 ## 使用方式
 
@@ -76,7 +76,7 @@ python cli_demo.py
 程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入`clear`可以清空对话历史，输入`stop`终止程序。
 
 ## 模型量化
-默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 19GB 显存。如果你的 GPU 显存有限，可以尝试运行量化后的模型，即将下述代码
+默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 13GB 显存。如果你的 GPU 显存有限，可以尝试运行量化后的模型，即将下述代码
 
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
@@ -92,7 +92,7 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().quantize(4).cuda()
 ```
 
-进行 2 至 3 轮对话后，8-bit 量化下约占用 10GB 的 GPU 显存，4-bit 量化仅需占用 6GB 的 GPU 显存。随着对话轮数的增多，对应消耗显存也随之增长。
+进行 2 至 3 轮对话后，8-bit 量化下约占用 9GB 的 GPU 显存，4-bit 量化仅需占用 6GB 的 GPU 显存。随着对话轮数的增多，对应消耗显存也随之增长。
 
 ## 协议
 
