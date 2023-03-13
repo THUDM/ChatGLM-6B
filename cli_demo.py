@@ -6,14 +6,15 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 model = model.eval()
 
 history = []
+print("欢迎使用 ChatGLM-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")
 while True:
-    query = input("请输入提示，clear清空对话历史，stop终止程序：\n")
+    query = input("\n用户：")
     if query == "stop":
         break
     if query == "clear":
         history = []
         os.system('clear')
         continue
-    print("回复：")
     response, history = model.chat(tokenizer, query, history=history)
-    print(response)
+    print(f"ChatGLM-6B：{response}")
+    
