@@ -69,20 +69,25 @@ python cli_demo.py
 
 程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入`clear`可以清空对话历史，输入`stop`终止程序。
 
-## INT8 量化
+## 模型量化
 默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 13GB 显存。如果你的 GPU 显存有限，可以尝试使用 `transformers` 提供的 8bit 量化功能，即将代码中的
 
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
 ```
 
-替换为
+替换为（8bit 量化）
 
 ```python
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", device_map="auto", load_in_8bit=True, trust_remote_code=True)
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().quantize(8).cuda()
 ```
 
-使用 8-bit 量化之后大约需要 9.5GB 的 GPU 显存。
+或者（4bit 量化）
+```python
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().quantize(4).cuda()
+```
+
+使用 8-bit 量化之后大约需要 8GB 的 GPU 显存，使用 4-bit 量化之后大约需要 4GB 的 GPU 显存。
 
 ## 引用
 
