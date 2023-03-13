@@ -1,6 +1,6 @@
 # ChatGLM-6B
 ## 介绍
-ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。ChatGLM-6B 使用了和 ChatGLM（内测中，地址 [https://chatglm.cn](https://chatglm.cn)）相同的技术面向中文问答和对话进行优化。结合 INT4 量化技术，用户可以在消费级的显卡上进行本地部署（最低只需 6GB 显存）。在经过了约 1T tokens 中英双语训练，并辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的模型已经能生成相当符合人类偏好的回答。
+ChatGLM-6B 是一个开源的、支持中英双语问答和对话的预训练语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。ChatGLM-6B 使用了和 [ChatGLM]((https://chatglm.cn)) 相同的技术面向中文问答和对话进行优化。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。在经过了约 1T 标识符的中英双语训练，并辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的模型已经能生成相当符合人类偏好的回答。
 
 ## 硬件需求
 
