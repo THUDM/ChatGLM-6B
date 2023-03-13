@@ -22,7 +22,7 @@ ChatGLM-6B 是一个开源的、支持中英双语问答的对话语言模型，
 
 可以通过如下代码调用 ChatGLM-6B 模型来生成对话：
 
-```ipython
+```python
 >>> from transformers import AutoTokenizer, AutoModel
 >>> tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
 >>> model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
