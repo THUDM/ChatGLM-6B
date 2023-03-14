@@ -137,7 +137,7 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 
 </details>
 
-<details><summary><b>任务评价</b></summary>
+<details><summary><b>评论比较</b></summary>
 
 ![](examples/sport.png)
 
