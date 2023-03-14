@@ -4,7 +4,7 @@
 
 ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进行了优化。经过约 1T 标识符的中英双语训练，辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的 ChatGLM-6B 已经能生成相当符合人类偏好的回答。更多信息请参考我们的[博客](https://chatglm.cn/blog)。
 
-同时，我们基于千亿基座的[ ChatGLM 模型](https://chatglm.cn)正在邀请制内测，后续将逐步扩大内测范围，欢迎申请加入内测。
+同时，我们基于千亿基座的[ChatGLM 模型](https://chatglm.cn)正在邀请制内测，后续将逐步扩大内测范围，欢迎申请加入内测。
 
 ## 硬件需求
 
@@ -90,6 +90,32 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 进行 2 至 3 轮对话后，8-bit 量化下 GPU 显存占用约为 10GB，4-bit 量化下仅需 6GB 占用。随着对话轮数的增多，对应消耗显存也随之增长，由于采用了相对位置编码，理论上 ChatGLM-6B 支持无限长的 context-length，但总长度超过 2048（训练长度）后性能会逐渐下降。
 
 模型量化会带来一定的性能损失，经过测试，ChatGLM-6B 在 4-bit 量化下仍然能够进行自然流畅的生成，使用 [GPT-Q](https://arxiv.org/abs/2210.17323) 等量化方案可以进一步压缩量化精度/提升相同量化精度下的模型性能，我们期待开源社区为本项目提供对应 Pull Request。
+
+<details><summary><b>ChatGLM-6B示例</b></summary>
+
+![](examples/self-introduction.png)
+
+![](examples/blog-outline.png)
+
+![](examples/ad-writing.png)
+
+![](examples/ad-writing-2.png)
+
+![](examples/comments-writing.png)
+
+![](examples/email-writing-1.png)
+
+![](examples/email-writing-2.png)
+
+![](examples/information-extraction.png)
+
+![](examples/role-play.png)
+
+![](examples/sport.png)
+
+![](examples/tour-guide.png)
+
+</details>
 
 ## 协议
 
