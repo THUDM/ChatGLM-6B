@@ -9,7 +9,9 @@ MAX_TURNS = 20
 MAX_BOXES = MAX_TURNS * 2
 
 
-def predict(input, history=[]):
+def predict(input, history=None):
+    if history is None:
+        history = []
     response, history = model.chat(tokenizer, input, history)
     updates = []
     for query, response in history:
