@@ -6,6 +6,8 @@ ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于
 
 同时，我们基于千亿基座的[ChatGLM 模型](https://chatglm.cn)正在邀请制内测，后续将逐步扩大内测范围，欢迎申请加入内测。
 
+*Read this in [English](README_en.md).*
+
 ## 硬件需求
 
 | **量化等级**    | **最低 GPU 显存** |
