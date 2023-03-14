@@ -91,7 +91,9 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 
 模型量化会带来一定的性能损失，经过测试，ChatGLM-6B 在 4-bit 量化下仍然能够进行自然流畅的生成，使用 [GPT-Q](https://arxiv.org/abs/2210.17323) 等量化方案可以进一步压缩量化精度/提升相同量化精度下的模型性能，我们期待开源社区为本项目提供对应 Pull Request。
 
-<details><summary><b>ChatGLM-6B示例</b></summary>
+## ChatGLM-6B示例
+
+<details><summary><b>点击展开</b></summary>
 
 ![](examples/self-introduction.png)
 
