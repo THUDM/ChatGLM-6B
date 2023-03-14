@@ -2,25 +2,28 @@
 
 ## Introduction
 
-ChatGLM-6B is an open bilingual language model based on [General Language Model (GLM)](https://github.com/THUDM/GLM) framework, with 6.2 billion parameters. With the quantization technique, users can deploy locally on consumer-grade graphics cards (only 6GB of GPU memory is required at the INT4 quantization level). 
+ChatGLM-6B is an open bilingual language model based on [General Language Model (GLM)](https://github.com/THUDM/GLM) framework, with 6.2 billion parameters. With the quantization technique, users can deploy locally on consumer-grade graphics cards (only 6GB of GPU memory is required at the INT4 quantization level).
 
 ChatGLM-6B uses technology similar to ChatGPT, optimized for Chinese QA and dialogue. The model is trained for about 1T tokens of Chinese and English corpus, supplemented by supervised fine-tuning, feedback bootstrap, and reinforcement learning wit human feedback. With only about 6.2 billion parameters, the model is able to generate answers that are in line with human preference.
 
 ## Hardware Requirements
 
 | **Quantization Level** | **GPU Memory** |
-|------------------------|----------------|
-| FP16（no quantization）  | 13 GB          |
-| INT8                   | 10 GB          |
-| INT4                   | 6 GB           |
+| ---------------------------- | -------------------- |
+| FP16（no quantization）      | 13 GB                |
+| INT8                         | 10 GB                |
+| INT4                         | 6 GB                 |
 
 ## Getting Started
 
 ### Environment Setup
+
 Install the requirements with pip: `pip install -r requirements.txt`. `transformers` library version is recommended to be `4.26.1`, but theoretically any version no lower than `4.23.1` is acceptable.
 
 ### Usage
+
 Generate dialogue with the following code
+
 ```python
 >>> from transformers import AutoTokenizer, AutoModel
 >>> tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
@@ -41,10 +44,13 @@ Generate dialogue with the following code
 
 如果这些方法无法帮助你入睡,你可以考虑咨询医生或睡眠专家,寻求进一步的建议。
 ```
+
 The full model implementation is on [HuggingFace Hub](https://huggingface.co/THUDM/chatglm-6b).
 
 ### Demo
+
 We provide a Web demo based on [Gradio](https://gradio.app) and a command line demo in the repo. First clone our repo with:
+
 ```shell
 git clone https://github.com/THUDM/ChatGLM-6B
 cd ChatGLM-6B
@@ -59,6 +65,7 @@ Install Gradio `pip install gradio`，and run [web_demo.py](web_demo.py):
 ```shell
 python web_demo.py
 ```
+
 The program runs a web server and outputs the URL. Open the URL in the browser to use the web demo.
 
 #### CLI Demo
@@ -70,26 +77,41 @@ Run [cli_demo.py](cli_demo.py) in the repo:
 ```shell
 python cli_demo.py
 ```
+
 The command runs an interactive program in the shell. Type your instruction in the shell and hit enter to generate the response. Type `clear` to clear the dialogue history and `stop` to terminate the program.
 
-
 ## Deployment
+
 ### Quantization
+
 By default, the model parameters are loaded with FP16 precision, which require about 13GB of GPU memory. It your GPU memory is limited, you can try to load the model parameters with quantization:
+
 ```python
 # Change according to your hardware. Only support 4/8 bit quantization now.
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().quantize(4).cuda()
 ```
+
 After 2 to 3 rounds of dialogue, the GPU memory usage is about 10GB under 8-bit quantization, and only 6GB under 4-bit quantization. As the number of dialogue rounds increases, the corresponding GPU memory consumption also increases. Due to the use of relative position encoding, ChatGLM-6B theoretically supports an infinitely long context-length, but the performance will gradually decline after the total length exceeds 2048 (training length).
 
 Model quantization brings a certain performance decline. After testing, ChatGLM-6B can still perform natural and smooth generation under 4-bit quantization. using [GPT-Q](https://arxiv.org/abs/2210.17323) etc. The quantization scheme can further compress the quantization accuracy/improve the model performance under the same quantization accuracy. You are welcome to submit corresponding Pull Requests.
 
 ### CPU Deployment
+
 If your computer is not equipped with GPU, you can also conduct inference on CPU:
+
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).float()
 ```
+
 The inference speed will be relatively slow on CPU.
+
+The above method requires 32GB of memory. If you only have 16GB of memory, you can try:
+
+```python
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).bfloat16()
+```
+
+It is necessary to ensure that there is nearly 16GB of free memory, and the inference speed will be very slow.
 
 ## ChatGLM-6B Examples
 
@@ -165,6 +187,7 @@ If you find our work useful, please consider citing the following papers:
   url={https://openreview.net/forum?id=-Aw0rrrPUF}
 }
 ```
+
 ```
 @inproceedings{du2022glm,
   title={GLM: General Language Model Pretraining with Autoregressive Blank Infilling},
