@@ -93,11 +93,21 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 
 ## ChatGLM-6B示例
 
-<details><summary><b>点击展开</b></summary>
+以下是一些使用`web_demo.py`得到的示例截图。更多ChatGLM-6B的可能，等待你来探索发现！
+
+<details><summary><b>自我认知</b></summary>
 
 ![](examples/self-introduction.png)
 
+</details>
+
+<details><summary><b>提纲写作</b></summary>
+
 ![](examples/blog-outline.png)
+
+</details>
+
+<details><summary><b>文案写作</b></summary>
 
 ![](examples/ad-writing.png)
 
@@ -105,15 +115,35 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 
 ![](examples/comments-writing.png)
 
+</details>
+
+<details><summary><b>邮件写作助手</b></summary>
+
 ![](examples/email-writing-1.png)
 
 ![](examples/email-writing-2.png)
 
+</details>
+
+<details><summary><b>信息抽取</b></summary>
+
 ![](examples/information-extraction.png)
+
+</details>
+
+<details><summary><b>角色扮演</b></summary>
 
 ![](examples/role-play.png)
 
+</details>
+
+<details><summary><b>任务评价</b></summary>
+
 ![](examples/sport.png)
+
+</details>
+
+<details><summary><b>旅游向导</b></summary>
 
 ![](examples/tour-guide.png)
 
