@@ -46,7 +46,7 @@ ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于
 
 如果这些方法无法帮助你入睡,你可以考虑咨询医生或睡眠专家,寻求进一步的建议。
 ```
-完整的模型实现可以在 [HuggingFace Hub](https://huggingface.co/THUDM/chatglm-6b) 上查看。
+完整的模型实现可以在 [Hugging Face Hub](https://huggingface.co/THUDM/chatglm-6b) 上查看。
 
 ### Demo
 
@@ -100,6 +100,12 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).float()
 ```
 CPU上推理速度可能会比较慢。
+
+以上方法需要32G内存。如果你只有16G内存，可以尝试
+```python
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).bfloat16()
+```
+需保证空闲内存接近16G，并且推理速度会很慢。
 
 ## ChatGLM-6B示例
 
