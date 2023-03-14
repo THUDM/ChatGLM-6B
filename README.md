@@ -101,6 +101,12 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).fl
 ```
 CPU上推理速度可能会比较慢。
 
+以上方法需要32G内存。如果你只有16G内存，可以尝试
+```python
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).bfloat16()
+```
+需保证空闲内存接近16G，并且推理速度会很慢。
+
 ## ChatGLM-6B示例
 
 以下是一些使用`web_demo.py`得到的示例截图。更多ChatGLM-6B的可能，等待你来探索发现！
