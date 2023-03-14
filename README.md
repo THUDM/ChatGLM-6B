@@ -109,8 +109,6 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 
 <details><summary><b>文案写作</b></summary>
 
-![](examples/ad-writing.png)
-
 ![](examples/ad-writing-2.png)
 
 ![](examples/comments-writing.png)
