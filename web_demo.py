@@ -13,8 +13,8 @@ def predict(input, history=[]):
     response, history = model.chat(tokenizer, input, history)
     updates = []
     for query, response in history:
-        updates.append(gr.update(visible=True, value=query))
-        updates.append(gr.update(visible=True, value=response))
+        updates.append(gr.update(visible=True, value="用户：" + query))
+        updates.append(gr.update(visible=True, value="ChatGLM-6B：" + response))
     if len(updates) < MAX_BOXES:
         updates = updates + [gr.Textbox.update(visible=False)] * (MAX_BOXES - len(updates))
     return [history] + updates
@@ -25,10 +25,9 @@ with gr.Blocks() as demo:
     text_boxes = []
     for i in range(MAX_BOXES):
         if i % 2 == 0:
-            label = "提问："
+            text_boxes.append(gr.Markdown(visible=False, label="提问："))
         else:
-            label = "回复："
-        text_boxes.append(gr.Textbox(visible=False, label=label))
+            text_boxes.append(gr.Markdown(visible=False, label="回复："))
 
     with gr.Row():
         with gr.Column(scale=4):
