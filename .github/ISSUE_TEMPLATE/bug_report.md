@@ -2,40 +2,39 @@
 name: 🐞 Bug
 about: File a bug/issue
 title: '[BUG] <title>'
-labels: ''
+labels: Bug, Needs Triage
 assignees: ''
 
 ---
 
-Issue tracker is **ONLY** used for reporting bugs.
+<!--
+Note: Please search to see if an issue already exists for the bug you encountered.
+-->
 
-<!--- Provide a general summary of the issue in the Title above -->
+### Current Behavior:
+<!-- A concise description of what you're experiencing. -->
 
-## Expected Behavior
-<!--- Tell us what should happen -->
+### Expected Behavior:
+<!-- A concise description of what you expected to happen. -->
 
-## Current Behavior (Screenshot)
-<!--- Tell us what happens instead of the expected behavior -->
+### Steps To Reproduce:
+<!--
+Example: steps to reproduce the behavior:
+1. In this environment...
+2. With this config...
+3. Run '...'
+4. See error...
+-->
 
-## Steps to Reproduce
-<!--- Provide a link to a live example, or an unambiguous set of steps to -->
-<!--- reproduce this bug. Include code to reproduce, if relevant -->
-1.
-2.
-3.
-4.
+### Environment:
+<!--
+Example:
+- OS: Ubuntu 20.04
+- Node: 13.14.0
+- npm: 7.6.3
+-->
 
-## Environment
-<!--- OS: [Windows / MacOS / Linux] -->
-<!--- Python version [e.g. 3.8] -->
-<!--- transformers version [e.g. 4.23.1] -->
-<!--- PyTorch Version [e.g. 1.12] -->
-<!--- CUDA Support [The output of running `python -c "import torch; print(torch.cuda.is_available())"`] -->
-
-<!--- Provide a general summary of the issue in the Title above -->
-
-## Detailed Description
-<!--- Provide a detailed description of the change or addition you are proposing -->
-
-## Possible Implementation
-<!--- Not obligatory, but suggest an idea for implementing addition or change -->
+### Anything else:
+<!--
+Links? References? Anything that will give us more context about the issue that you are encountering!
+-->
