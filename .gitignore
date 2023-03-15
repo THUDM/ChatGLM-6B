@@ -1,0 +1,6 @@
+# override cache dir
+.cache
+
+# for ide
+.vscode
+.idea

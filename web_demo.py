@@ -1,8 +1,13 @@
-from transformers import AutoModel, AutoTokenizer
-import gradio as gr
+import os
+import pathlib
 
-tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
+import gradio as gr
+from transformers import AutoModel, AutoTokenizer
+
+cache_dir = os.path.join(pathlib.Path(__file__).parent.resolve(), ".cache")
+
+tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True, cache_dir=cache_dir)
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True, cache_dir=cache_dir).half().cuda()
 model = model.eval()
 
 MAX_TURNS = 20
