@@ -2,7 +2,10 @@
 
 ## 介绍
 
-ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进行了优化。经过约 1T 标识符的中英双语训练，辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的 ChatGLM-6B 已经能生成相当符合人类偏好的回答。更多信息请参考我们的[博客](https://chatglm.cn/blog)。
+ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。
+ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进行了优化。经过约 1T 标识符的中英双语训练，辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的 ChatGLM-6B 已经能生成相当符合人类偏好的回答。更多信息请参考我们的[博客](https://chatglm.cn/blog)。
+
+不过，由于ChatGLM-6B的规模较小，目前已知其具有相当多的[局限性](##局限性)，如事实性/数学逻辑错误，可能生成有害/有偏见内容，较弱的上下文能力，以及自我认知混乱。请大家在使用前了解这些问题，以免产生误解。
 
 同时，我们基于千亿基座的[ChatGLM 模型](https://chatglm.cn)正在邀请制内测，后续将逐步扩大内测范围，欢迎申请加入内测。
 
@@ -162,6 +165,32 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).bf
 ![](examples/tour-guide.png)
 
 </details>
+
+## 局限性
+
+由于ChatGLM-6B的小规模，其能力仍然有许多局限性。以下是我们目前发现的一些问题：
+
+- 模型容量较小：6B的小容量，决定了其相对较弱的模型记忆和语言能力。在面对许多事实性知识任务时，ChatGLM-6B可能会生成不正确的信息；它也不擅长逻辑类问题（如数学、编程）的解答。
+    <details><summary><b>点击查看例子</b></summary>
+    
+    ![](limitations/factual_error.png)
+    
+    ![](limitations/math_error.png)
+    
+    </details>
+  
+- 产生有害说明或有偏见的内容：ChatGLM-6B只是一个初步与人类意图对齐的语言模型，可能会生成有害、有偏见的内容。（内容可能具有冒犯性，此处不展示）
+
+- 易被误导，对话能力较弱：ChatGLM-6B 对话能力还比较弱，而且 “自我认知” 存在问题，并很容易被误导并产生错误的言论。例如当前版本的模型在被误导的情况下，会在自我认知上发生偏差。
+    <details><summary><b>点击查看例子</b></summary>
+
+    ![](limitations/self-confusion_google.jpg)
+    
+    ![](limitations/self-confusion_openai.jpg)
+    
+    ![](limitations/self-confusion_tencent.jpg)
+    
+    </details>
 
 ## 协议
 
