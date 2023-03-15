@@ -1,3 +1,12 @@
+---
+name: 🐞 Bug
+about: File a bug/issue
+title: '[BUG] <title>'
+labels: ''
+assignees: ''
+
+---
+
 Issue tracker is **ONLY** used for reporting bugs.
 
 <!--- Provide a general summary of the issue in the Title above -->
