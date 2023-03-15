@@ -1,34 +1,32 @@
----
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
+Issue tracker is **ONLY** used for reporting bugs.
 
----
+<!--- Provide a general summary of the issue in the Title above -->
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+## Expected Behavior
+<!--- Tell us what should happen -->
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Clone '...'
-2. Install '....'
-3. Run command '....'
-4. See error
+## Current Behavior (Screenshot)
+<!--- Tell us what happens instead of the expected behavior -->
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+## Steps to Reproduce
+<!--- Provide a link to a live example, or an unambiguous set of steps to -->
+<!--- reproduce this bug. Include code to reproduce, if relevant -->
+1.
+2.
+3.
+4.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## Environment
+<!--- OS: [Windows / MacOS / Linux] -->
+<!--- Python version [e.g. 3.8] -->
+<!--- transformers version [e.g. 4.23.1] -->
+<!--- PyTorch Version [e.g. 1.12] -->
+<!--- CUDA Support [The output of running `python -c "import torch; print(torch.cuda.is_available())"`] -->
 
-**Environment (please complete the following information):**
- - OS: [Windows / MacOS / Linux]
- - Python version [e.g. 3.8]
- - transformers version [e.g. 4.23.1]
- - PyTorch Version [e.g. 1.12]
- - CUDA Support [The output of running `python -c "import torch; print(torch.cuda.is_available())"`]
+<!--- Provide a general summary of the issue in the Title above -->
 
-**Additional context**
-Add any other context about the problem here.
+## Detailed Description
+<!--- Provide a detailed description of the change or addition you are proposing -->
+
+## Possible Implementation
+<!--- Not obligatory, but suggest an idea for implementing addition or change -->
