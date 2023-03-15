@@ -108,6 +108,8 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).bf
 ```
 需保证空闲内存接近16G，并且推理速度会很慢。
 
+MacOS 如果报错`RuntimeError: Unknown platform: darwin`的话请参考这个[Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041).
+
 ## ChatGLM-6B示例
 
 以下是一些使用`web_demo.py`得到的示例截图。更多ChatGLM-6B的可能，等待你来探索发现！
