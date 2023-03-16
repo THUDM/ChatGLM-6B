@@ -113,6 +113,8 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).bf
 
 It is necessary to ensure that there is nearly 16GB of free memory, and the inference speed will be very slow.
 
+**For Mac users**: if your encounter the error `RuntimeError: Unknown platform: darwin`, please refer to this [Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041). 
+
 ## ChatGLM-6B Examples
 
 The following are some Chinese examples with `web_demo.py`. Welcome to explore more possibility with ChatGLM-6B.
