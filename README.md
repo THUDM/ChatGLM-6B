@@ -7,8 +7,6 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 不过，由于ChatGLM-6B的规模较小，目前已知其具有相当多的[**局限性**](#局限性)，如事实性/数学逻辑错误，可能生成有害/有偏见内容，较弱的上下文能力，自我认知混乱，以及对英文指示生成与中文指示完全矛盾的内容。请大家在使用前了解这些问题，以免产生误解。
 
-同时，我们基于千亿基座的[ChatGLM 模型](https://chatglm.cn)正在邀请制内测，后续将逐步扩大内测范围，欢迎申请加入内测。
-
 *Read this in [English](README_en.md).*
 
 ## 硬件需求
@@ -109,6 +107,8 @@ CPU上推理速度可能会比较慢。
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).bfloat16()
 ```
 需保证空闲内存接近16G，并且推理速度会很慢。
+
+MacOS 如果报错`RuntimeError: Unknown platform: darwin`的话请参考这个[Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041).
 
 ## ChatGLM-6B示例
 
