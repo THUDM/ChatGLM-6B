@@ -70,6 +70,8 @@ python web_demo.py
 
 程序会运行一个 Web Server，并输出地址。在浏览器中打开输出的地址即可使用。
 
+感谢[@AdamBear](https://github.com/AdamBear) 实现了基于Streamlit的网页版demo，运行方式见[#117](https://github.com/THUDM/ChatGLM-6B/pull/117).
+
 #### 命令行 Demo
 
 ![cli-demo](resources/cli-demo.png)
