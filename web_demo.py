@@ -36,5 +36,6 @@ with gr.Blocks() as demo:
             txt = gr.Textbox(show_label=False, placeholder="Enter text and press enter").style(container=False)
         with gr.Column(scale=1):
             button = gr.Button("Generate")
+    txt.submit(predict, [txt, state], [state] + text_boxes)
     button.click(predict, [txt, state], [state] + text_boxes)
 demo.queue().launch(share=True, inbrowser=True)
