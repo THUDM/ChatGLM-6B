@@ -19,6 +19,7 @@ def predict(input, max_length, top_p, temperature, history=None):
         updates.append(gr.update(visible=True, value="用户：" + query))
         updates.append(gr.update(visible=True, value="ChatGLM-6B：" + response))
     flag = True
+    update_pos = 0
     
     for delta, seq, history in model.chat_stream(tokenizer, input, history, max_length=max_length, top_p=top_p,
                                                temperature=temperature):
@@ -26,10 +27,11 @@ def predict(input, max_length, top_p, temperature, history=None):
         if flag:
             updates.append(gr.update(visible=True, value="用户：" + input))
             updates.append(gr.update(visible=True, value="ChatGLM-6B：" + response))
+            update_pos = len(updates) - 1
             flag = False
         else:
-            updates[-2]=gr.update(visible=True, value="用户：" + input)
-            updates[-1]=gr.update(visible=True, value="ChatGLM-6B：" + response)
+            updates[update_pos-1]=gr.update(visible=True, value="用户：" + input)
+            updates[update_pos]=gr.update(visible=True, value="ChatGLM-6B：" + response)
         if len(updates) < MAX_BOXES:
             updates = updates + [gr.Textbox.update(visible=False)] * (MAX_BOXES - len(updates))
         yield [history] + updates
