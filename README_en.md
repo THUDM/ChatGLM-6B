@@ -7,7 +7,7 @@ ChatGLM-6B is an open bilingual language model based on [General Language Model 
 ChatGLM-6B uses technology similar to ChatGPT, optimized for Chinese QA and dialogue. The model is trained for about 1T tokens of Chinese and English corpus, supplemented by supervised fine-tuning, feedback bootstrap, and reinforcement learning wit human feedback. With only about 6.2 billion parameters, the model is able to generate answers that are in line with human preference.
 
 ## Update
-**[2023/03/19]** Add streaming output function `stream_chat`, already applied in web and CLI demo
+**[2023/03/19]** Add streaming output function `stream_chat`, already applied in web and CLI demo. Fix Chinese punctuations in output.
 
 ## Getting Started
 

@@ -10,7 +10,7 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 *Read this in [English](README_en.md).*
 
 ## 更新信息
-**[2023/03/19]** 增加流式输出接口`stream_chat`，已更新到网页版和命令行demo
+**[2023/03/19]** 增加流式输出接口`stream_chat`，已更新到网页版和命令行demo。修复输出中的中文标点
 
 ## 使用方式
 
