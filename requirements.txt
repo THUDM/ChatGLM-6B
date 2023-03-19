@@ -3,3 +3,4 @@ transformers>=4.26.1
 icetk
 cpm_kernels
 torch>=1.10
+gradio
