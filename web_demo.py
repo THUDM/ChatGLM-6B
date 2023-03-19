@@ -14,9 +14,9 @@ def predict(input, max_length, top_p, temperature, history=None):
         history = []
     flag = True
     response = ''
+    updates = []
     for delta, seq, history in model.chat_stream(tokenizer, input, history, max_length=max_length, top_p=top_p,
                                                temperature=temperature):
-        updates = []
         response += delta
         if flag:
             updates.append(gr.update(visible=True, value="用户：" + input))
