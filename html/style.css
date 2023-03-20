@@ -1,0 +1,10 @@
+.contain div div:nth-child(2n-1) div [data-testid="markdown"] p {
+    background: #bcffb0aa;
+    margin-left: auto;
+}
+[data-testid="markdown"] p {
+    width: fit-content;
+    padding: 1em;
+    background: #cececeaa;
+    border-radius: 16px;
+}
