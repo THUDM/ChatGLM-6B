@@ -1,55 +1,44 @@
 import os
 import platform
-import argparse
-import time
 from transformers import AutoTokenizer, AutoModel
 
-
-
-parser = argparse.ArgumentParser(description='cli demo')
-parser.add_argument('--cpu', action='store_true', help='cpu mode')
-parser.add_argument('--showTime', action='store_true', help='show time consuming')
-parser.add_argument('--local', action='store_true',help='using local models,default path:/models/chatglm-6b')
-
-args = parser.parse_args()
-
-os_name = platform.system()
-
-# mac: force use cpu
-if os_name == 'Darwin':
-    args.cpu = True
-
-
-model_name = "THUDM/chatglm-6b"
-if args.local:
-    model_name = "./models/chatglm-6b"
-
-
-tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
-model = AutoModel.from_pretrained(model_name, trust_remote_code=True)
-if(args.cpu):
-    model = model.float()
-else:
-    model =  model.half().cuda()
+tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
 model = model.eval()
 
+os_name = platform.system()
+clear_command = 'cls' if os_name == 'Windows' else 'clear'
 
 
-history = []
-print("欢迎使用 ChatGLM-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")
-while True:
-    query = input("\n用户：")
-    if query == "stop":
-        break
-    if query == "clear":
-        history = []
-        command = 'cls' if os_name == 'Windows' else 'clear'
-        os.system(command)
-        print("欢迎使用 ChatGLM-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")
-        continue
-    timeStart = time.perf_counter()
-    response, history = model.chat(tokenizer, query, history=history)
-    timeEnd = time.perf_counter()
-    showTime="({timeEnd - timeStart:0.4f}s)" if args.showTime else ""
+def build_prompt(history):
+    prompt = "欢迎使用 ChatGLM-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序"
+    for query, response in history:
+        prompt += f"\n\n用户：{query}"
+        prompt += f"\n\nChatGLM-6B：{response}"
+    return prompt
 
-    print(f"ChatGLM-6B {showTime}：{response}")
+
+def main():
+    history = []
+    print("欢迎使用 ChatGLM-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")
+    while True:
+        query = input("\n用户：")
+        if query == "stop":
+            break
+        if query == "clear":
+            history = []
+            os.system(clear_command)
+            print("欢迎使用 ChatGLM-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")
+            continue
+        count = 0
+        for response, history in model.stream_chat(tokenizer, query, history=history):
+            count += 1
+            if count % 8 == 0:
+                os.system(clear_command)
+                print(build_prompt(history), flush=True)
+        os.system(clear_command)
+        print(build_prompt(history), flush=True)
+
+
+if __name__ == "__main__":
+    main()
