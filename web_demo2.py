@@ -11,13 +11,8 @@ st.set_page_config(
 
 @st.cache_resource
 def get_model():
-<<<<<<< HEAD
-    tokenizer = AutoTokenizer.from_pretrained("/data/chatglm-6b", trust_remote_code=True)
-    model = AutoModel.from_pretrained("/data/chatglm-6b", trust_remote_code=True).half().cuda()
-=======
     tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
     model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
->>>>>>> 292b5684c18a1765bf2570739e5cf2dcb03cca41
     model = model.eval()
     return tokenizer, model
 
@@ -31,7 +26,6 @@ def predict(input, history=None):
     if history is None:
         history = []
 
-<<<<<<< HEAD
     with container:
         if len(history) > 0:
             for i, (query, response) in enumerate(history):
@@ -45,12 +39,6 @@ def predict(input, history=None):
                 query, response = history[-1]
                 st.write(response)
 
-=======
-    for i, (query, response) in enumerate(history):
-        message(query, avatar_style="big-smile", key=str(i) + "_user")
-        message(response, avatar_style="bottts", key=str(i))
-
->>>>>>> 292b5684c18a1765bf2570739e5cf2dcb03cca41
     return history
 
 
