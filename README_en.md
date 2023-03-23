@@ -1,5 +1,12 @@
 # ChatGLM-6B
 
+## Modification 
+Load the model into multiple GPUs and automatically allocate the average memory usage according to the number of GPUs.
+```shell
+python -m pip install accelerate
+```
+Please note that 24GB of cpu memory is still required. TODO optimization.”
+
 ## Introduction
 
 ChatGLM-6B is an open bilingual language model based on [General Language Model (GLM)](https://github.com/THUDM/GLM) framework, with 6.2 billion parameters. With the quantization technique, users can deploy locally on consumer-grade graphics cards (only 6GB of GPU memory is required at the INT4 quantization level).

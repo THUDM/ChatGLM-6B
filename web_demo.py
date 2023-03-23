@@ -1,9 +1,9 @@
 from transformers import AutoModel, AutoTokenizer
 import gradio as gr
+from chatglm_parallel import load_model_on_gpus
 
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
-model = model.eval()
+model = load_model_on_gpus("THUDM/chatglm-6b", num_gpus=2)
 
 MAX_TURNS = 20
 MAX_BOXES = MAX_TURNS * 2
