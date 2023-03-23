@@ -13,7 +13,7 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 *Read this in [English](README_en.md).*
 
 ## 更新信息
-**[2023/03/23]** 增加API部署（感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)），增加Embedding量化模型[ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)
+**[2023/03/23]** 增加API部署（感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)）。增加Embedding量化模型[ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)。增加对基于Apple Silicon的Mac上GPU加速的支持。
 
 **[2023/03/19]** 增加流式输出接口 `stream_chat`，已更新到网页版和命令行 Demo。修复输出中的中文标点。增加量化后的模型 [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4)
 
@@ -94,7 +94,7 @@ python cli_demo.py
 
 程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入`clear`可以清空对话历史，输入`stop`终止程序。
 
-## API部署
+### API部署
 首先需要安装额外的依赖`pip install fastapi uvicorn`，然后运行仓库中的[api.py](api.py)：
 ```shell
 python api.py
@@ -152,6 +152,17 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4",trust_remote_code=True
 ```
 
 如果遇到了报错 `Could not find module 'nvcuda.dll'` 或者 `RuntimeError: Unknown platform: darwin` (MacOS) 的话请参考这个[Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041).
+
+### Mac 上的 GPU 加速
+对于搭载了Apple Silicon的Mac（以及MacBook），可以使用 MPS 后端来在 GPU 上运行 ChatGLM-6B。首先需要参考 Apple 的 [官方说明](https://developer.apple.com/metal/pytorch) 安装 PyTorch-Nightly。然后将模型仓库 clone 到本地
+```shell
+git clone https://huggingface.co/THUDM/chatglm-6b
+```
+将代码中的模型加载改为从本地加载，并使用 mps 后端
+```python
+model = AutoModel.from_pretrained("your local path", trust_remote_code=True).half().to('mps')
+```
+即可使用在 Mac 上使用 GPU 加速模型推理。
 
 ## ChatGLM-6B 示例
 
