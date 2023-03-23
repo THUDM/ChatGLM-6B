@@ -12,6 +12,8 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 ## 更新信息
 **[2023/03/19]** 增加流式输出接口 `stream_chat`，已更新到网页版和命令行 Demo。修复输出中的中文标点。增加量化后的模型 [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4)
 
+上的流媒体演示 [Huggingface Spaces](https://huggingface.co/spaces/ysharma/ChatGLM-6b_Gradio_Streaming)
+
 ## 使用方式
 
 ### 硬件需求
