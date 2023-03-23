@@ -13,7 +13,7 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 *Read this in [English](README_en.md).*
 
 ## 更新信息
-**[2023/03/23]** 增加API部署，感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)
+**[2023/03/23]** 增加API部署（感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)），增加Embedding量化模型[ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)
 
 **[2023/03/19]** 增加流式输出接口 `stream_chat`，已更新到网页版和命令行 Demo。修复输出中的中文标点。增加量化后的模型 [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4)
 
@@ -132,6 +132,13 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=True).half().cuda()
 ```
+
+**[2023/03/24]** 我们进一步提供了对Embedding量化后的模型，模型参数仅占用4.3 GB显存：
+```python
+model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4-qe", trust_remote_code=True).half().cuda()
+```
+
+
 
 ### CPU 部署
 如果你没有 GPU 硬件的话，也可以在 CPU 上进行推理，但是推理速度会更慢。使用方法如下（需要大概 32GB 内存）
