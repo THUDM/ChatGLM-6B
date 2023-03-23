@@ -2,7 +2,7 @@ import os
 import platform
 from transformers import AutoTokenizer, AutoModel
 
-MODEL_ID = "./model" if os.path.exists('./model') else "THUDM/chatglm-6b"
+MODEL_ID = "model" if os.path.isdir('model') else "THUDM/chatglm-6b"
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID, trust_remote_code=True)
 model = AutoModel.from_pretrained(MODEL_ID, trust_remote_code=True).half().cuda()
