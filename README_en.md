@@ -9,6 +9,8 @@ ChatGLM-6B uses technology similar to ChatGPT, optimized for Chinese QA and dial
 Try the [online demo](https://huggingface.co/spaces/ysharma/ChatGLM-6b_Gradio_Streaming) on Huggingface Spaces.
 
 ## Update
+**[2023/03/23]** Add API deployment, thanks to [@LemonQu-GIT](https://github.com/LemonQu-GIT)
+
 **[2023/03/19]** Add streaming output function `stream_chat`, already applied in web and CLI demo. Fix Chinese punctuations in output. Add quantized model [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4). 
 
 ## Getting Started
@@ -85,6 +87,27 @@ python cli_demo.py
 ```
 
 The command runs an interactive program in the shell. Type your instruction in the shell and hit enter to generate the response. Type `clear` to clear the dialogue history and `stop` to terminate the program.
+
+## API Deployment
+First install the additional dependency `pip install fastapi uvicorn`. The run [api.py](api.py) in the repo.
+```shell
+python api.py
+```
+By default the api runs at the`8000`port of the local machine. You can call the API via 
+```shell
+curl -X POST "http://127.0.0.1:8000" \
+     -H 'Content-Type: application/json' \
+     -d '{"prompt": "你好", "history": []}'
+```
+The returned value is
+```shell
+{
+  "response":"你好👋！我是人工智能助手 ChatGLM-6B，很高兴见到你，欢迎问我任何问题。",
+  "history":[["你好","你好👋！我是人工智能助手 ChatGLM-6B，很高兴见到你，欢迎问我任何问题。"]],
+  "status":200,
+  "time":"2023-03-23 21:38:40"
+}
+```
 
 ## Deployment
 
