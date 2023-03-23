@@ -53,6 +53,8 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 ```
 完整的模型实现可以在 [Hugging Face Hub](https://huggingface.co/THUDM/chatglm-6b) 上查看。如果你从 Hugging Face Hub 上下载checkpoint的速度较慢，也可以从[这里](https://cloud.tsinghua.edu.cn/d/fb9f16d6dc8f482596c2/)手动下载。
 
+手动下载的模型放置在 `model` 目录下
+
 ### Demo
 
 我们提供了一个基于 [Gradio](https://gradio.app) 的网页版 Demo 和一个命令行 Demo。使用时首先需要下载本仓库：

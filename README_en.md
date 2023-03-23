@@ -51,6 +51,8 @@ Generate dialogue with the following code
 
 The full model implementation is on [HuggingFace Hub](https://huggingface.co/THUDM/chatglm-6b).
 
+Or you can download model manually and put at `model` directory.
+
 ### Demo
 
 We provide a Web demo based on [Gradio](https://gradio.app) and a command line demo in the repo. First clone our repo with:
