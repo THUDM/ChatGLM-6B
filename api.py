@@ -31,5 +31,5 @@ if __name__ == '__main__':
     uvicorn.run('api:app', host='0.0.0.0', port=8000, workers=1)
 
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm_6b", trust_remote_code=True).half().cuda()
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
 model.eval()
