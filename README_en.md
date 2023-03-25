@@ -89,6 +89,9 @@ python cli_demo.py
 The command runs an interactive program in the shell. Type your instruction in the shell and hit enter to generate the response. Type `clear` to clear the dialogue history and `stop` to terminate the program.
 
 ## API Deployment
+
+### Sync API
+
 First install the additional dependency `pip install fastapi uvicorn`. The run [api.py](api.py) in the repo.
 ```shell
 python api.py
@@ -108,6 +111,18 @@ The returned value is
   "time":"2023-03-23 21:38:40"
 }
 ```
+
+### Stream Response Supported Websocket API
+
+This DEMO showed that you can embed ChatGLM-6B to your own website through websocket. HTML file: [websocket_demo.html](./websocket_demo.html).
+
+First install the additional dependency `pip install 'fastapi~=0.95.0' 'websockets~=10.4'`. Then run [websocket_api.py](./websocket_api.py) in the repo.
+
+```shell
+python websocket_api.py
+```
+
+Then you can see [websocket_demo.html](./websocket_demo.html) through access `http://localhost:8000` by default.
 
 ## Deployment
 
