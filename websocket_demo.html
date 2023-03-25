@@ -13,7 +13,7 @@
 <ul id='messageBox'>
 </ul>
 <script>
-    let ws = new WebSocket("ws://localhost:8000/ws");
+    let ws = new WebSocket("ws://" + location.host + "/ws");
     let history = [];
     let last_message_element = null;
 
