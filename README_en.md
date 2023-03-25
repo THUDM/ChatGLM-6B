@@ -89,10 +89,7 @@ python cli_demo.py
 The command runs an interactive program in the shell. Type your instruction in the shell and hit enter to generate the response. Type `clear` to clear the dialogue history and `stop` to terminate the program.
 
 ## API Deployment
-
-### Sync API
-
-First install the additional dependency `pip install fastapi uvicorn`. The run [api.py](api.py) in the repo.
+First install the additional dependency `pip install fastapi uvicorn`. Then run [api.py](api.py) in the repo.
 ```shell
 python api.py
 ```
