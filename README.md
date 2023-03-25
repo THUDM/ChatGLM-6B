@@ -116,7 +116,7 @@ curl -X POST "http://127.0.0.1:8000" \
 
 由于上述 API 不支持流式返回，故在 fastapi 的基础上增加了对 websocket 的支持。
 
-首先安装额外的依赖 `pip install 'fastapi~=0.95.0' 'websockets~=10.4'`，然后运行 [websocket_api.py](./websocket_api.py) 即可。
+首先安装额外的依赖 `pip install 'fastapi~=0.95.0' 'websockets~=10.4' 'uvicorn~=0.21.1'`，然后运行 [websocket_api.py](./websocket_api.py) 即可。
 
 ```shell
 python websocket_api.py

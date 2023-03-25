@@ -113,7 +113,7 @@ The returned value is
 
 This DEMO showed that you can embed ChatGLM-6B to your own website through websocket. HTML file: [websocket_demo.html](./websocket_demo.html).
 
-First install the additional dependency `pip install 'fastapi~=0.95.0' 'websockets~=10.4'`. Then run [websocket_api.py](./websocket_api.py) in the repo.
+First install the additional dependency `pip install 'fastapi~=0.95.0' 'websockets~=10.4' 'uvicorn~=0.21.1'`. Then run [websocket_api.py](./websocket_api.py) in the repo.
 
 ```shell
 python websocket_api.py

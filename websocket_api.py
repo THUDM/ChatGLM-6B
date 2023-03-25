@@ -1,5 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 from transformers import AutoTokenizer, AutoModel
 
 import uvicorn
@@ -9,6 +10,10 @@ tokenizer = AutoTokenizer.from_pretrained(pretrained, trust_remote_code=True)
 model = AutoModel.from_pretrained(pretrained, trust_remote_code=True).half().cuda()
 model = model.eval()
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware
+)
 
 with open('websocket_demo.html') as f:
     html = f.read()
