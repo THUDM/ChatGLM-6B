@@ -1,6 +1,6 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
-from mock_transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModel
 
 import uvicorn
 
