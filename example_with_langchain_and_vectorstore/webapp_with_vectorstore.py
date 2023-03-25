@@ -76,7 +76,9 @@ st.markdown(
 # User Input and Send button
 user_profile_image = "https://img1.baidu.com/it/u=3150659458,3834452201&fm=253&fmt=auto&app=138&f=JPEG?w=369&h=378"
 
-chatgpt_profile_image = "https://avatars.githubusercontent.com/u/44095251?v=4"
+chatgpt_profile_image = (
+    "https://cdn.dribbble.com/users/722835/screenshots/4082720/bot_icon.gif"
+)
 
 
 def display_chat_log(cur_container):
@@ -106,31 +108,52 @@ def dict_to_github_markdown(data, has_section=False):
     slack_logo = (
         "https://cdn.freebiesupply.com/logos/large/2x/slack-1-logo-png-transparent.png"
     )
+    book_logo = "https://cdn-icons-png.flaticon.com/512/182/182956.png"
     markdown = ""
     for item in data:
-        title = item["title"]
-        url = item["url"]
-        if has_section:
+        if "url" in item:
+            title = item["title"]
+            url = item["url"]
+            if has_section:
+                section = item["section"]
+                title_text_and_section = f"{title} - {section}"
+            else:
+                title_text_and_section = title
+            if "wikipedia" in url:
+                logo = wiki_logo
+            elif "slack" in url:
+                logo = slack_logo
+            else:
+                logo = None
+            if len(title_text_and_section) > 50:
+                title_text_and_section = title_text_and_section[:50] + "..."
+            hyperlink = f"[{title_text_and_section}]({url})"
+            if logo:
+                markdown += f"&nbsp;&nbsp;  <img src='{logo}' width='20' height='20'> {hyperlink} "
+            else:
+                markdown += f"&nbsp;&nbsp;  {hyperlink}"
+        elif "chapter" in item:
             section = item["section"]
-            title_text_and_section = f"{title} - {section}"
-        else:
-            title_text_and_section = title
-        if "wikipedia" in url:
-            logo = wiki_logo
-        elif "slack" in url:
-            logo = slack_logo
-        else:
-            logo = ""
-        if len(title_text_and_section) > 50:
-            title_text_and_section = title_text_and_section[:50] + "..."
-        hyperlink = f"[{title_text_and_section}]({url})"
-        if logo:
-            markdown += (
-                f"&nbsp;&nbsp;  <img src='{logo}' width='20' height='20'> {hyperlink} "
-            )
-        else:
-            markdown += f"&nbsp;&nbsp;  {hyperlink}"
+            if "chapter" in item and "page" in item:
+                chapter = item["chapter"]
+                if "总排放量" in chapter:
+                    chapter = chapter.split("总排放量")[0]  # for better display
+                page = item["page"]
+                title_text_and_section = f"{chapter} (p. {page})"
+            elif "page" in item:
+                page = item["page"]
+                title_text_and_section = f"p. {page}"
+            elif "chapter" in item:
+                chapter = item["chapter"]
+                title_text_and_section = chapter
+            else:
+                continue
+            markdown += f"&nbsp;&nbsp;  <img src='{book_logo}' width='20' height='20' title='Book' alt='Book'> {title_text_and_section} "
     return markdown
+
+
+if "bot_desc" not in st.session_state:
+    st.session_state["bot_desc"] = "General conversational Chatbot based on ChatGLM"
 
 
 def clean_agent():
@@ -138,20 +161,31 @@ def clean_agent():
     st.session_state["messages"] = None
     st.session_state["agent"] = None
     st.session_state["agent_chat_history"] = []
+    if "agent_selected_str" in st.session_state:
+        cur_agent = st.session_state["agent_selected_str"]
+        # Set description
+        bot_description = {
+            "Chat": "General conversational Chatbot based on ChatGLM",
+            "AI Wikipedia Agent": "Chat with knowlegebase. (OpenAI related wikipedia pages).",
+            "Climate Book Agent": "Chat with Book: How to Avoid a Climate Disaster",
+        }
 
-
-if "bot_desc" not in st.session_state:
-    st.session_state["bot_desc"] = "ChatGLM with Vectorstore."
+        st.session_state["bot_desc"] = bot_description[cur_agent]
 
 
 # Sidebar
 st.sidebar.subheader("Model Settings")
 agent_selected = st.sidebar.selectbox(
     label="Agent",
-    options=["Chat", "AI Wikipedia Agent"],
+    options=["Chat", "AI Wikipedia Agent", "Climate Book Agent"],
     index=0,
     on_change=clean_agent,
-    help="Select the agent to chat with.\n\nChat: General conversational Chatbot based on ChatGLM.\n\AI Wikipedia Agent: Chat with knowlegebase. In this case, wikipedia articles within 2 degree of separation to OpenAI.",
+    key="agent_selected_str",
+    help="""Select the agent to chat with.\n\n
+Chat: General conversational Chatbot based on ChatGLM.\n\n
+AI Wikipedia Agent: Chat with knowlegebase. \n(OpenAI related wikipedia pages).
+Climate Book Agent: Chat with Bill Gate's Book: How to Avoid a Climate Disaster
+""",
 )
 max_token_selected = st.sidebar.slider(
     label="Model Max Output Length",
@@ -189,10 +223,10 @@ with st.form(key="user_question", clear_on_submit=True):
     # Use user chatgpt profile image
     c1, c2 = st.columns((9, 1))
     c1.write("# ChatGLM")
-    c1.write(f"### Chatbot for general conversation.")
+    c1.write(f"### {st.session_state['bot_desc']}")
 
     help_bot_icon = (
-        f'<img src="{chatgpt_profile_image}" width="50" style="vertical-align:middle">'
+        f'<img src="{chatgpt_profile_image}" width="60" style="vertical-align:middle">'
     )
     app_log_image = Image.open("logo.png")
     c2.image(app_log_image)
@@ -234,7 +268,39 @@ with st.form(key="user_question", clear_on_submit=True):
                         or st.session_state.agent is None
                     ):
                         st.session_state.agent = init_wiki_agent(
-                            index_dir="index/wiki_faiss_2023_03_06",
+                            index_dir="index/openai_wiki_chinese_index_2023_03_24",
+                            max_token=max_token_selected,
+                            temperature=tempature_selected,
+                        )
+                    output_dict = get_wiki_agent_answer(
+                        user_input,
+                        st.session_state.agent,
+                        chat_history=st.session_state["agent_chat_history"],
+                    )
+                    output = output_dict["answer"]
+
+                    output_sources = [
+                        c.metadata for c in list(output_dict["source_documents"])
+                    ]
+
+                    st.session_state["agent_chat_history"].append((user_input, output))
+
+                    conversation.append({"role": USER_NAME, "content": user_input})
+                    conversation.append(
+                        {
+                            "role": AGENT_NAME,
+                            "content": output
+                            + "\n\n&nbsp;&nbsp;&nbsp;**Sources:** "
+                            + dict_to_github_markdown(output_sources, has_section=True),
+                        }
+                    )
+                elif agent_selected == "Climate Book Agent":
+                    if (
+                        "agent" not in st.session_state
+                        or st.session_state.agent is None
+                    ):
+                        st.session_state.agent = init_wiki_agent(
+                            index_dir="index/how_to_avoid_climate_change_chinese_vectorstore",
                             max_token=max_token_selected,
                             temperature=tempature_selected,
                         )
