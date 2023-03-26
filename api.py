@@ -1,6 +1,10 @@
+import datetime
+import json
+
+import uvicorn
 from fastapi import FastAPI, Request
-from transformers import AutoTokenizer, AutoModel
-import uvicorn, json, datetime
+
+from utils import load_mode_and_tokenizer
 
 app = FastAPI()
 
@@ -30,6 +34,4 @@ async def create_item(request: Request):
 if __name__ == '__main__':
     uvicorn.run('api:app', host='0.0.0.0', port=8000, workers=1)
 
-tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
-model.eval()
+model, tokenizer = load_mode_and_tokenizer("THUDM/chatglm-6b", num_gpus=1)
