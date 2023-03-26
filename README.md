@@ -111,6 +111,7 @@ curl -X POST "http://127.0.0.1:8000" \
   "time":"2023-03-23 21:38:40"
 }
 ```
+## [Windows部署文档](deployment_windows.md)
 
 ## 低成本部署
 ### 模型量化
