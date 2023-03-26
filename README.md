@@ -1,5 +1,11 @@
 # ChatGLM-6B
 
+## 修改介绍
+将模型加载到多张gpu卡中，根据gpu的数量自动分配平均的显存占用，需要安装accelerate
+```shell
+python -m pip install accelerate
+```
+请注意，仍然需要24GB的内存， 后续优化 TODO
 ## 介绍
 
 ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。

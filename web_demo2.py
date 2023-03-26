@@ -1,6 +1,7 @@
 from transformers import AutoModel, AutoTokenizer
 import streamlit as st
 from streamlit_chat import message
+from chatglm_parallel import load_model_on_gpus
 
 
 st.set_page_config(
@@ -12,8 +13,7 @@ st.set_page_config(
 @st.cache_resource
 def get_model():
     tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-    model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
-    model = model.eval()
+    model = load_model_on_gpus("THUDM/chatglm-6b", num_gpus=2)
     return tokenizer, model
 
 
