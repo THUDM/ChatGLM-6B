@@ -1,7 +1,7 @@
 from transformers import AutoModel, AutoTokenizer
 import streamlit as st
 from streamlit_chat import message
-from utils import load_mode_and_tokenizer
+from utils import load_model_and_tokenizer
 
 st.set_page_config(
     page_title="ChatGLM-6b 演示",
@@ -11,7 +11,7 @@ st.set_page_config(
 
 @st.cache_resource
 def get_model():
-    model, tokenizer = load_mode_and_tokenizer("THUDM/chatglm-6b", num_gpus=1)
+    model, tokenizer = load_model_and_tokenizer("THUDM/chatglm-6b", num_gpus=1)
     return tokenizer, model
 
 

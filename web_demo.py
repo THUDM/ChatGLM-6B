@@ -1,7 +1,7 @@
 import gradio as gr
-from utils import load_mode_and_tokenizer
+from utils import load_model_and_tokenizer
 
-model, tokenizer = load_mode_and_tokenizer("THUDM/chatglm-6b", num_gpus=1)
+model, tokenizer = load_model_and_tokenizer("THUDM/chatglm-6b", num_gpus=1)
 
 MAX_TURNS = 20
 MAX_BOXES = MAX_TURNS * 2

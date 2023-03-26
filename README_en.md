@@ -154,10 +154,11 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=Tru
 ```shell
 pip install accelerate
 ```
-```python
-from utils import load_mode_and_tokenizer
 
-model, tokenizer = load_mode_and_tokenizer("your local path", num_gpus=2)
+```python
+from utils import load_model_and_tokenizer
+
+model, tokenizer = load_model_and_tokenizer("your local path", num_gpus=2)
 ```
 
 ## ChatGLM-6B Examples

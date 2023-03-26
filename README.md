@@ -165,10 +165,11 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 ```shell
 pip install accelerate
 ```
-```python
-from utils import load_mode_and_tokenizer
 
-model, tokenizer = load_mode_and_tokenizer("your local path", num_gpus=2)
+```python
+from utils import load_model_and_tokenizer
+
+model, tokenizer = load_model_and_tokenizer("your local path", num_gpus=2)
 ```
 即可将模型部署到多卡上进行推理。
 ## ChatGLM-6B 示例

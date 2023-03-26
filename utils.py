@@ -54,9 +54,9 @@ def load_model_on_gpus(checkpoint_path: Union[str, os.PathLike],
     return model
 
 
-def load_mode_and_tokenizer(checkpoint_path: Union[str, os.PathLike],
-                            multi_gpu_model_cache_dir: Union[str, os.PathLike] = "./temp_model_dir",
-                            num_gpus: int = 1, **kwargs) -> Tuple[AutoModel, AutoTokenizer]:
+def load_model_and_tokenizer(checkpoint_path: Union[str, os.PathLike],
+                             multi_gpu_model_cache_dir: Union[str, os.PathLike] = "./temp_model_dir",
+                             num_gpus: int = 1, **kwargs) -> Tuple[AutoModel, AutoTokenizer]:
     tokenizer = AutoTokenizer.from_pretrained(checkpoint_path, trust_remote_code=True, **kwargs)
     if num_gpus < 2:
         model = AutoModel.from_pretrained(checkpoint_path, trust_remote_code=True, **kwargs).half().cuda()
