@@ -1,4 +1,4 @@
-from transformers import AutoModel, AutoTokenizer
+from transformers import AutoTokenizer
 import gradio as gr
 from chatglm_parallel import load_model_on_gpus
 
