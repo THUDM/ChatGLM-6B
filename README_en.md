@@ -1,12 +1,5 @@
 # ChatGLM-6B
 
-## Modification 
-Load the model into multiple GPUs and automatically allocate the average memory usage according to the number of GPUs.
-```shell
-python -m pip install accelerate
-```
-Please note that 24GB of cpu memory is still required. TODO optimization.”
-
 ## Introduction
 
 ChatGLM-6B is an open bilingual language model based on [General Language Model (GLM)](https://github.com/THUDM/GLM) framework, with 6.2 billion parameters. With the quantization technique, users can deploy locally on consumer-grade graphics cards (only 6GB of GPU memory is required at the INT4 quantization level).
@@ -155,6 +148,17 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=Tru
 ```
 
 **For Mac users**: if your encounter the error `RuntimeError: Unknown platform: darwin`, please refer to this [Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041). 
+
+### Multi-GPU Deployment
+
+```shell
+pip install accelerate
+```
+```python
+from utils import load_mode_and_tokenizer
+
+model, tokenizer = load_mode_and_tokenizer("your local path", num_gpus=2)
+```
 
 ## ChatGLM-6B Examples
 
