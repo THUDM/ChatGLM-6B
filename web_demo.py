@@ -1,4 +1,5 @@
 import gradio as gr
+
 from utils import load_model_and_tokenizer
 
 model, tokenizer = load_model_and_tokenizer("THUDM/chatglm-6b", num_gpus=1)
