@@ -38,13 +38,15 @@ def auto_configure_device_map(num_gpus: int) -> Dict[str, int]:
 
 def load_model_on_gpus(checkpoint_path: Union[str, os.PathLike], num_gpus: int = 2,
                        multi_gpu_model_cache_dir: Union[str, os.PathLike] = "./temp_model_dir",
+                       device_map: Optional[Dict[str, int]] = None,
                        tokenizer: Optional[PreTrainedTokenizer] = None, **kwargs) -> Module:
     from accelerate import load_checkpoint_and_dispatch
 
     model = AutoModel.from_pretrained(checkpoint_path, trust_remote_code=True, **kwargs)
     model = model.eval()
 
-    device_map = auto_configure_device_map(num_gpus)
+    if device_map is None:
+        device_map = auto_configure_device_map(num_gpus)
     try:
         model = load_checkpoint_and_dispatch(
             model, checkpoint_path, device_map=device_map, offload_folder="offload", offload_state_dict=True).half()
