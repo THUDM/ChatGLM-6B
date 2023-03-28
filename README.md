@@ -121,6 +121,81 @@ curl -X POST "http://127.0.0.1:8000" \
 }
 ```
 
+### 流式API部署
+首先需要安装额外的依赖`pip install flask`
+```shell
+python stream_api.py
+```
+默认部署在本地的8000端口，共2个接口，需要配合使用，默认使用application/json作为Content-Type，服务说明如下：
+
+该流式API使用Flask作为载体，利用线程池原理设定了等待队列与处理队列，开发者可根据硬件实际性能决定队列长度，流式响应API在应用于实际开发是用户侧体验更好，整体利用率更高。
+
+#### 1、接口1：/chat 
+
+ 用于开启一次对话（指一问一答），调用该接口后，应当持续调用《接口2》，使用request_id以流式获取对话响应内容。
+
+- 示例请求数据如下, 其中request_id由调用者指定，用于确定对话实体
+
+```json
+{
+    "history": [["你是谁？","我是智能机器人"]],
+    "query": "你好",
+    "request_id": "73"  
+}
+
+```
+
+- 示例响应数据如下：代表正常响应，服务侧开始处理或进行排队
+
+```json
+{
+    "code": 0,
+    "msg": "start process",
+}
+```
+
+#### 2、接口2：/get_response
+
+使用request_id获取对话响应内容，本接口应被定时调用直至该接口返回的is_finished = True，说明本次对话已经推理完毕。
+
+- 示例请求数据如下，其中request_id为接口1中指定
+
+```
+{
+    "request_id": "73"
+}
+```
+
+- 示例响应数据1如下：（代表该请求仍在等待队列中，尚未开始被推理）
+
+```
+{
+    "code": 0,
+    "msg": "success",
+    "response": {
+        "is_finished": false,
+        "is_handled": false,
+        "response": "",
+        "timestamp": 1679813631.926929
+    }
+}
+```
+
+- 示例响应数据2如下：（代表该请求已经进入推理队列，尚未推理完成）
+
+```
+{
+    "code": 0,
+    "msg": "success",
+    "response": {
+        "is_finished": false,
+        "is_handled": true,
+        "response": "我是智能机器人，请问",
+        "timestamp": 1679813631.926929
+    }
+}
+```
+
 ## 低成本部署
 ### 模型量化
 默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 13GB 显存。如果你的 GPU 显存有限，可以尝试以量化方式加载模型，使用方法如下：
