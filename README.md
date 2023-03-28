@@ -167,6 +167,17 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 ```
 即可使用在 Mac 上使用 GPU 加速模型推理。
 
+### 多卡部署
+```shell
+pip install accelerate
+```
+
+```python
+from utils import load_model_and_tokenizer
+
+model, tokenizer = load_model_and_tokenizer("your local path", num_gpus=2)
+```
+即可将模型部署到多卡上进行推理。
 ## ChatGLM-6B 示例
 
 以下是一些使用 `web_demo.py` 得到的示例截图。更多 ChatGLM-6B 的可能，等待你来探索发现！

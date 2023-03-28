@@ -156,6 +156,18 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=Tru
 
 **For Mac users**: if your encounter the error `RuntimeError: Unknown platform: darwin`, please refer to this [Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041). 
 
+### Multi-GPU Deployment
+
+```shell
+pip install accelerate
+```
+
+```python
+from utils import load_model_and_tokenizer
+
+model, tokenizer = load_model_and_tokenizer("your local path", num_gpus=2)
+```
+
 ## ChatGLM-6B Examples
 
 The following are some Chinese examples with `web_demo.py`. Welcome to explore more possibility with ChatGLM-6B.

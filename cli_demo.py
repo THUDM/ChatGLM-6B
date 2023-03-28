@@ -1,10 +1,9 @@
 import os
 import platform
-from transformers import AutoTokenizer, AutoModel
 
-tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
-model = model.eval()
+from utils import load_model_and_tokenizer
+
+model, tokenizer = load_model_and_tokenizer("THUDM/chatglm-6b", num_gpus=1)
 
 os_name = platform.system()
 clear_command = 'cls' if os_name == 'Windows' else 'clear'
