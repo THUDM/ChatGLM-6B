@@ -5,4 +5,4 @@ ENV model_path="/model"
 
 EXPOSE 7860
 
-CMD [ "python","web_demo./py" ]
+CMD [ "python3","web_demo.py" ]
