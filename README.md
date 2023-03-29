@@ -7,12 +7,16 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 不过，由于 ChatGLM-6B 的规模较小，目前已知其具有相当多的[**局限性**](#局限性)，如事实性/数学逻辑错误，可能生成有害/有偏见内容，较弱的上下文能力，自我认知混乱，以及对英文指示生成与中文指示完全矛盾的内容。请大家在使用前了解这些问题，以免产生误解。更大的基于1300亿参数[GLM-130B](https://github.com/THUDM/GLM-130B)的ChatGLM正在内测开发中。
 
+欢迎体验 Huggingface Spaces 上的[在线演示](https://huggingface.co/spaces/ysharma/ChatGLM-6b_Gradio_Streaming)。
+
 *Read this in [English](README_en.md).*
 
 ## 更新信息
+
 **[2023/03/23]** 增加API部署（感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)）。增加Embedding量化模型[ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)。增加对基于Apple Silicon的Mac上GPU加速的支持。
 
 **[2023/03/19]** 增加流式输出接口 `stream_chat`，已更新到网页版和命令行 Demo。修复输出中的中文标点。增加量化后的模型 [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4)
+
 
 ## 友情链接
 以下是部分基于本仓库开发的开源项目：
@@ -28,17 +32,17 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 ### 硬件需求
 
-| **量化等级**    | **最低 GPU 显存** |
-| -------------- | ----------------- |
-| FP16（无量化）   | 13 GB             |
-| INT8           | 10 GB              |
-| INT4           | 6 GB               |
+| **量化等级** | **最低 GPU 显存** |
+| ------------------ | ----------------------- |
+| FP16（无量化）     | 13 GB                   |
+| INT8               | 10 GB                   |
+| INT4               | 6 GB                    |
 
 ### 环境安装
 
 使用 pip 安装依赖：`pip install -r requirements.txt`，其中 `transformers` 库版本推荐为 `4.26.1`，但理论上不低于 `4.23.1` 即可。
 
-### 代码调用 
+### 代码调用
 
 可以通过如下代码调用 ChatGLM-6B 模型来生成对话：
 
@@ -63,6 +67,7 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 如果这些方法无法帮助你入睡,你可以考虑咨询医生或睡眠专家,寻求进一步的建议。
 ```
+
 完整的模型实现可以在 [Hugging Face Hub](https://huggingface.co/THUDM/chatglm-6b) 上查看。如果你从 Hugging Face Hub 上下载checkpoint的速度较慢，也可以从[这里](https://cloud.tsinghua.edu.cn/d/fb9f16d6dc8f482596c2/)手动下载。
 
 ### Demo
@@ -78,7 +83,7 @@ cd ChatGLM-6B
 
 ![web-demo](resources/web-demo.gif)
 
-首先安装 Gradio：`pip install gradio`，然后运行仓库中的 [web_demo.py](web_demo.py)： 
+首先安装 Gradio：`pip install gradio`，然后运行仓库中的 [web_demo.py](web_demo.py)：
 
 ```shell
 python web_demo.py
@@ -87,6 +92,17 @@ python web_demo.py
 程序会运行一个 Web Server，并输出地址。在浏览器中打开输出的地址即可使用。最新版 Demo 实现了打字机效果，速度体验大大提升。注意，由于国内 Gradio 的网络访问较为缓慢，启用 `demo.queue().launch(share=True, inbrowser=True)` 时所有网络会经过 Gradio 服务器转发，导致打字机体验大幅下降，现在默认启动方式已经改为 `share=False`，如有需要公网访问的需求，可以重新修改为 `share=True` 启动。
 
 感谢 [@AdamBear](https://github.com/AdamBear) 实现了基于 Streamlit 的网页版 Demo，运行方式见[#117](https://github.com/THUDM/ChatGLM-6B/pull/117).
+
+
+
+
+#### 网页版 Demo (Chat with OpenAI wikipages)
+
+基于ChatGLM实现的, 结合Langchain和FAISS 的vectorstore Chat.
+
+![1679635888842](image/README/1679635888842.png)
+
+
 
 #### 命令行 Demo
 
@@ -98,20 +114,26 @@ python web_demo.py
 python cli_demo.py
 ```
 
-程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入`clear`可以清空对话历史，输入`stop`终止程序。
+程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入 `clear`可以清空对话历史，输入 `stop`终止程序。
 
 ### API部署
-首先需要安装额外的依赖`pip install fastapi uvicorn`，然后运行仓库中的[api.py](api.py)：
+
+首先需要安装额外的依赖 `pip install fastapi uvicorn`，然后运行仓库中的[api.py](api.py)：
+
 ```shell
 python api.py
 ```
+
 默认部署在本地的8000端口，通过POST方法进行调用
+
 ```shell
 curl -X POST "http://127.0.0.1:8000" \
      -H 'Content-Type: application/json' \
      -d '{"prompt": "你好", "history": []}'
 ```
+
 得到的返回值为
+
 ```shell
 {
   "response":"你好👋！我是人工智能助手 ChatGLM-6B，很高兴见到你，欢迎问我任何问题。",
@@ -122,7 +144,9 @@ curl -X POST "http://127.0.0.1:8000" \
 ```
 
 ## 低成本部署
+
 ### 模型量化
+
 默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 13GB 显存。如果你的 GPU 显存有限，可以尝试以量化方式加载模型，使用方法如下：
 
 ```python
@@ -135,24 +159,27 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).ha
 模型量化会带来一定的性能损失，经过测试，ChatGLM-6B 在 4-bit 量化下仍然能够进行自然流畅的生成。使用 [GPT-Q](https://arxiv.org/abs/2210.17323) 等量化方案可以进一步压缩量化精度/提升相同量化精度下的模型性能，欢迎大家提出对应的 Pull Request。
 
 **[2023/03/19]** 量化过程需要在内存中首先加载 FP16 格式的模型，消耗大概 13GB 的内存。如果你的内存不足的话，可以直接加载量化后的模型，仅需大概 5.2GB 的内存：
+
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=True).half().cuda()
 ```
 
 **[2023/03/24]** 我们进一步提供了对Embedding量化后的模型，模型参数仅占用4.3 GB显存：
+
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4-qe", trust_remote_code=True).half().cuda()
 ```
 
-
-
 ### CPU 部署
+
 如果你没有 GPU 硬件的话，也可以在 CPU 上进行推理，但是推理速度会更慢。使用方法如下（需要大概 32GB 内存）
+
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).float()
 ```
 
 **[2023/03/19]** 如果你的内存不足，可以直接加载量化后的模型：
+
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4",trust_remote_code=True).float()
 ```
@@ -160,14 +187,19 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4",trust_remote_code=True
 如果遇到了报错 `Could not find module 'nvcuda.dll'` 或者 `RuntimeError: Unknown platform: darwin` (MacOS) 的话请参考这个[Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041).
 
 ### Mac 上的 GPU 加速
+
 对于搭载了Apple Silicon的Mac（以及MacBook），可以使用 MPS 后端来在 GPU 上运行 ChatGLM-6B。首先需要参考 Apple 的 [官方说明](https://developer.apple.com/metal/pytorch) 安装 PyTorch-Nightly。然后将模型仓库 clone 到本地
+
 ```shell
 git clone https://huggingface.co/THUDM/chatglm-6b
 ```
+
 将代码中的模型加载改为从本地加载，并使用 mps 后端
+
 ```python
 model = AutoModel.from_pretrained("your local path", trust_remote_code=True).half().to('mps')
 ```
+
 即可使用在 Mac 上使用 GPU 加速模型推理。
 
 ## ChatGLM-6B 示例
@@ -231,28 +263,27 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 由于 ChatGLM-6B 的小规模，其能力仍然有许多局限性。以下是我们目前发现的一些问题：
 
 - 模型容量较小：6B 的小容量，决定了其相对较弱的模型记忆和语言能力。在面对许多事实性知识任务时，ChatGLM-6B 可能会生成不正确的信息；它也不擅长逻辑类问题（如数学、编程）的解答。
-    <details><summary><b>点击查看例子</b></summary>
-    
-    ![](limitations/factual_error.png)
-    
-    ![](limitations/math_error.png)
-    
-    </details>
-  
+
+  <details><summary><b>点击查看例子</b></summary>
+
+  ![](limitations/factual_error.png)
+
+  ![](limitations/math_error.png)
+
+  </details>
 - 产生有害说明或有偏见的内容：ChatGLM-6B 只是一个初步与人类意图对齐的语言模型，可能会生成有害、有偏见的内容。（内容可能具有冒犯性，此处不展示）
-
 - 英文能力不足：ChatGLM-6B 训练时使用的指示/回答大部分都是中文的，仅有极小一部分英文内容。因此，如果输入英文指示，回复的质量远不如中文，甚至与中文指示下的内容矛盾，并且出现中英夹杂的情况。
-
 - 易被误导，对话能力较弱：ChatGLM-6B 对话能力还比较弱，而且 “自我认知” 存在问题，并很容易被误导并产生错误的言论。例如当前版本的模型在被误导的情况下，会在自我认知上发生偏差。
-    <details><summary><b>点击查看例子</b></summary>
 
-    ![](limitations/self-confusion_google.jpg)
-    
-    ![](limitations/self-confusion_openai.jpg)
-    
-    ![](limitations/self-confusion_tencent.jpg)
-    
-    </details>
+  <details><summary><b>点击查看例子</b></summary>
+
+  ![](limitations/self-confusion_google.jpg)
+
+  ![](limitations/self-confusion_openai.jpg)
+
+  ![](limitations/self-confusion_tencent.jpg)
+
+  </details>
 
 ## 协议
 
@@ -272,6 +303,7 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
   url={https://openreview.net/forum?id=-Aw0rrrPUF}
 }
 ```
+
 ```
 @inproceedings{du2022glm,
   title={GLM: General Language Model Pretraining with Autoregressive Blank Infilling},

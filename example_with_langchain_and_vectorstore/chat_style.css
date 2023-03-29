@@ -1,0 +1,146 @@
+.image-left {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 1em;
+}
+.conversation-container {
+  padding: 1em;
+  border-radius: 10px;
+  /* margin-bottom: 1em; */
+  margin-top: 1em;
+}
+
+.conversation-container.user {
+  background-color: rgba(217, 217, 227, 0.4);
+}
+
+.conversation-container.bot {
+  /* background-color: rgba(247,247,248,0.3); */
+  margin-bottom: 0em;
+}
+.text-area-input {
+  height: 5em;
+  margin-bottom: 1em;
+  font-size: 1.2rem;
+}
+.conversation-scroll {
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+[data-testid="stForm"] {
+  /* width: 55vw;
+max-width: 80wh;
+margin-left: -15vw; */
+  /* max-height: 70vh;
+ overflow-y: scroll; */
+  width: 70%;
+  margin-left: 15%;
+}
+
+[data-testid="stForm"] .stTextArea {
+  box-shadow: 0 5px 6px -4px #c7cdce;
+  width: 60% !important;
+  margin-left: 20% !important;
+}
+
+footer {
+  /* margin-left: -20vw; */
+}
+
+/* [data-testid="stMarkdownContainer"]:has(.bot){
+    margin-bottom: 0px;
+    margin-top: 0px;
+} */
+
+[data-testid="stForm"]
+  [data-testid="stVerticalBlock"]
+  [data-testid="stVerticalBlock"]:has(div.conversation-container) {
+  max-height: 55vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  /* font-size: 1.2rem; */
+  margin-right: 5px;
+}
+
+[data-testid="stForm"]
+  [data-testid="stVerticalBlock"]
+  [data-testid="stVerticalBlock"]
+  p {
+  /* font-size: 1.2rem; */
+}
+
+[data-testid="stForm"] .stImage {
+  /* width: 6rem !important;
+     */
+  width: 5rem !important;
+}
+
+[data-testid="stForm"] .img {
+  /* width: 6rem !important;
+     */
+  max-width: 85px;
+}
+
+@font-face {
+  font-family: "Josefin Slab", serif;
+  font-style: normal;
+  font-weight: 300;
+}
+header,
+h1,
+h2,
+h3 [class*="css"] {
+  font-family: "Josefin Slab", serif;
+  font-style: normal;
+  font-weight: 300;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+body {
+  font-size: medium;
+}
+
+/* .hhh{
+    color: black;
+    background-color:#fff;
+}
+
+.show:hover .hhh{
+  color: white;
+} */
+
+[data-testid="stForm"] .stButton {
+  box-shadow: 0 5px 6px -4px #c7cdce;
+  /*   width: auto;
+  font-size: 20pt;
+  float: right;
+  box-shadow: rgba(44, 43, 43, 0.5) 0px 0px 0px 0.2rem; */
+  /* width: 60%; */
+}
+
+.stButton button {
+  width: 100%;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track:vertical {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb:vertical {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:vertical:hover {
+  background: #555;
+}
