@@ -65,7 +65,7 @@ def calculate_per_gpu_layers(gpu_list: List[int], total_layers: int) -> Dict[int
     return per_gpu_layers
 
 
-def auto_configure_device_map(num_gpus: int, gpu_list: Optional[List[int]] = None) -> Dict[str, int]:
+def auto_configure_device_map(num_gpus: int = 2, gpu_list: Optional[List[int]] = None) -> Dict[str, int]:
     """
     Automatically configure the device map for model parallelism based on the number of GPUs and their memory ratios.
 
@@ -154,15 +154,14 @@ def auto_configure_device_map(num_gpus: int, gpu_list: Optional[List[int]] = Non
     # 分配剩余的层数
     for i in range(num_trans_layers):
         if used < per_gpu_layer_dict[current_gpu]:
-            device_map[f"transformer.layers.{i}"] = current_gpu
             used += 1
         else:
             # 当前 GPU 的层数已分配完，切换到下一个 GPU
             current_gpu_index += 1
             current_gpu = gpu_list[current_gpu_index]
-            device_map[f"transformer.layers.{i}"] = gpu_list[current_gpu]
             used = 1
 
+        device_map[f"transformer.layers.{i}"] = current_gpu
     return device_map
 
 
