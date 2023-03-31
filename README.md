@@ -10,19 +10,11 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 *Read this in [English](README_en.md).*
 
 ## 更新信息
+**[2023/03/31]** 增加基于 P-Tuning-v2 的微调实现，最低只需 8GB 显存即可进行模型微调。详见[模型微调](ptuning/README.md)。
+
 **[2023/03/23]** 增加API部署（感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)）。增加Embedding量化模型[ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)。增加对基于Apple Silicon的Mac上GPU加速的支持。
 
 **[2023/03/19]** 增加流式输出接口 `stream_chat`，已更新到网页版和命令行 Demo。修复输出中的中文标点。增加量化后的模型 [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4)
-
-## 友情链接
-以下是部分基于本仓库开发的开源项目：
-* [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): 一个基于 MNN 的 ChatGLM-6B C++ 推理实现，支持根据显存大小自动分配计算任务给 GPU 和 CPU
-* [ChatGLM-Tuning](https://github.com/mymusise/ChatGLM-Tuning): 基于 LoRA 对 ChatGLM-6B 进行微调
-
-以下是部分针对本项目的教程/文档：
-* [Windows部署文档](https://github.com/ZhangErling/ChatGLM-6B/blob/main/deployment_windows.md)
-
-如果你有其他好的项目/教程的话，欢迎参照上述格式添加到README中并提出 [PR](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 ## 使用方式
 
@@ -171,6 +163,9 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 ```
 即可使用在 Mac 上使用 GPU 加速模型推理。
 
+## 模型微调
+详见 [ptuning/README.md](ptuning/README.md)。
+
 ## ChatGLM-6B 示例
 
 以下是一些使用 `web_demo.py` 得到的示例截图。更多 ChatGLM-6B 的可能，等待你来探索发现！
@@ -258,6 +253,16 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 ## 协议
 
 本仓库的代码依照 [Apache-2.0](LICENSE) 协议开源，ChatGLM-6B 模型的权重的使用则需要遵循 [Model License](MODEL_LICENSE)。
+
+## 友情链接
+以下是部分基于本仓库开发的开源项目：
+* [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): 一个基于 MNN 的 ChatGLM-6B C++ 推理实现，支持根据显存大小自动分配计算任务给 GPU 和 CPU
+* [ChatGLM-Tuning](https://github.com/mymusise/ChatGLM-Tuning): 基于 LoRA 对 ChatGLM-6B 进行微调
+
+以下是部分针对本项目的教程/文档：
+* [Windows部署文档](https://github.com/ZhangErling/ChatGLM-6B/blob/main/deployment_windows.md)
+
+如果你有其他好的项目/教程的话，欢迎参照上述格式添加到README中并提出 [PR](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 ## 引用
 
