@@ -7,16 +7,16 @@
 ## 介绍
 
 ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。
-ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进行了优化。经过约 1T 标识符的中英双语训练，辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的 ChatGLM-6B 已经能生成相当符合人类偏好的回答。同时实现了基于P-Tuning v2的[模型微调](ptuning/README.md)（INT4量化级别下最低只需 7GB 显存）。更多信息请参考我们的[博客](https://chatglm.cn/blog)。
+ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进行了优化。经过约 1T 标识符的中英双语训练，辅以监督微调、反馈自助、人类反馈强化学习等技术的加持，62 亿参数的 ChatGLM-6B 已经能生成相当符合人类偏好的回答，更多信息请参考我们的[博客](https://chatglm.cn/blog)。此外，为了方便下游开发者针对自己的应用场景定制模型，我们同时实现了基于 P-Tuning v2 的[高效参数微调方法](ptuning/README.md)，INT4 量化级别下最低只需 7GB 显存即可启动微调。
 
-不过，由于 ChatGLM-6B 的规模较小，目前已知其具有相当多的[**局限性**](#局限性)，如事实性/数学逻辑错误，可能生成有害/有偏见内容，较弱的上下文能力，自我认知混乱，以及对英文指示生成与中文指示完全矛盾的内容。请大家在使用前了解这些问题，以免产生误解。更大的基于1300亿参数 [GLM-130B](https://github.com/THUDM/GLM-130B) 的 ChatGLM 正在内测开发中。
+不过，由于 ChatGLM-6B 的规模较小，目前已知其具有相当多的[**局限性**](#局限性)，如事实性/数学逻辑错误，可能生成有害/有偏见内容，较弱的上下文能力，自我认知混乱，以及对英文指示生成与中文指示完全矛盾的内容。请大家在使用前了解这些问题，以免产生误解。更大的基于 1300 亿参数 [GLM-130B](https://github.com/THUDM/GLM-130B) 的 ChatGLM 正在内测开发中。
 
 *Read this in [English](README_en.md).*
 
 ## 更新信息
-**[2023/03/31]** 增加基于 P-Tuning-v2 的微调实现，最低只需 8GB 显存即可进行模型微调。详见[模型微调](ptuning/README.md)。
+**[2023/03/31]** 增加基于 P-Tuning-v2 的高效参数微调实现，INT4 量化级别下最低只需 7GB 显存即可进行模型微调。详见[高效参数微调方法](ptuning/README.md)。
 
-**[2023/03/23]** 增加API部署（感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)）。增加Embedding量化模型[ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)。增加对基于Apple Silicon的Mac上GPU加速的支持。
+**[2023/03/23]** 增加 API 部署（感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)）。增加 Embedding 量化模型 [ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)。增加配备 Apple Silicon 芯片的 Mac 上 GPU 加速的支持。
 
 **[2023/03/19]** 增加流式输出接口 `stream_chat`，已更新到网页版和命令行 Demo。修复输出中的中文标点。增加量化后的模型 [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4)
 
@@ -24,12 +24,11 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 ### 硬件需求
 
-| **量化等级**    | **最低 GPU 显存** |
-| -------------- | ----------------- |
-| FP16（无量化）   | 13 GB             |
-| INT8           | 10 GB              |
-| INT4           | 6 GB               |
-
+| **量化等级**   | **最低 GPU 显存**（推理） | **最低 GPU 显存**（高效参数微调） |
+| -------------- | ------------------------- | --------------------------------- |
+| FP16（无量化） | 13 GB                     | 14 GB                             |
+| INT8           | 10 GB                     | 11 GB                             |
+| INT4           | 6 GB                      | 7 GB                              |
 ### 环境安装
 
 使用 pip 安装依赖：`pip install -r requirements.txt`，其中 `transformers` 库版本推荐为 `4.26.1`，但理论上不低于 `4.23.1` 即可。
@@ -59,7 +58,7 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 如果这些方法无法帮助你入睡,你可以考虑咨询医生或睡眠专家,寻求进一步的建议。
 ```
-完整的模型实现可以在 [Hugging Face Hub](https://huggingface.co/THUDM/chatglm-6b) 上查看。如果你从 Hugging Face Hub 上下载checkpoint的速度较慢，也可以从[这里](https://cloud.tsinghua.edu.cn/d/fb9f16d6dc8f482596c2/)手动下载。
+完整的模型实现可以在 [Hugging Face Hub](https://huggingface.co/THUDM/chatglm-6b) 上查看。如果你从 Hugging Face Hub 上下载 checkpoint 的速度较慢，也可以从[这里](https://cloud.tsinghua.edu.cn/d/fb9f16d6dc8f482596c2/)手动下载。
 
 ### Demo
 
@@ -94,14 +93,14 @@ python web_demo.py
 python cli_demo.py
 ```
 
-程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入`clear`可以清空对话历史，输入`stop`终止程序。
+程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入 `clear` 可以清空对话历史，输入 `stop` 终止程序。
 
 ### API部署
-首先需要安装额外的依赖`pip install fastapi uvicorn`，然后运行仓库中的[api.py](api.py)：
+首先需要安装额外的依赖 `pip install fastapi uvicorn`，然后运行仓库中的 [api.py](api.py)：
 ```shell
 python api.py
 ```
-默认部署在本地的8000端口，通过POST方法进行调用
+默认部署在本地的 8000 端口，通过 POST 方法进行调用
 ```shell
 curl -X POST "http://127.0.0.1:8000" \
      -H 'Content-Type: application/json' \
@@ -167,7 +166,7 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 ```
 即可使用在 Mac 上使用 GPU 加速模型推理。
 
-## 模型微调
+## 高效参数微调
 详见 [ptuning/README.md](ptuning/README.md)。
 
 ## ChatGLM-6B 示例
@@ -266,7 +265,7 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 以下是部分针对本项目的教程/文档：
 * [Windows部署文档](https://github.com/ZhangErling/ChatGLM-6B/blob/main/deployment_windows.md)
 
-如果你有其他好的项目/教程的话，欢迎参照上述格式添加到README中并提出 [PR](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+如果你有其他好的项目/教程的话，欢迎参照上述格式添加到 README 中并提出 [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)。
 
 ## 引用
 
