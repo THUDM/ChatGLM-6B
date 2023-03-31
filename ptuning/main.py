@@ -110,7 +110,7 @@ def main():
 
     tokenizer = AutoTokenizer.from_pretrained(model_args.model_name_or_path, trust_remote_code=True)
 
-    model = AutoModel.from_pretrained(model_args.model_name_or_path, config=config, revision=True, trust_remote_code=True)
+    model = AutoModel.from_pretrained(model_args.model_name_or_path, config=config, trust_remote_code=True)
 
     model = model.half()
     if model_args.quantization_bit is not None:
