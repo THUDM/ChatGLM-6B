@@ -1,5 +1,5 @@
 # ChatGLM-6B-PT
-本仓库实现了对于 ChatGLM-6B 模型基于 [P-Tuning v2](https://github.com/THUDM/P-tuning-v2) 的微调。P-Tuning v2将需要微调的参数量减少到原来的0.1%，再通过模型量化、Gradient Checkpoint等方法，最低只需要 8GB 显存即可运行。
+本仓库实现了对于 ChatGLM-6B 模型基于 [P-Tuning v2](https://github.com/THUDM/P-tuning-v2) 的微调。P-Tuning v2将需要微调的参数量减少到原来的0.1%，再通过模型量化、Gradient Checkpoint等方法，最低只需要 7GB 显存即可运行。
 
 下面以 [ADGEN](https://aclanthology.org/D19-1321.pdf) (广告生成) 数据集为例介绍代码的使用方法。
 
