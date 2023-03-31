@@ -20,7 +20,7 @@ ADGEN 数据集任务为根据输入（content）生成一段广告词（summary
 }
 ```
 
-从 [Google Drive](https://drive.google.com/file/d/13_vf0xRTQsyneRKdD1bZIr93vBGOczrk/view?usp=sharing) 或者 [Tsinghua Cloud]() 下载处理好的 ADGEN数据集，将解压后的 `AdvertiseGen` 目录放到本目录下。
+从 [Google Drive](https://drive.google.com/file/d/13_vf0xRTQsyneRKdD1bZIr93vBGOczrk/view?usp=sharing) 或者 [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/f/b3f119a008264b1cabd1/?dl=1) 下载处理好的 ADGEN 数据集，将解压后的 `AdvertiseGen` 目录放到本目录下。
 
 ### 训练
 运行以下指令进行训练：
