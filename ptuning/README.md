@@ -59,6 +59,10 @@ bash evaluate.sh
 ## 使用自己的数据集
 修改 `train.sh` 和 `evaluate.sh` 中的 `train_file`、`validation_file`和`test_file`为你自己的 JSON 格式数据集路径，并将 `prompt_column` 和 `response_column` 改为 JSON 文件中输入文本和输出文本对应的 KEY。
 
+## TODO
+* [ ] Support for chat data
+* [ ] Support for full finetuning
+
 ## 引用
 
 ```
