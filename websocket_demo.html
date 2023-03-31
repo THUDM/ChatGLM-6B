@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chat</title>
+</head>
+<body>
+<h1>WebSocket Chat</h1>
+<form action="" onsubmit="return false;" id="form">
+    <label for="messageText"></label>
+    <input type="text" id="messageText" autocomplete="off"/>
+    <button type="submit">Send</button>
+</form>
+<ul id='messageBox'>
+</ul>
+<script>
+    let ws = new WebSocket("ws://" + location.host + "/ws");
+    let history = [];
+    let last_message_element = null;
+
+    function appendMessage(text, sender, dom = null) {
+        if (dom === null) {
+            let messageBox = document.getElementById('messageBox');
+            dom = document.createElement('li');
+            messageBox.appendChild(dom);
+        }
+        dom.innerText = sender + '：' + text;
+        return dom
+    }
+
+    function sendMessage(event) {
+        if (last_message_element !== null) {  // 如果机器人还没回复完
+            return;
+        }
+        let input = document.getElementById("messageText");
+        if (input.value === "") {
+            return;
+        }
+        let body = {"query": input.value, 'history': history};
+        ws.send(JSON.stringify(body));
+        appendMessage(input.value, '用户')
+        input.value = '';
+        event.preventDefault();
+    }
+
+    document.getElementById("form").addEventListener('submit', sendMessage)
+
+    ws.onmessage = function (event) {
+        let body = JSON.parse(event.data);
+        let status = body['status']
+        if (status === 200) {  // 如果回答结束了
+            last_message_element = null;
+        } else {
+            history = body['history']
+            last_message_element = appendMessage(body['response'], 'ChatGLM-6B', last_message_element)
+        }
+    };
+</script>
+</body>
+</html>

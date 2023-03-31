@@ -96,7 +96,7 @@ python cli_demo.py
 
 程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入`clear`可以清空对话历史，输入`stop`终止程序。
 
-### API部署
+## API 部署
 首先需要安装额外的依赖`pip install fastapi uvicorn`，然后运行仓库中的[api.py](api.py)：
 ```shell
 python api.py
@@ -116,6 +116,18 @@ curl -X POST "http://127.0.0.1:8000" \
   "time":"2023-03-23 21:38:40"
 }
 ```
+
+### 支持流式返回的 Websocket API
+
+由于上述 API 不支持流式返回，故在 fastapi 的基础上增加了对 websocket 的支持。
+
+首先安装额外的依赖 `pip install 'fastapi~=0.95.0' 'websockets~=10.4' 'uvicorn~=0.21.1'`，然后运行 [websocket_api.py](./websocket_api.py) 即可。
+
+```shell
+python websocket_api.py
+```
+
+访问 `http://localhost:8000` 即可看到 [websocket_demo.html](./websocket_demo.html)。
 
 ## 低成本部署
 ### 模型量化
