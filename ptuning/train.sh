@@ -8,7 +8,7 @@ CUDA_VISIBLE_DEVICES=0 python3 main.py \
     --prompt_column content \
     --response_column summary \
     --overwrite_cache \
-    --model_name_or_path /mnt/vepfs/workspace/zxdu/chatglm_6b \
+    --model_name_or_path THUDM/chatglm-6b \
     --output_dir output/adgen-chatglm-6b-pt-$PRE_SEQ_LEN-$LR-dev \
     --overwrite_output_dir \
     --max_source_length 64 \
