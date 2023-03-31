@@ -32,7 +32,7 @@ If you have other good projects, please refer to the above format to add to READ
 
 ### Environment Setup
 
-Install the requirements with pip: `pip install -r requirements.txt`. `transformers` library version is recommended to be `4.26.1`, but theoretically any version no lower than `4.23.1` is acceptable.
+Install the requirements with pip: `pip install -r requirements.txt`. `transformers` library version is recommended to be `4.27.1`, but theoretically any version no lower than `4.23.1` is acceptable.
 
 ### Usage
 

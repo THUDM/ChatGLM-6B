@@ -4,7 +4,7 @@
 下面以 [ADGEN](https://aclanthology.org/D19-1321.pdf) (广告生成) 数据集为例介绍代码的使用方法。
 
 ## 软件依赖
-除 ChatGLM-6B 的依赖之外，还需要按照以下依赖
+运行微调需要4.27.1版本的`transformers`。除 ChatGLM-6B 的依赖之外，还需要按照以下依赖
 ```
 pip install rouge_chinese nltk jieba datasets
 ```
