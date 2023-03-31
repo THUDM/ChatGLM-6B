@@ -203,8 +203,8 @@ class DataTrainingArguments:
     
 
     def __post_init__(self):
-        if self.dataset_name is None and self.train_file is None and self.validation_file is None:
-            raise ValueError("Need either a dataset name or a training/validation file.")
+        if self.dataset_name is None and self.train_file is None and self.validation_file is None and self.test_file is None:
+            raise ValueError("Need either a dataset name or a training/validation/test file.")
         else:
             if self.train_file is not None:
                 extension = self.train_file.split(".")[-1]
