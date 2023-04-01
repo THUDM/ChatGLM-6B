@@ -112,10 +112,10 @@ def main():
 
     model = AutoModel.from_pretrained(model_args.model_name_or_path, config=config, trust_remote_code=True)
 
-    model = model.half()
     if model_args.quantization_bit is not None:
         print(f"Quantized to {model_args.quantization_bit} bit")
         model = model.quantize(model_args.quantization_bit)
+    model = model.half()
     model.transformer.prefix_encoder.float()
 
     prefix = data_args.source_prefix if data_args.source_prefix is not None else ""
