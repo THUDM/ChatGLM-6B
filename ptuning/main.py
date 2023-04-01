@@ -374,9 +374,10 @@ def main():
                 )
                 labels = [label.strip() for label in labels]
                 output_prediction_file = os.path.join(training_args.output_dir, "generated_predictions.txt")
-                with open(output_prediction_file, "w") as writer:
+                with open(output_prediction_file, "w", encoding="utf-8") as writer:
                     for p, l in zip(predictions, labels):
-                        writer.write(json.dumps({"labels": l, "predict": p}, ensure_ascii=False))
+                        res = json.dumps({"labels": l, "predict": p}, ensure_ascii=False)
+                        writer.write(f"{res}\n")
     return results
 
 
