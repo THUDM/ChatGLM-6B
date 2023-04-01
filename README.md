@@ -169,6 +169,8 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 ## 高效参数微调
 基于 [P-tuning v2](https://github.com/THUDM/P-tuning-v2) 的高效参数微调。具体使用方法详见 [ptuning/README.md](ptuning/README.md)。
 
+
+
 ## ChatGLM-6B 示例
 
 以下是一些使用 `web_demo.py` 得到的示例截图。更多 ChatGLM-6B 的可能，等待你来探索发现！
@@ -261,6 +263,7 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 以下是部分基于本仓库开发的开源项目：
 * [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): 一个基于 MNN 的 ChatGLM-6B C++ 推理实现，支持根据显存大小自动分配计算任务给 GPU 和 CPU
 * [ChatGLM-Tuning](https://github.com/mymusise/ChatGLM-Tuning): 基于 LoRA 对 ChatGLM-6B 进行微调
+* [Humanable ChatGLM/GPT Fine-tuning | ChatGLM 微调](https://github.com/hscspring/hcgf)：基于 LoRA 进行微调
 
 以下是部分针对本项目的教程/文档：
 * [Windows部署文档](https://github.com/ZhangErling/ChatGLM-6B/blob/main/deployment_windows.md)
