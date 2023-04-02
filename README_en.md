@@ -6,8 +6,19 @@ ChatGLM-6B is an open bilingual language model based on [General Language Model 
 
 ChatGLM-6B uses technology similar to ChatGPT, optimized for Chinese QA and dialogue. The model is trained for about 1T tokens of Chinese and English corpus, supplemented by supervised fine-tuning, feedback bootstrap, and reinforcement learning wit human feedback. With only about 6.2 billion parameters, the model is able to generate answers that are in line with human preference.
 
+Try the [online demo](https://huggingface.co/spaces/ysharma/ChatGLM-6b_Gradio_Streaming) on Huggingface Spaces.
+
 ## Update
+**[2023/03/23]** Add API deployment, thanks to [@LemonQu-GIT](https://github.com/LemonQu-GIT). Add embedding-quantized model [ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe). Add support for GPU inference on Mac with Apple Silicon.
+
 **[2023/03/19]** Add streaming output function `stream_chat`, already applied in web and CLI demo. Fix Chinese punctuations in output. Add quantized model [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4). 
+
+## Projects
+The following are some open source projects developed based on this repository:
+* [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): An [MNN](https://github.com/alibaba/MNN)-based implementation of ChatGLM-6B C++ inference, which supports automatic allocation of computing tasks to GPU and CPU according to the size of GPU memory
+* [ChatGLM-Tuning](https://github.com/mymusise/ChatGLM-Tuning): Fine-tuning ChatGLM-6B based on LoRA
+
+If you have other good projects, please refer to the above format to add to README and propose [PR](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
 ## Getting Started
 
@@ -21,7 +32,7 @@ ChatGLM-6B uses technology similar to ChatGPT, optimized for Chinese QA and dial
 
 ### Environment Setup
 
-Install the requirements with pip: `pip install -r requirements.txt`. `transformers` library version is recommended to be `4.26.1`, but theoretically any version no lower than `4.23.1` is acceptable.
+Install the requirements with pip: `pip install -r requirements.txt`. `transformers` library version is recommended to be `4.27.1`, but theoretically any version no lower than `4.23.1` is acceptable.
 
 ### Usage
 
@@ -84,6 +95,27 @@ python cli_demo.py
 
 The command runs an interactive program in the shell. Type your instruction in the shell and hit enter to generate the response. Type `clear` to clear the dialogue history and `stop` to terminate the program.
 
+## API Deployment
+First install the additional dependency `pip install fastapi uvicorn`. The run [api.py](api.py) in the repo.
+```shell
+python api.py
+```
+By default the api runs at the`8000`port of the local machine. You can call the API via 
+```shell
+curl -X POST "http://127.0.0.1:8000" \
+     -H 'Content-Type: application/json' \
+     -d '{"prompt": "你好", "history": []}'
+```
+The returned value is
+```shell
+{
+  "response":"你好👋！我是人工智能助手 ChatGLM-6B，很高兴见到你，欢迎问我任何问题。",
+  "history":[["你好","你好👋！我是人工智能助手 ChatGLM-6B，很高兴见到你，欢迎问我任何问题。"]],
+  "status":200,
+  "time":"2023-03-23 21:38:40"
+}
+```
+
 ## Deployment
 
 ### Quantization
@@ -104,6 +136,11 @@ Model quantization brings a certain performance decline. After testing, ChatGLM-
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=True).half().cuda()
 ```
 
+**[2023/03/24]** We further provide an embedding-quantized model whose model parameters only cost 4.3GB GPU memory
+```python
+model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4-qe", trust_remote_code=True).half().cuda()
+```
+
 ### CPU Deployment
 
 If your computer is not equipped with GPU, you can also conduct inference on CPU, but the inference speed is slow (and taking about 32GB of memory):
@@ -117,7 +154,21 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).fl
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=True).float()
 ```
 
-**For Mac users**: if your encounter the error `RuntimeError: Unknown platform: darwin`, please refer to this [Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041). 
+If your encounter the error `Could not find module 'nvcuda.dll'` or `RuntimeError: Unknown platform: darwin`(MacOS), please refer to this [Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041). 
+
+### GPU Inference on Mac
+For Macs (and MacBooks) with Apple Silicon, it is possible to use the MPS backend to run ChatGLM-6B on the GPU. First, you need to refer to Apple's [official instructions](https://developer.apple.com/metal/pytorch) to install PyTorch-Nightly. Then clone the model repository locally (you need to [install Git LFS](https://docs.github.com/zh/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)）
+```shell
+git lfs install
+git clone https://huggingface.co/THUDM/chatglm-6b
+```
+Change the code to load the model from your local path, and use the mps backend:
+```python
+model = AutoModel.from_pretrained("your local path", trust_remote_code=True).half().to('mps')
+```
+Then you can use GPU-accelerated model inference on Mac.
+
+
 
 ## ChatGLM-6B Examples
 
