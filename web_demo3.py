@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, List, Tuple, Type
 import mdtex2html
 
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).quantize(8).half().cuda()
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
 model = model.eval()
 
 # MAX_TURNS = 20
@@ -24,7 +24,7 @@ gr.Chatbot.postprocess = postprocess
 
 
 def parse_text(text):
-    """revise from https://github.com/GaiZhenbiao/ChuanhuChatGPT/"""
+    """copy from https://github.com/GaiZhenbiao/ChuanhuChatGPT/"""
     lines = text.split("\n")
     lines = [line for line in lines if line != ""]
     count = 0
