@@ -187,6 +187,8 @@ def main():
                 pad_len = max_seq_length - len(input_ids)
                 input_ids = input_ids + [tokenizer.pad_token_id] * pad_len
                 labels = labels + [tokenizer.pad_token_id] * pad_len
+                if data_args.ignore_pad_token_for_loss:
+                    labels = [(l if l != tokenizer.pad_token_id else -100) for l in labels]
 
                 model_inputs["input_ids"].append(input_ids)
                 model_inputs["labels"].append(labels)
