@@ -31,9 +31,9 @@ def main():
     print("欢迎使用 ChatGLM-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")
     while True:
         query = input("\n用户：")
-        if query == "stop":
+        if query.strip() == "stop":
             break
-        if query == "clear":
+        if query.strip() == "clear":
             history = []
             os.system(clear_command)
             print("欢迎使用 ChatGLM-6B 模型，输入内容即可进行对话，clear 清空对话历史，stop 终止程序")

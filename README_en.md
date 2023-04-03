@@ -9,7 +9,7 @@ ChatGLM-6B uses technology similar to ChatGPT, optimized for Chinese QA and dial
 Try the [online demo](https://huggingface.co/spaces/ysharma/ChatGLM-6b_Gradio_Streaming) on Huggingface Spaces.
 
 ## Update
-**[2023/03/23]** Add API deployment, thanks to [@LemonQu-GIT](https://github.com/LemonQu-GIT). Add embedding-quantized model [ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)
+**[2023/03/23]** Add API deployment, thanks to [@LemonQu-GIT](https://github.com/LemonQu-GIT). Add embedding-quantized model [ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe). Add support for GPU inference on Mac with Apple Silicon.
 
 **[2023/03/19]** Add streaming output function `stream_chat`, already applied in web and CLI demo. Fix Chinese punctuations in output. Add quantized model [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4). 
 
@@ -32,7 +32,7 @@ If you have other good projects, please refer to the above format to add to READ
 
 ### Environment Setup
 
-Install the requirements with pip: `pip install -r requirements.txt`. `transformers` library version is recommended to be `4.26.1`, but theoretically any version no lower than `4.23.1` is acceptable.
+Install the requirements with pip: `pip install -r requirements.txt`. `transformers` library version is recommended to be `4.27.1`, but theoretically any version no lower than `4.23.1` is acceptable.
 
 ### Usage
 
@@ -154,7 +154,21 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).fl
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=True).float()
 ```
 
-**For Mac users**: if your encounter the error `RuntimeError: Unknown platform: darwin`, please refer to this [Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041). 
+If your encounter the error `Could not find module 'nvcuda.dll'` or `RuntimeError: Unknown platform: darwin`(MacOS), please refer to this [Issue](https://github.com/THUDM/ChatGLM-6B/issues/6#issuecomment-1470060041). 
+
+### GPU Inference on Mac
+For Macs (and MacBooks) with Apple Silicon, it is possible to use the MPS backend to run ChatGLM-6B on the GPU. First, you need to refer to Apple's [official instructions](https://developer.apple.com/metal/pytorch) to install PyTorch-Nightly. Then clone the model repository locally (you need to [install Git LFS](https://docs.github.com/zh/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)）
+```shell
+git lfs install
+git clone https://huggingface.co/THUDM/chatglm-6b
+```
+Change the code to load the model from your local path, and use the mps backend:
+```python
+model = AutoModel.from_pretrained("your local path", trust_remote_code=True).half().to('mps')
+```
+Then you can use GPU-accelerated model inference on Mac.
+
+
 
 ## ChatGLM-6B Examples
 
