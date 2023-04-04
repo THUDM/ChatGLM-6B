@@ -1,5 +1,8 @@
 from transformers import AutoModel, AutoTokenizer
 import gradio as gr
+import edge_tts
+import asyncio
+import pygame
 
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
@@ -7,6 +10,8 @@ model = model.eval()
 
 MAX_TURNS = 20
 MAX_BOXES = MAX_TURNS * 2
+VOICE = "zh-CN-XiaoxiaoNeural"
+OUTPUT_FILE = "sound.mp3"
 
 
 def predict(input, max_length, top_p, temperature, history=None):
@@ -21,7 +26,12 @@ def predict(input, max_length, top_p, temperature, history=None):
         if len(updates) < MAX_BOXES:
             updates = updates + [gr.Textbox.update(visible=False)] * (MAX_BOXES - len(updates))
         yield [history] + updates
-
+    communicate = edge_tts.Communicate(response, VOICE)
+    loop=asyncio.new_event_loop()
+    loop.run_until_complete(communicate.save(OUTPUT_FILE))
+    pygame.mixer.init()
+    pygame.mixer.music.load("sound.mp3")
+    pygame.mixer.music.play()
 
 with gr.Blocks() as demo:
     state = gr.State([])
