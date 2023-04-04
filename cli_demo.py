@@ -5,6 +5,12 @@ from transformers import AutoTokenizer, AutoModel
 
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
 model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
+# 按需修改，目前只支持 4/8 bit 量化
+#model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().quantize(4).cuda()
+#如果你没有 GPU 硬件的话，也可以在 CPU 上进行推理，但是推理速度会更慢。使用方法如下（需要大概 32GB 内存）
+#model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).float()
+#如果你的内存不足，可以直接加载量化后的模型：
+#model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4",trust_remote_code=True).float()
 model = model.eval()
 
 os_name = platform.system()
