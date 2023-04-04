@@ -1,0 +1,6 @@
+[submodule "models/chatglm-6b-int4"]
+	path = models/chatglm-6b-int4
+	url = https://huggingface.co/THUDM/chatglm-6b-int4
+[submodule "models/chatglm-6b"]
+	path = models/chatglm-6b
+	url = https://huggingface.co/THUDM/chatglm-6b
