@@ -31,6 +31,7 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 * [bibliothecarius](https://github.com/coderabbit214/bibliothecarius)：快速构建服务以集成您的本地数据和AI模型，支持ChatGLM等本地化模型接入。
 * [闻达](https://github.com/l15y/wenda)：大型语言模型调用平台，基于 ChatGLM-6B 实现了类 ChatPDF 功能
 * [JittorLLMs](https://github.com/Jittor/JittorLLMs)：最低3G显存或者没有显卡都可运行 ChatGLM-6B FP16， 支持Linux、windows、Mac部署
+* [ChatGLM-6B-Slim](https://github.com/silverriver/ChatGLM-6B-Slim): 裁剪了ChatGLM-6B的词表，去除了没有用到的20K个image token，在完全不影响模型性能的情况下节省了显存。提供各个版本裁剪后的模型权重 [chatglm-6b-slim](https://huggingface.co/silver/chatglm-6b-slim), [chatglm-6b-int4-slim](https://huggingface.co/silver/chatglm-6b-int4-slim), [chatglm-6b-int4-qe-slim](https://huggingface.co/silver/chatglm-6b-int4-qe-slim)
 
 以下是部分针对本项目的教程/文档：
 * [Windows部署文档](https://github.com/ZhangErling/ChatGLM-6B/blob/main/deployment_windows.md)
