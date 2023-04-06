@@ -1,9 +1,13 @@
 from transformers import AutoModel, AutoTokenizer
 import gradio as gr
-
-tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
+import os
+modelPath = os.getenv('model_path')
+modelPath = modelPath if  modelPath!="" else "THUDM/chatglm-6b" 
+tokenizer = AutoTokenizer.from_pretrained(modelPath, trust_remote_code=True)
+model = AutoModel.from_pretrained(modelPath, trust_remote_code=True).half().cuda()
 model = model.eval()
+
+
 
 MAX_TURNS = 20
 MAX_BOXES = MAX_TURNS * 2
@@ -42,4 +46,4 @@ with gr.Blocks() as demo:
             temperature = gr.Slider(0, 1, value=0.95, step=0.01, label="Temperature", interactive=True)
             button = gr.Button("Generate")
     button.click(predict, [txt, max_length, top_p, temperature, state], [state] + text_boxes)
-demo.queue().launch(share=False, inbrowser=True)
+demo.queue().launch(share=False, inbrowser=True,server_name="0.0.0.0")

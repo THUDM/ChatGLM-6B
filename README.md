@@ -133,6 +133,12 @@ curl -X POST "http://127.0.0.1:8000" \
 }
 ```
 
+### 在docker容器中部署
+```bash
+docker build -t chatglm .
+docker run -v /the/model/path:/model chatglm
+```
+
 ## 低成本部署
 ### 模型量化
 默认情况下，模型以 FP16 精度加载，运行上述代码需要大概 13GB 显存。如果你的 GPU 显存有限，可以尝试以量化方式加载模型，使用方法如下：
@@ -155,8 +161,6 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=Tru
 ```python
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4-qe", trust_remote_code=True).half().cuda()
 ```
-
-
 
 ### CPU 部署
 如果你没有 GPU 硬件的话，也可以在 CPU 上进行推理，但是推理速度会更慢。使用方法如下（需要大概 32GB 内存）
