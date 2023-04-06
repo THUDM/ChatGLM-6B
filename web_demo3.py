@@ -1,10 +1,9 @@
 from transformers import AutoModel, AutoTokenizer
 import gradio as gr
-from typing import TYPE_CHECKING, Any, Callable, Dict, List, Tuple, Type
 import mdtex2html
 
-tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
+tokenizer = AutoTokenizer.from_pretrained("/mnt/vepfs/workspace/zxdu/chatglm_6b", trust_remote_code=True)
+model = AutoModel.from_pretrained("/mnt/vepfs/workspace/zxdu/chatglm_6b", trust_remote_code=True).half().cuda()
 model = model.eval()
 
 """Override Chatbot.postprocess"""
@@ -77,15 +76,14 @@ def reset_state():
 with gr.Blocks() as demo:
     gr.HTML("""<h1 align="center">ChatGLM</h1>""")
 
+    chatbot = gr.Chatbot()
     with gr.Row():
         with gr.Column(scale=4):
-            chatbot = gr.Chatbot()
-            with gr.Row():
-                with gr.Column(scale=12):
-                    user_input = gr.Textbox(show_label=False, placeholder="Input...").style(
-                        container=False)
-                with gr.Column(min_width=32, scale=1):
-                    submitBtn = gr.Button("Submit", variant="primary")
+            with gr.Column(scale=12):
+                user_input = gr.Textbox(show_label=False, placeholder="Input...", lines=10).style(
+                    container=False)
+            with gr.Column(min_width=32, scale=1):
+                submitBtn = gr.Button("Submit", variant="primary")
         with gr.Column(scale=1):
             emptyBtn = gr.Button("Clear History")
             max_length = gr.Slider(0, 4096, value=2048, step=1.0, label="Maximum length", interactive=True)
@@ -93,10 +91,6 @@ with gr.Blocks() as demo:
             temperature = gr.Slider(0, 1, value=0.95, step=0.01, label="Temperature", interactive=True)
 
     history = gr.State([])
-
-    user_input.submit(predict, [user_input, chatbot, max_length, top_p, temperature, history], [chatbot, history],
-                      show_progress=True)
-    user_input.submit(reset_user_input, [], [user_input])
 
     submitBtn.click(predict, [user_input, chatbot, max_length, top_p, temperature, history], [chatbot, history],
                     show_progress=True)
