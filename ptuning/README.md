@@ -3,6 +3,8 @@
 
 下面以 [ADGEN](https://aclanthology.org/D19-1321.pdf) (广告生成) 数据集为例介绍代码的使用方法。
 
+*Read this in [English](README_en.md).*
+
 ## 软件依赖
 运行微调需要4.27.1版本的`transformers`。除 ChatGLM-6B 的依赖之外，还需要按照以下依赖
 ```
