@@ -27,7 +27,7 @@ import numpy as np
 from datasets import load_dataset
 import jieba 
 from rouge_chinese import Rouge
-from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 
 import transformers
 from transformers import (
@@ -293,7 +293,7 @@ def main():
             
             for k, v in result.items():
                 score_dict[k].append(round(v["f"] * 100, 4))
-            bleu_score = sentence_bleu([list(label)], list(pred))
+            bleu_score = sentence_bleu([list(label)], list(pred), smoothing_function=SmoothingFunction().method3)
             score_dict["bleu-4"].append(round(bleu_score * 100, 4))
 
         for k, v in score_dict.items():
