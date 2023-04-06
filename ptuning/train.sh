@@ -1,5 +1,5 @@
-PRE_SEQ_LEN=8
-LR=1e-2
+PRE_SEQ_LEN=128
+LR=2e-2
 
 CUDA_VISIBLE_DEVICES=0 python3 main.py \
     --do_train \
