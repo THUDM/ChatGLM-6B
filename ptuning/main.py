@@ -238,8 +238,6 @@ def main():
                 desc="Running tokenizer on train dataset",
             )
         print_dataset_example(train_dataset[0])
-        print_dataset_example(train_dataset[2])
-        exit()
 
     if training_args.do_eval:
         max_target_length = data_args.val_max_target_length
