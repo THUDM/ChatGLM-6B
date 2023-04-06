@@ -80,6 +80,10 @@ class DataTrainingArguments:
         default=None,
         metadata={"help": "The name of the column in the datasets containing the summaries (for summarization)."},
     )
+    history_column: Optional[str] = field(
+        default=None,
+        metadata={"help": "The name of the column in the datasets containing the history of chat."},
+    )
     train_file: Optional[str] = field(
         default=None, metadata={"help": "The input training data file (a jsonlines or csv file)."}
     )

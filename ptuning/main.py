@@ -135,6 +135,7 @@ def main():
     # Get the column names for input/target.
     prompt_column = data_args.prompt_column
     response_column = data_args.response_column
+    history_column = data_args.history_column
     
     # Temporarily set max_target_length for training.
     max_target_length = data_args.max_target_length
@@ -143,7 +144,16 @@ def main():
         inputs, targets = [], []
         for i in range(len(examples[prompt_column])):
             if examples[prompt_column][i] and examples[response_column][i]:
-                inputs.append(examples[prompt_column][i])
+                query = examples[prompt_column][i]
+                if history_column is None or len(examples[history_column][i]) == 0:
+                    prompt = query
+                else:
+                    prompt = ""
+                    history = examples[history_column][i]
+                    for i, (old_query, response) in enumerate(history):
+                        prompt += "[Round {}]\n问：{}\n答：{}\n".format(i, old_query, response)
+                    prompt += "[Round {}]\n问：{}\n答：".format(len(history), query)
+                inputs.append(prompt)
                 targets.append(examples[response_column][i])
 
         inputs = [prefix + inp for inp in inputs]
@@ -167,7 +177,17 @@ def main():
         }
         for i in range(len(examples[prompt_column])):
             if examples[prompt_column][i] and examples[response_column][i]:
-                prompt, answer = examples[prompt_column][i], examples[response_column][i]
+                query, answer = examples[prompt_column][i], examples[response_column][i]
+
+                if history_column is None:
+                    prompt = query
+                else:
+                    prompt = ""
+                    history = examples[history_column][i]
+                    for i, (old_query, response) in enumerate(history):
+                        prompt += "[Round {}]\n问：{}\n答：{}\n".format(i, old_query, response)
+                    prompt += "[Round {}]\n问：{}\n答：".format(len(history), query)
+
                 prompt = prefix + prompt
                 a_ids = tokenizer.encode(text=prompt, add_special_tokens=False)
                 b_ids = tokenizer.encode(text=answer, add_special_tokens=False)
@@ -218,6 +238,8 @@ def main():
                 desc="Running tokenizer on train dataset",
             )
         print_dataset_example(train_dataset[0])
+        print_dataset_example(train_dataset[2])
+        exit()
 
     if training_args.do_eval:
         max_target_length = data_args.val_max_target_length
