@@ -1,18 +1,19 @@
-PRE_SEQ_LEN=128
-LR=2e-2
+PRE_SEQ_LEN=8
+LR=1e-2
 
 CUDA_VISIBLE_DEVICES=0 python3 main.py \
     --do_train \
-    --train_file AdvertiseGen/train.json \
-    --validation_file AdvertiseGen/dev.json \
-    --prompt_column content \
-    --response_column summary \
+    --train_file $CHAT_TRAIN_DATA \
+    --validation_file $CHAT_VAL_DATA \
+    --prompt_column prompt \
+    --response_column response \
+    --history_column history \
     --overwrite_cache \
     --model_name_or_path THUDM/chatglm-6b \
-    --output_dir output/adgen-chatglm-6b-pt-$PRE_SEQ_LEN-$LR \
+    --output_dir $CHECKPOINT_NAME \
     --overwrite_output_dir \
-    --max_source_length 64 \
-    --max_target_length 64 \
+    --max_source_length 256 \
+    --max_target_length 256 \
     --per_device_train_batch_size 1 \
     --per_device_eval_batch_size 1 \
     --gradient_accumulation_steps 16 \
