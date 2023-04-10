@@ -88,7 +88,7 @@ bash evaluate.sh
 | Rouge-1       | 31.23  | 31.12 | 30.60 |
 | Rouge-2       | 7.36    | 7.11 | 6.96 |
 | Rouge-l       | 25.08  | 24.97 | 24.80 |
-| Training Loss | 3.00 | 3.74 | 3.319 |
+| Training Loss | 3.00 | 3.74 | 3.32 |
 
 
 
