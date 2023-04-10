@@ -25,6 +25,9 @@ ADGEN 数据集任务为根据输入（content）生成一段广告词（summary
 从 [Google Drive](https://drive.google.com/file/d/13_vf0xRTQsyneRKdD1bZIr93vBGOczrk/view?usp=sharing) 或者 [Tsinghua Cloud](https://cloud.tsinghua.edu.cn/f/b3f119a008264b1cabd1/?dl=1) 下载处理好的 ADGEN 数据集，将解压后的 `AdvertiseGen` 目录放到本目录下。
 
 ### 训练
+
+#### P-tuning v2
+
 运行以下指令进行训练：
 ```shell
 bash train.sh
@@ -32,6 +35,14 @@ bash train.sh
 `train.sh` 中的 `PRE_SEQ_LEN` 和 `LR` 分别是 soft prompt 长度和训练的学习率，可以进行调节以取得最佳的效果。P-Tuning-v2 方法会冻结全部的模型参数，可通过调整 `quantization_bit` 来被原始模型的量化等级，不加此选项则为 FP16 精度加载。
 
 在默认配置 `quantization_bit=4`、`per_device_train_batch_size=1`、`gradient_accumulation_steps=16` 下，INT4 的模型参数被冻结，一次训练迭代会以 1 的批处理大小进行 16 次累加的前后向传播，等效为 16 的总批处理大小，此时最低只需 6.7G 显存。若想在同等批处理大小下提升训练效率，可在二者乘积不变的情况下，加大 `per_device_train_batch_size` 的值，但也会带来更多的显存消耗，请根据实际情况酌情调整。
+
+#### Finetune
+
+需要安装 [Deepspeed](https://github.com/microsoft/DeepSpeed)。如果需要进行全参数的 Finetune，可以运行以下指令（如果需要多卡运行，也可以参考）：
+
+```
+bash ds_train_finetune.sh
+```
 
 ### 推理
 
@@ -71,13 +82,13 @@ bash evaluate.sh
 
 ### 评估结果
 
-|               | P-tuning v2 | LoRA  |
-| ------------- | ----------- | ----- |
-| BLEU-4        | 7.78        | 6.25  |
-| Rouge-1       | 31.34       | 28.58 |
-| Rouge-2       | 7.34        | 4.42  |
-| Rouge-l       | 25.26       | 17.56 |
-| Training Loss | 3.80      | 3.36  |
+|               | P-tuning v2 | LoRA  | Finetune |
+| ------------- | ----------- | ----- | ------------- |
+| BLEU-4        | 7.78        | 6.25  | 7.92 |
+| Rouge-1       | 31.34       | 28.58 | 30.97 |
+| Rouge-2       | 7.34        | 4.42  | 7.16 |
+| Rouge-l       | 25.26       | 17.56 | 25.04 |
+| Training Loss | 3.80      | 3.36  | 10.34 |
 
 
 
@@ -86,8 +97,6 @@ bash evaluate.sh
  ```
 max_source_length=64
 max_target_length=64
-per_device_train_batch_size=1
-gradient_accumulation_steps=16
 max_steps=3000
  ```
 
@@ -97,15 +106,29 @@ max_steps=3000
 pre_seq_len=128
 learning_rate=2e-2
 quantization_bit=4
+per_device_train_batch_size=1
+gradient_accumulation_steps=16
 ```
 
 ##### LoRA
 
 ```
 learning_rate=5e-4
+per_device_train_batch_size=1
+gradient_accumulation_steps=16
 ```
 
 实现采用的是 [simple_thu_chatglm6b](https://github.com/yuanzhoulvpi2017/zero_nlp/tree/main/simple_thu_chatglm6b)
+
+##### Finetune
+
+```
+learning_rate=1e-4
+fp16
+num_gpus=3
+per_device_train_batch_size=4
+gradient_accumulation_steps=4
+```
 
 
 
