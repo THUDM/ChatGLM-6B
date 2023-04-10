@@ -38,9 +38,9 @@ bash train.sh
 
 #### Finetune
 
-需要安装 [Deepspeed](https://github.com/microsoft/DeepSpeed)。如果需要进行全参数的 Finetune，可以运行以下指令（如果需要多卡运行，也可以参考）：
+如果需要进行全参数的 Finetune，需要安装 [Deepspeed](https://github.com/microsoft/DeepSpeed)，然后运行以下指令：
 
-```
+```shell
 bash ds_train_finetune.sh
 ```
 
@@ -50,7 +50,7 @@ bash ds_train_finetune.sh
 ```shell
 bash evaluate.sh
 ```
-**[2023/04/10更新]** 在 P-tuning v2 训练时模型只保存 PrefixEncoder 部分的参数，在推理时需要同时载入原 ChatGLM-6B 模型以及 PrefixEncoder 的 Checkpoint，因此需要指定参数（已更新 `evaluate.sh`） ：
+**[2023/04/10更新]** 在 P-tuning v2 训练时模型只保存 PrefixEncoder 部分的参数，所以在推理时需要同时加载原 ChatGLM-6B 模型以及 PrefixEncoder 的权重，因此需要指定参数（已更新 `evaluate.sh`） ：
 
 ```shell
 --model_name_or_path THUDM/chatglm-6b
@@ -82,13 +82,13 @@ bash evaluate.sh
 
 ### 评估结果
 
-|               | P-tuning v2 | LoRA  | Finetune |
+|               | Finetune | P-tuning v2 | LoRA |
 | ------------- | ----------- | ----- | ------------- |
-| BLEU-4        | 7.78        | 6.25  | 7.92 |
-| Rouge-1       | 31.34       | 28.58 | 30.97 |
-| Rouge-2       | 7.34        | 4.42  | 7.16 |
-| Rouge-l       | 25.26       | 17.56 | 25.04 |
-| Training Loss | 3.80      | 3.36  | 10.34 |
+| BLEU-4        | 8.01    | 8.10 |  |
+| Rouge-1       | 31.23  | 31.12 |  |
+| Rouge-2       | 7.36    | 7.11 |  |
+| Rouge-l       | 25.08  | 24.97 |  |
+| Training Loss | 3.00 | 3.74 | 3.319 |
 
 
 
@@ -106,28 +106,28 @@ max_steps=3000
 pre_seq_len=128
 learning_rate=2e-2
 quantization_bit=4
-per_device_train_batch_size=1
-gradient_accumulation_steps=16
+per_device_train_batch_size=16
+gradient_accumulation_steps=1
 ```
-
-##### LoRA
-
-```
-learning_rate=5e-4
-per_device_train_batch_size=1
-gradient_accumulation_steps=16
-```
-
-实现采用的是 [simple_thu_chatglm6b](https://github.com/yuanzhoulvpi2017/zero_nlp/tree/main/simple_thu_chatglm6b)
 
 ##### Finetune
 
 ```
 learning_rate=1e-4
 fp16
-num_gpus=3
+num_gpus=4
 per_device_train_batch_size=4
-gradient_accumulation_steps=4
+gradient_accumulation_steps=1
+```
+
+##### LoRA
+
+实现采用的是 [simple_thu_chatglm6b](https://github.com/yuanzhoulvpi2017/zero_nlp/tree/main/simple_thu_chatglm6b)
+
+```
+learning_rate=5e-4
+per_device_train_batch_size=1
+gradient_accumulation_steps=16
 ```
 
 
@@ -206,4 +206,5 @@ bash train_chat.sh
   year={2022}
 }
 ```
+
 

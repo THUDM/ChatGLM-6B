@@ -4,7 +4,7 @@ LR=1e-4
 MASTER_PORT=$(shuf -n 1 -i 10000-65535)
 MASTER_PORT=50003
 
-deepspeed --num_gpus=3 --master_port $MASTER_PORT main.py \
+deepspeed --num_gpus=4 --master_port $MASTER_PORT main.py \
     --deepspeed deepspeed.json \
     --do_train \
     --train_file AdvertiseGen/train.json \
@@ -19,7 +19,7 @@ deepspeed --num_gpus=3 --master_port $MASTER_PORT main.py \
     --max_target_length 64 \
     --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 1 \
-    --gradient_accumulation_steps 4 \
+    --gradient_accumulation_steps 1 \
     --predict_with_generate \
     --max_steps 5000 \
     --logging_steps 10 \
