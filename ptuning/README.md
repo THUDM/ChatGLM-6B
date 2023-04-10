@@ -84,10 +84,10 @@ bash evaluate.sh
 
 |               | Finetune | P-tuning v2 | LoRA |
 | ------------- | ----------- | ----- | ------------- |
-| BLEU-4        | 8.01    | 8.10 |  |
-| Rouge-1       | 31.23  | 31.12 |  |
-| Rouge-2       | 7.36    | 7.11 |  |
-| Rouge-l       | 25.08  | 24.97 |  |
+| BLEU-4        | 8.01    | 8.10 | 7.62 |
+| Rouge-1       | 31.23  | 31.12 | 30.60 |
+| Rouge-2       | 7.36    | 7.11 | 6.96 |
+| Rouge-l       | 25.08  | 24.97 | 24.80 |
 | Training Loss | 3.00 | 3.74 | 3.319 |
 
 
@@ -193,7 +193,7 @@ bash train_chat.sh
 
 ## TODO
 * [x] Support for chat data
-* [ ] Support for full finetuning
+* [x] Support for full finetuning
 
 ## 引用
 
