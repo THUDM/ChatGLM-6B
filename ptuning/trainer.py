@@ -2825,12 +2825,11 @@ class Trainer:
                     state_dict = self.model.state_dict()
                 torch.save(state_dict, os.path.join(output_dir, WEIGHTS_NAME))
         else:
-            # state_dict = self.model.state_dict()
-            # filtered_state_dict = {}
-            # for k, v in self.model.named_parameters():
-            #     if v.requires_grad:
-            #         filtered_state_dict[k] = state_dict[k]
-            # print(filtered_state_dict.keys())
+            state_dict = self.model.state_dict()
+            filtered_state_dict = {}
+            for k, v in self.model.named_parameters():
+                if v.requires_grad:
+                    filtered_state_dict[k] = state_dict[k]
             self.model.save_pretrained(output_dir, state_dict=state_dict)
         if self.tokenizer is not None:
             self.tokenizer.save_pretrained(output_dir)
