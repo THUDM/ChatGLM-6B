@@ -9,7 +9,8 @@ CUDA_VISIBLE_DEVICES=0 python3 main.py \
     --overwrite_cache \
     --prompt_column content \
     --response_column summary \
-    --model_name_or_path ./output/$CHECKPOINT/checkpoint-$STEP  \
+    --model_name_or_path THUDM/chatglm-6b \
+    --ptuning_checkpoint ./output/$CHECKPOINT/checkpoint-$STEP \
     --output_dir ./output/$CHECKPOINT \
     --overwrite_output_dir \
     --max_source_length 64 \

@@ -39,6 +39,18 @@ bash train.sh
 ```shell
 bash evaluate.sh
 ```
+**[2023/04/10更新]** 在 P-tuning v2 训练时模型只保存 PrefixEncoder 部分的参数，在推理时需要同时载入原 ChatGLM-6B 模型以及 PrefixEncoder 的 Checkpoint，因此需要指定参数（已更新 `evaluate.sh`） ：
+
+```shell
+--model_name_or_path THUDM/chatglm-6b
+--ptuning_checkpoint $CHECKPOINT_PATH
+```
+
+仍然兼容旧版全参保存的 Checkpoint，只需要跟之前一样设定 `model_name_or_path`：
+
+```shell
+--model_name_or_path $CHECKPOINT_PATH
+```
 
 评测指标为中文 Rouge score 和 BLEU-4。生成的结果保存在
 `./output/adgen-chatglm-6b-pt-8-1e-2/generated_predictions.txt`。
