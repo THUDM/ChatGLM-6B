@@ -2830,7 +2830,7 @@ class Trainer:
             for k, v in self.model.named_parameters():
                 if v.requires_grad:
                     filtered_state_dict[k] = state_dict[k]
-            self.model.save_pretrained(output_dir, state_dict=state_dict)
+            self.model.save_pretrained(output_dir, state_dict=filtered_state_dict)
         if self.tokenizer is not None:
             self.tokenizer.save_pretrained(output_dir)
 
