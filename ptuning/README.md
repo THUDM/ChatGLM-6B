@@ -126,8 +126,8 @@ gradient_accumulation_steps=1
 
 ```
 learning_rate=5e-4
-per_device_train_batch_size=1
-gradient_accumulation_steps=16
+per_device_train_batch_size=16
+gradient_accumulation_steps=1
 ```
 
 
