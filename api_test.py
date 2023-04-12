@@ -2,6 +2,17 @@ import unittest
 from httpx import AsyncClient
 
 class TestGenerateChat(unittest.IsolatedAsyncioTestCase):
+    """
+    测试生成聊天内容
+    1. 先启动服务
+    ```bash
+    python api.py
+    ```
+    2. 运行测试
+    ```bash
+    python -m unittest api_test.py
+    ```
+    """
     async def test_generate_chat(self):
         async with AsyncClient() as ac:
             response = await ac.post(
