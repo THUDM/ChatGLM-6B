@@ -155,11 +155,11 @@ for k, v in prefix_state_dict.items():
     new_prefix_state_dict[k[len("transformer.prefix_encoder."):]] = v
 model.transformer.prefix_encoder.load_state_dict(new_prefix_state_dict)
 ```
+注意你可能需要将 `pre_seq_len` 改成你训练时的实际值。
 
 (2) 如果需要加载的是旧 Checkpoint（包含 ChatGLM-6B 以及 PrefixEncoder 参数），则直接加载整个 Checkpoint：
 
 ```python
-config = AutoConfig.from_pretrained(CHECKPOINT_PATH, trust_remote_code=True, pre_seq_len=128)
 model = AutoModel.from_pretrained(CHECKPOINT_PATH, config=config, trust_remote_code=True)
 ```
 
