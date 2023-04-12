@@ -150,11 +150,6 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).qu
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=True).half().cuda()
 ```
 
-我们进一步提供了对Embedding量化后的模型，模型参数仅占用4.3 GB显存：
-```python
-model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4-qe", trust_remote_code=True).half().cuda()
-```
-
 ### CPU 部署
 如果你没有 GPU 硬件的话，也可以在 CPU 上进行推理，但是推理速度会更慢。使用方法如下（需要大概 32GB 内存）
 ```python
