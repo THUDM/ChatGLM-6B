@@ -141,7 +141,7 @@ from transformers import AutoConfig, AutoModel, AutoTokenizer
 # Load model and tokenizer of ChatGLM-6B
 config = AutoConfig.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True, pre_seq_len=128)
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", config=config, trust_remote_code=True).half().cuda()
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", config=config, trust_remote_code=True)
 
 # Load PrefixEncoder
 prefix_state_dict = torch.load(os.path.join(CHECKPOINT_PATH, "pytorch_model.bin"))
@@ -150,6 +150,10 @@ for k, v in prefix_state_dict.items():
     new_prefix_state_dict[k[len("transformer.prefix_encoder."):]] = v
 model.transformer.prefix_encoder.load_state_dict(new_prefix_state_dict)
 
+print(f"Quantized to 4 bit")
+model = model.quantize(4)
+model = model.half().cuda()
+model.transformer.prefix_encoder.float()
 model = model.eval()
 
 response, history = model.chat(tokenizer, "你好", history=[])
