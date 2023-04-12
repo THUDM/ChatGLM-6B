@@ -133,7 +133,27 @@ gradient_accumulation_steps=1
 
 
 ## 模型部署
-将对应的demo或代码中的`THUDM/chatglm-6b`换成经过 P-Tuning 微调之后 checkpoint 的地址（在示例中为 `./output/adgen-chatglm-6b-pt-8-1e-2/checkpoint-3000`）。
+```python
+import os
+import torch
+from transformers import AutoConfig, AutoModel, AutoTokenizer
+
+# Load model and tokenizer of ChatGLM-6B
+config = AutoConfig.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True, pre_seq_len=128)
+tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", config=config, trust_remote_code=True).half().cuda()
+
+# Load PrefixEncoder
+prefix_state_dict = torch.load(os.path.join(CHECKPOINT_PATH, "pytorch_model.bin"))
+new_prefix_state_dict = {}
+for k, v in prefix_state_dict.items():
+    new_prefix_state_dict[k[len("transformer.prefix_encoder."):]] = v
+model.transformer.prefix_encoder.load_state_dict(new_prefix_state_dict)
+
+model = model.eval()
+
+response, history = model.chat(tokenizer, "你好", history=[])
+```
 
 ## 使用自己的数据集
 修改 `train.sh` 和 `evaluate.sh` 中的 `train_file`、`validation_file`和`test_file`为你自己的 JSON 格式数据集路径，并将 `prompt_column` 和 `response_column` 改为 JSON 文件中输入文本和输出文本对应的 KEY。
@@ -200,5 +220,6 @@ bash train_chat.sh
   year={2022}
 }
 ```
+
 
 
