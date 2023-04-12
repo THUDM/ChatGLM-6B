@@ -36,7 +36,7 @@ def torch_gc():
 app = FastAPI(lifespan=lifespan)
 
 class Item(BaseModel):
-    prompt: str
+    prompt: str = "你好"
     history: list[tuple[str, str]] = [[]]
     max_length: int = 2048
     top_p: float = 0.7
