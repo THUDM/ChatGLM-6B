@@ -133,7 +133,7 @@ gradient_accumulation_steps=16
 
 
 ## 模型部署
-将对应的demo或代码中的`THUDM/chatglm-6b`换成经过 P-Tuning 微调之后 checkpoint 的地址（在示例中为 `./output/adgen-chatglm-6b-pt-8-1e-2/checkpoint-3000`）。注意，目前的微调还不支持多轮数据，所以只有对话第一轮的回复是经过微调的。
+将对应的demo或代码中的`THUDM/chatglm-6b`换成经过 P-Tuning 微调之后 checkpoint 的地址（在示例中为 `./output/adgen-chatglm-6b-pt-8-1e-2/checkpoint-3000`）。
 
 ## 使用自己的数据集
 修改 `train.sh` 和 `evaluate.sh` 中的 `train_file`、`validation_file`和`test_file`为你自己的 JSON 格式数据集路径，并将 `prompt_column` 和 `response_column` 改为 JSON 文件中输入文本和输出文本对应的 KEY。
@@ -188,12 +188,6 @@ gradient_accumulation_steps=16
 ```shell
 bash train_chat.sh
 ```
-
-
-
-## TODO
-* [x] Support for chat data
-* [x] Support for full finetuning
 
 ## 引用
 
