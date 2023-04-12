@@ -133,23 +133,39 @@ gradient_accumulation_steps=1
 
 
 ## 模型部署
+首先载入Tokenizer：
+
 ```python
 import os
 import torch
 from transformers import AutoConfig, AutoModel, AutoTokenizer
 
-# Load model and tokenizer of ChatGLM-6B
-config = AutoConfig.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True, pre_seq_len=128)
+# 载入Tokenizer
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", config=config, trust_remote_code=True)
+```
 
-# Load PrefixEncoder
+(1) 如果需要加载的是新 Checkpoint（只包含 PrefixEncoder 参数）：
+
+```python
+config = AutoConfig.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True, pre_seq_len=128)
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", config=config, trust_remote_code=True)
 prefix_state_dict = torch.load(os.path.join(CHECKPOINT_PATH, "pytorch_model.bin"))
 new_prefix_state_dict = {}
 for k, v in prefix_state_dict.items():
     new_prefix_state_dict[k[len("transformer.prefix_encoder."):]] = v
 model.transformer.prefix_encoder.load_state_dict(new_prefix_state_dict)
+```
 
+(2) 如果需要加载的是旧 Checkpoint（包含 ChatGLM-6B 以及 PrefixEncoder 参数），则直接加载整个 Checkpoint：
+
+```python
+config = AutoConfig.from_pretrained(CHECKPOINT_PATH, trust_remote_code=True, pre_seq_len=128)
+model = AutoModel.from_pretrained(CHECKPOINT_PATH, config=config, trust_remote_code=True)
+```
+
+再进行量化即可使用：
+
+```python
 print(f"Quantized to 4 bit")
 model = model.quantize(4)
 model = model.half().cuda()
