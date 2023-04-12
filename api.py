@@ -63,4 +63,4 @@ async def create_item(item: Item):
     return Answer(response=response, history=history, status=200, time=time)
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8010, workers=1)
+    uvicorn.run(app, host='0.0.0.0', port=8000, workers=1)
