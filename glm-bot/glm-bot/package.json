@@ -1,0 +1,33 @@
+{
+  "name": "koishi-plugin-glm-bot",
+  "description": "glm-testbot的稳定版，支持自建后端",
+  "version": "1.0.3",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {},
+  "keywords": [
+    "chatbot",
+    "koishi",
+    "plugin"
+  ],
+  "peerDependencies": {
+    "koishi": "4.12.0"
+  },
+  "koishi": {
+    "description": "glm插件",
+    "browser": true,
+    "service": {
+      "optional": [
+        "puppeteer"
+      ],
+      "implements": [
+        "glm"
+      ]
+    }
+  }
+}
