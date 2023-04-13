@@ -140,11 +140,6 @@ Model quantization brings a certain performance decline. After testing, ChatGLM-
 model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=True).half().cuda()
 ```
 
-**[2023/03/24]** We further provide an embedding-quantized model whose model parameters only cost 4.3GB GPU memory
-```python
-model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4-qe", trust_remote_code=True).half().cuda()
-```
-
 ### CPU Deployment
 
 If your computer is not equipped with GPU, you can also conduct inference on CPU, but the inference speed is slow (and taking about 32GB of memory):
