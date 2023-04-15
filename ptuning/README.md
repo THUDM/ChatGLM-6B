@@ -146,7 +146,7 @@ from transformers import AutoConfig, AutoModel, AutoTokenizer
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
 ```
 
-(1) 如果需要加载的是新 Checkpoint（只包含 PrefixEncoder 参数）：
+1. 如果需要加载的是新 Checkpoint（只包含 PrefixEncoder 参数）：
 
 ```python
 config = AutoConfig.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True, pre_seq_len=128)
@@ -158,9 +158,9 @@ for k, v in prefix_state_dict.items():
         new_prefix_state_dict[k[len("transformer.prefix_encoder."):]] = v
 model.transformer.prefix_encoder.load_state_dict(new_prefix_state_dict)
 ```
-注意你可能需要将 `pre_seq_len` 改成你训练时的实际值。如果你是[从本地加载模型的话](https://github.com/THUDM/ChatGLM-6B#%E4%BB%8E%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B)，需要将 `THUDM/chatglm-6b` 改成本地的模型路径（注意不是checkpoint路径）。
+注意你可能需要将 `pre_seq_len` 改成你训练时的实际值。如果你是[从本地加载模型](https://github.com/THUDM/ChatGLM-6B#%E4%BB%8E%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B)的话，需要将 `THUDM/chatglm-6b` 改成本地的模型路径（注意不是checkpoint路径）。
 
-(2) 如果需要加载的是旧 Checkpoint（包含 ChatGLM-6B 以及 PrefixEncoder 参数），或者进行的全参数微调，则直接加载整个 Checkpoint：
+2. 如果需要加载的是旧 Checkpoint（包含 ChatGLM-6B 以及 PrefixEncoder 参数），或者进行的是全参数微调，则直接加载整个 Checkpoint：
 
 ```python
 model = AutoModel.from_pretrained(CHECKPOINT_PATH, trust_remote_code=True)
@@ -169,7 +169,7 @@ model = AutoModel.from_pretrained(CHECKPOINT_PATH, trust_remote_code=True)
 之后根据需求可以进行量化，也可以直接使用：
 
 ```python
-print(f"Quantized to 4 bit")
+# Comment out the following line if you don't use quantization
 model = model.quantize(4)
 model = model.half().cuda()
 model.transformer.prefix_encoder.float()
