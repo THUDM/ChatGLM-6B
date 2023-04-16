@@ -2,8 +2,7 @@ import os
 from typing import Dict, Tuple, Union, Optional
 
 from torch.nn import Module
-from transformers import AutoModel, AutoTokenizer
-from transformers.tokenization_utils import PreTrainedTokenizer
+from transformers import AutoModel
 
 
 def auto_configure_device_map(num_gpus: int) -> Dict[str, int]:
@@ -37,32 +36,21 @@ def auto_configure_device_map(num_gpus: int) -> Dict[str, int]:
 
 
 def load_model_on_gpus(checkpoint_path: Union[str, os.PathLike], num_gpus: int = 2,
-                       multi_gpu_model_cache_dir: Union[str, os.PathLike] = "./temp_model_dir",
-                       device_map: Optional[Dict[str, int]] = None,
-                       tokenizer: Optional[PreTrainedTokenizer] = None, **kwargs) -> Module:
-    from accelerate import load_checkpoint_and_dispatch
+                       device_map: Optional[Dict[str, int]] = None, **kwargs) -> Module:
+    if num_gpus < 2 and device_map is None:
+        model = AutoModel.from_pretrained(checkpoint_path, trust_remote_code=True, **kwargs).half().cuda()
+    else:
+        from accelerate import load_checkpoint_and_dispatch
 
-    model = AutoModel.from_pretrained(checkpoint_path, trust_remote_code=True, **kwargs)
-    model = model.eval()
+        model = AutoModel.from_pretrained(checkpoint_path, trust_remote_code=True, **kwargs)
+        model = model.eval()
 
-    if device_map is None:
-        device_map = auto_configure_device_map(num_gpus)
+        if device_map is None:
+            device_map = auto_configure_device_map(num_gpus)
 
-    model = load_checkpoint_and_dispatch(
-        model, checkpoint_path, device_map=device_map, offload_folder="offload", offload_state_dict=True).half()
+        model = load_checkpoint_and_dispatch(
+            model, checkpoint_path, device_map=device_map, offload_folder="offload", offload_state_dict=True).half()
 
     return model
 
 
-def load_model_and_tokenizer(checkpoint_path: Union[str, os.PathLike], num_gpus: int = 1,
-                             multi_gpu_model_cache_dir: Union[str, os.PathLike] = "./temp_model_dir",
-                             **kwargs) -> Tuple[Module, PreTrainedTokenizer]:
-    tokenizer = AutoTokenizer.from_pretrained(checkpoint_path, trust_remote_code=True, **kwargs)
-    if num_gpus < 2:
-        model = AutoModel.from_pretrained(checkpoint_path, trust_remote_code=True, **kwargs).half().cuda()
-        model = model.eval()
-    else:
-        model = load_model_on_gpus(checkpoint_path, num_gpus=num_gpus,
-                                   multi_gpu_model_cache_dir=multi_gpu_model_cache_dir,
-                                   tokenizer=tokenizer, **kwargs)
-    return model, tokenizer

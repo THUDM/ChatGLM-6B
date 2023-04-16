@@ -175,21 +175,19 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 ```
 Then you can use GPU-accelerated model inference on Mac.
 
+### Multi-GPU Deployment
+If you have multiple GPUs, but the memory size of each GPU is not sufficient to accommodate the entire model, you can split the model across multiple GPUs. 
+
+First, install accelerate: `pip install accelerate`, and then load the model using the following method:
+```python
+from utils import load_model_on_gpus
+model = load_model_on_gpus("THUDM/chatglm-6b", num_gpus=2)
+```
+
+This will deploy the model onto two GPUs for inference. You can change `num_gpus` to the number of GPUs you want to use. By default, the model is split evenly, but you can also specify the `device_map` parameter to customize the splitting.
+
 ## Parameter-efficient Tuning
 Parameter-efficient tuning based on [P-tuning v2](https://github.com/THUDM/P-tuning-v2). See [ptuning/README.md](ptuning/README.md) for details on how to use it.
-
-
-### Multi-GPU Deployment
-
-```shell
-pip install accelerate
-```
-
-```python
-from utils import load_model_and_tokenizer
-
-model, tokenizer = load_model_and_tokenizer("your local path", num_gpus=2)
-```
 
 ## ChatGLM-6B Examples
 
