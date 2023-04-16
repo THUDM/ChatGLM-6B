@@ -47,22 +47,9 @@ def load_model_on_gpus(checkpoint_path: Union[str, os.PathLike], num_gpus: int =
 
     if device_map is None:
         device_map = auto_configure_device_map(num_gpus)
-    try:
-        model = load_checkpoint_and_dispatch(
-            model, checkpoint_path, device_map=device_map, offload_folder="offload", offload_state_dict=True).half()
-    except ValueError:
-        # index.json not found
-        print(f"index.json not found, auto fixing and saving model to {multi_gpu_model_cache_dir} ...")
 
-        assert multi_gpu_model_cache_dir is not None, "using auto fix, cache_dir must not be None"
-        model.save_pretrained(multi_gpu_model_cache_dir, max_shard_size='2GB')
-        model = load_checkpoint_and_dispatch(
-            model, multi_gpu_model_cache_dir, device_map=device_map,
-            offload_folder="offload", offload_state_dict=True).half()
-
-        if tokenizer is not None:
-            tokenizer.save_pretrained(multi_gpu_model_cache_dir)
-        print(f"loading model successfully, you should use checkpoint_path={multi_gpu_model_cache_dir} next time")
+    model = load_checkpoint_and_dispatch(
+        model, checkpoint_path, device_map=device_map, offload_folder="offload", offload_state_dict=True).half()
 
     return model
 
