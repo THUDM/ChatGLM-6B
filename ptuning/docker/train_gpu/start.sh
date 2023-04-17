@@ -4,7 +4,9 @@
 source /app/dev/miniconda3/bin/activate base
 conda env list
 
-# update source
+# update model and source
+cd /app/source/ChatGLM-6B/ptuning/chatglm-6b || exit 1
+git pull
 cd /app/source/ChatGLM-6B/ptuning || exit 1
 git pull
 
