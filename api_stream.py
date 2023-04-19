@@ -37,14 +37,18 @@ def stream_item(prompt, history, max_length, top_p, temperature):
 
 
 def removeTimeoutBuffer():
+    global stream_buffer
     for key in stream_buffer.copy():
-        if stream_buffer[key]["stop"]:
-            diff = datetime.datetime.now() - stream_buffer[key]["time"]
-            seconds = diff.total_seconds()
-            print(key + ": 已存在" + str(seconds) + "秒")
-            if seconds > 120:
+        diff = datetime.datetime.now() - stream_buffer[key]["time"]
+        seconds = diff.total_seconds()
+        print(key + ": 已存在" + str(seconds) + "秒")
+        if seconds > 120:            
+            if stream_buffer[key]["stop"]:
                 del stream_buffer[key]
-                print(key + "：已被删除")
+                print(key + "：已被从缓存中移除")
+            else:
+                stream_buffer[key]["stop"] = True
+                print(key + "：已被标识为结束")
 
 
 @app.post("/stream")
