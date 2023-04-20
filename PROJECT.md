@@ -18,3 +18,4 @@
 以下是部分针对本项目的教程/文档：
 * [Windows部署文档](https://github.com/ZhangErling/ChatGLM-6B/blob/main/deployment_windows.md)
 * [ChatGLM-6B 的部署与微调教程 @ModelWhale平台](https://www.heywhale.com/mw/project/6436d82948f7da1fee2be59e)
+* [搭建深度学习docker容器 - Luck_zy](https://www.luckzym.com/tags/ChatGLM-6B/)
