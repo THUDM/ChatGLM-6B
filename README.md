@@ -16,6 +16,8 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 不过，由于 ChatGLM-6B 的规模较小，目前已知其具有相当多的[**局限性**](#局限性)，如事实性/数学逻辑错误，可能生成有害/有偏见内容，较弱的上下文能力，自我认知混乱，以及对英文指示生成与中文指示完全矛盾的内容。请大家在使用前了解这些问题，以免产生误解。更大的基于 1300 亿参数 [GLM-130B](https://github.com/THUDM/GLM-130B) 的 ChatGLM 正在内测开发中。
 
+**想要提升 ChatGLM-6B 在你的实际场景中的表现？请参与 [ChatGLM-6B 提升计划](improve/README.md)**
+
 *Read this in [English](README_en.md).*
 
 ## 友情链接
