@@ -1,5 +1,5 @@
 # ChatGLM-6B Badcase 反馈计划
-ChatGLM-6B 自3月14号发布以来受到了广大开发者和用户的喜爱，截至4月22号 GitHub 的 star 数达到 2 万，Hugging Face (HF) Repo 的累计下载量过 100 万，并连续 12 天居 HF 全球大模型下载榜第一名。 与此同时，有一批基于 ChatGLM-6B 的[优秀开源项目](https://github.com/THUDM/ChatGLM-6B)出现，在各个平台也引起了广泛好评和关注。此外，基于 GLM-130B 的千亿对话模型 ChatGLM 也自3月14号开始了第一阶段的邀请制内测，得到了内测用户的好评和支持。谢谢大家对 ChatGLM 及其 6B 开源版本的大力支持！
+ChatGLM-6B 自3月14号发布以来受到了广大开发者和用户的喜爱，截至4月22号 GitHub 的 star 数达到 2 万，各个渠道模型的累计下载量过 100 万，并连续 12 天居 HF 全球大模型下载榜第一名。 与此同时，有一批基于 ChatGLM-6B 的[优秀开源项目](https://github.com/THUDM/ChatGLM-6B)出现，在各个平台也引起了广泛好评和关注。此外，基于 GLM-130B 的千亿对话模型 ChatGLM 也自3月14号开始了第一阶段的邀请制内测，得到了内测用户的好评和支持。谢谢大家对 ChatGLM 及其 6B 开源版本的大力支持！
 
 接下来，我们想邀请大家一起推动 ChatGLM-6B 的进一步提升，一起推动模型的发展。尽管ChatGLM-6B已初具符合人类偏好的问答对话能力，在相当多的指令和问题上，其回答仍存在不理解复杂指令和任务含义，缺乏领域概念理解，事实性错误，生成有害内容，对话上下文不一致等诸多问题。尽管我们提供的[微调代码](https://github.com/THUDM/ChatGLM-6B/tree/main/ptuning)能够让用户通过自主训练修复部分问题，但因为神经网络的[灾难性遗忘](https://picture.iczhiku.com/weixin/message1587593113355.html)问题，微调后的模型往往会失去在通用领域的对话能力或者因数据较少而缺乏泛化能力。为了解决这些问题，进一步提升 ChatGLM-6B 的能力，我们启动了 ChatGLM-6B Badcase 反馈计划。
 
