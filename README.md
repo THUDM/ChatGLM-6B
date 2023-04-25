@@ -90,47 +90,56 @@ GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/THUDM/chatglm-6b
 
 ## Demo & API
 
-我们提供了一个基于 [Gradio](https://gradio.app) 的网页版 Demo 和一个命令行 Demo。使用时首先需要下载本仓库：
+### 网页版(基于gradio) Demo
+
+![web-demo](resources/web-demo-gradio.gif)
+
+首先安装 Gradio：`pip install gradio mdtex2html`，然后运行仓库中的 [web_demo_gradio.py](demo_and_api/web_demo_gradio.py)： 
 
 ```shell
-git clone https://github.com/THUDM/ChatGLM-6B
-cd ChatGLM-6B
-```
-
-#### 网页版 Demo
-
-![web-demo](resources/web-demo.gif)
-
-首先安装 Gradio：`pip install gradio`，然后运行仓库中的 [web_demo.py](web_demo.py)： 
-
-```shell
-python web_demo.py
+cd demo_and_api
+python web_demo_gradio.py
 ```
 
 程序会运行一个 Web Server，并输出地址。在浏览器中打开输出的地址即可使用。最新版 Demo 实现了打字机效果，速度体验大大提升。注意，由于国内 Gradio 的网络访问较为缓慢，启用 `demo.queue().launch(share=True, inbrowser=True)` 时所有网络会经过 Gradio 服务器转发，导致打字机体验大幅下降，现在默认启动方式已经改为 `share=False`，如有需要公网访问的需求，可以重新修改为 `share=True` 启动。
 
-感谢 [@AdamBear](https://github.com/AdamBear) 实现了基于 Streamlit 的网页版 Demo，运行方式见[#117](https://github.com/THUDM/ChatGLM-6B/pull/117).
+### 网页版(基于streamlit) Demo
 
-#### 命令行 Demo
+首先安装 Streamlit: `pip install streamlit streamlit-chat`，然后运行仓库中的 [web_demo_streamlit.py](demo_and_api/web_demo_streamlit.py)： 
+
+```shell
+cd demo_and_api
+streamlit run web_demo_streamlit.py --server.port 6006
+```
+
+*感谢 [@AdamBear](https://github.com/AdamBear) 贡献的此实现，详见[#117](https://github.com/THUDM/ChatGLM-6B/pull/117).*
+
+### 命令行 Demo
 
 ![cli-demo](resources/cli-demo.png)
 
 运行仓库中 [cli_demo.py](cli_demo.py)：
 
 ```shell
+cd demo_and_api
 python cli_demo.py
 ```
 
 程序会在命令行中进行交互式的对话，在命令行中输入指示并回车即可生成回复，输入 `clear` 可以清空对话历史，输入 `stop` 终止程序。
 
 ### API部署
-首先需要安装额外的依赖 `pip install fastapi uvicorn`，然后运行仓库中的 [api.py](api.py)：
+首先需要安装额外的依赖 `pip install fastapi uvicorn pydantic`，然后运行仓库中的 [api.py](demo_and_api/api.py)：
 ```shell
+cd demo_and_api
 python api.py
 ```
+
+API支持普通接口(/chat)和流式接口(/stream_chat); 
+流式接口可实现打字机效果，调用方式可参考 [web_demo_streamlit_with_api.py](demo_and_api/web_demo_streamlit_with_api.py)：
+
 默认部署在本地的 8000 端口，通过 POST 方法进行调用
 ```shell
-curl -X POST "http://127.0.0.1:8000" \
+curl -X POST "http://127.0.0.1:8000/chat" \
      -H 'Content-Type: application/json' \
      -d '{"prompt": "你好", "history": []}'
 ```
@@ -142,6 +151,23 @@ curl -X POST "http://127.0.0.1:8000" \
   "status":200,
   "time":"2023-03-23 21:38:40"
 }
+```
+
+### 网页版(基于streamlit和API) Demo
+streamlit作为前端，api作为后端，使用了api的流式接口
+
+启动后端
+api依赖安装参照前文
+```shell
+cd demo_and_api
+python api.py
+```
+
+启动前端
+streamlit依赖安装参照前文
+```shell
+cd demo_and_api
+streamlit run web_demo_streamlit_with_api.py --server.port 6006
 ```
 
 ## 低成本部署
@@ -211,7 +237,7 @@ model = load_model_on_gpus("THUDM/chatglm-6b", num_gpus=2)
 
 ## ChatGLM-6B 示例
 
-以下是一些使用 `web_demo.py` 得到的示例截图。更多 ChatGLM-6B 的可能，等待你来探索发现！
+以下是一些使用 `web_demo_gradio.py` 得到的示例截图。更多 ChatGLM-6B 的可能，等待你来探索发现！
 
 <details><summary><b>自我认知</b></summary>
 

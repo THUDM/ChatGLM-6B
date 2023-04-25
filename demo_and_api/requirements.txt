@@ -1,0 +1,7 @@
+pydantic
+fastapi
+uvicorn
+gradio
+mdtex2html
+streamlit
+streamlit-chat
