@@ -2,12 +2,12 @@ import os
 from transformers import AutoTokenizer, AutoModel
 import signal
 import platform
-from stream_utils import SPStreamDecoder
+from stream_utils import ChatGLMStreamDecoder
 
 
 tokenizer = AutoTokenizer.from_pretrained(
     "THUDM/chatglm-6b", trust_remote_code=True)
-stream_decoder = SPStreamDecoder(tokenizer.sp_tokenizer.text_tokenizer.sp)
+stream_decoder = ChatGLMStreamDecoder(tokenizer.sp_tokenizer.text_tokenizer.sp)
 model = AutoModel.from_pretrained(
     "THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
 model = model.eval()
