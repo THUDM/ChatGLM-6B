@@ -1,4 +1,4 @@
-PRE_SEQ_LEN=8
+PRE_SEQ_LEN=128
 LR=1e-2
 
 CUDA_VISIBLE_DEVICES=0 python3 main.py \
