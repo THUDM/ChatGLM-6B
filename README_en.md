@@ -85,7 +85,7 @@ cd ChatGLM-6B
 
 #### Web Demo
 
-![web-demo](resources/web-demo.png)
+![web-demo](resources/web-demo-gradio.png)
 
 Install Gradio `pip install gradio`，and run [web_demo.py](web_demo.py):
 
