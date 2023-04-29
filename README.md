@@ -33,9 +33,10 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 * [ChatGLM-6B 的部署与微调教程](https://www.heywhale.com/mw/project/6436d82948f7da1fee2be59e)
 * [ChatGLM-6B 结合 langchain 实现本地知识库 QA Bot](https://www.heywhale.com/mw/project/643977aa446c45f4592a1e59)
 
-更多开源项目参见 [PROJECT.md](PROJECT.md)
+第三方评测：
+* [Measuring Massive Multitask Chinese Understanding](https://arxiv.org/abs/2304.12986)
 
-如果你有其他好的项目/教程的话，欢迎参照上述格式添加到 README 中并提出 [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork)。
+更多开源项目参见 [PROJECT.md](PROJECT.md)
 
 ## 使用方式
 
