@@ -3,7 +3,7 @@
 
 下面以 [ADGEN](https://aclanthology.org/D19-1321.pdf) (广告生成) 数据集为例介绍代码的使用方法。
 
-*Read this in [English](README_en.md).*
+*Read this in [English](README_en.md).
 
 ## 软件依赖
 运行微调需要4.27.1版本的`transformers`。除 ChatGLM-6B 的依赖之外，还需要安装以下依赖
@@ -26,7 +26,7 @@ ADGEN 数据集任务为根据输入（content）生成一段广告词（summary
 
 ### 训练
 
-#### P-tuning v2
+#### P-Tuning v2
 
 运行以下指令进行训练：
 ```shell
@@ -36,7 +36,7 @@ bash train.sh
 
 在默认配置 `quantization_bit=4`、`per_device_train_batch_size=1`、`gradient_accumulation_steps=16` 下，INT4 的模型参数被冻结，一次训练迭代会以 1 的批处理大小进行 16 次累加的前后向传播，等效为 16 的总批处理大小，此时最低只需 6.7G 显存。若想在同等批处理大小下提升训练效率，可在二者乘积不变的情况下，加大 `per_device_train_batch_size` 的值，但也会带来更多的显存消耗，请根据实际情况酌情调整。
 
-如果你想要[从本地加载模型](https://github.com/THUDM/ChatGLM-6B#%E4%BB%8E%E6%9C%AC%E5%9C%B0%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B)，可以将 `train.sh` 中的 `THUDM/chatglm-6b` 改为你本地的模型路径。
+如果你想要[从本地加载模型](../README_en.md#load-the-model-locally)，可以将 `train.sh` 中的 `THUDM/chatglm-6b` 改为你本地的模型路径。
 
 #### Finetune
 
@@ -48,11 +48,7 @@ bash ds_train_finetune.sh
 
 ### 推理
 
-将 `evaluate.sh` 中的 `CHECKPOINT` 更改为训练时保存的 checkpoint 名称，运行以下指令进行模型推理和评测：
-```shell
-bash evaluate.sh
-```
-**[2023/04/10更新]** 在 P-tuning v2 训练时模型只保存 PrefixEncoder 部分的参数，所以在推理时需要同时加载原 ChatGLM-6B 模型以及 PrefixEncoder 的权重，因此需要指定参数（已更新 `evaluate.sh`） ：
+在 P-tuning v2 训练时模型只保存 PrefixEncoder 部分的参数，所以在推理时需要同时加载原 ChatGLM-6B 模型以及 PrefixEncoder 的权重，因此需要指定 `evaluate.sh` 中的参数：
 
 ```shell
 --model_name_or_path THUDM/chatglm-6b
@@ -96,11 +92,11 @@ bash evaluate.sh
 
 #### 实验设置
 
- ```
+```
 max_source_length=64
 max_target_length=64
 max_steps=3000
- ```
+```
 
 ##### P-tuning v2
 
@@ -132,14 +128,10 @@ per_device_train_batch_size=16
 gradient_accumulation_steps=1
 ```
 
-
-
 ## 模型部署
 首先载入Tokenizer：
 
 ```python
-import os
-import torch
 from transformers import AutoConfig, AutoModel, AutoTokenizer
 
 # 载入Tokenizer
