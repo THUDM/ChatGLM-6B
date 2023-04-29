@@ -31,7 +31,7 @@ def stream_item(prompt, history, max_length, top_p, temperature):
         query, response = history[-1]
         now = datetime.datetime.now()
         stream_buffer[prompt] = {
-            "response": response, "stop": False, "time": now}
+            "response": response, "stop": False, "history": history,"time": now}
     stream_buffer[prompt]["stop"] = True
     torch_gc()
 
@@ -69,7 +69,7 @@ async def create_item(request: Request):
     # 判断是否已在生成，只有首次才调stream_chat
     now = datetime.datetime.now()
     if stream_buffer.get(prompt) is None:
-        stream_buffer[prompt] = {"response": "", "stop": False, "time": now}
+        stream_buffer[prompt] = {"response": "", "stop": False, "history": [],"time": now}
         # 在线程中调用stream_chat
         sub_thread = threading.Thread(target=stream_item, args=(prompt, history, max_length if max_length else 2048,
                                                                 top_p if top_p else 0.7, temperature if temperature else 0.95))
@@ -77,6 +77,7 @@ async def create_item(request: Request):
     # 异步返回response
     time = now.strftime("%Y-%m-%d %H:%M:%S")
     response = stream_buffer[prompt]["response"]
+    history = stream_buffer[prompt]["history"]
     # 如果stream_chat调用完成，给返回加一个停止词[stop]
     if stream_buffer[prompt]["stop"]:
         response = response + '[stop]'
