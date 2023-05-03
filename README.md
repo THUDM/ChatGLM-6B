@@ -240,7 +240,7 @@ else:
     source_code, kernel_file)
 ```
 
-> !注意，如果你之前运行过失败过，最好清一下Huggingface对缓存，i.e. `rm -rf ${HOME}/.cache/huggingface/modules/transformers_modules/chatglm-6b-int4`。由于使用了`rm`命令，请明确知道自己在删除什么。
+> 注意：如果你之前运行过失败过，最好清一下Huggingface的缓存，i.e. `rm -rf ${HOME}/.cache/huggingface/modules/transformers_modules/chatglm-6b-int4`。由于使用了`rm`命令，请明确知道自己在删除什么。
 
 ### Mac 上的 GPU 加速
 对于搭载了Apple Silicon的Mac（以及MacBook），可以使用 MPS 后端来在 GPU 上运行 ChatGLM-6B。需要参考 Apple 的 [官方说明](https://developer.apple.com/metal/pytorch) 安装 PyTorch-Nightly。
@@ -254,7 +254,7 @@ model = AutoModel.from_pretrained("your local path", trust_remote_code=True).hal
 model = AutoModel.from_pretrained("your local path", trust_remote_code=True).float().to('mps')
 ```
 
-> 注意上述方法在非量化版中，运行没有问题。量化版模型在MPS设备运行可以关注[这个](https://github.com/THUDM/ChatGLM-6B/issues/462)ISSUE，这主要是[kernel](https://huggingface.co/THUDM/chatglm-6b/blob/658202d88ac4bb782b99e99ac3adff58b4d0b813/quantization.py#L27)的原因，可以解包这个`ELF`文件看到是CUDA的实现。
+> 注意：上述方法在非量化版中，运行没有问题。量化版模型在MPS设备运行可以关注[这个](https://github.com/THUDM/ChatGLM-6B/issues/462)ISSUE，这主要是[kernel](https://huggingface.co/THUDM/chatglm-6b/blob/658202d88ac4bb782b99e99ac3adff58b4d0b813/quantization.py#L27)的原因，可以解包这个`ELF`文件看到是CUDA的实现。
 
 ### 多卡部署
 如果你有多张 GPU，但是每张 GPU 的显存大小都不足以容纳完整的模型，那么可以将模型切分在多张GPU上。首先安装 accelerate: `pip install accelerate`，然后通过如下方法加载模型：
