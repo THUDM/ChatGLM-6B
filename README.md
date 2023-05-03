@@ -191,14 +191,70 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4",trust_remote_code=True
 
 如果遇到了报错 `Could not find module 'nvcuda.dll'` 或者 `RuntimeError: Unknown platform: darwin` (MacOS) ，请[从本地加载模型](README.md#从本地加载模型)
 
+### Mac 上的 CPU 部署和加速
+
+Mac直接加载量化后的模型会出现问题（可运行但是单核），这是由于Mac由于本身缺乏omp导致的。
+
+```sh
+clang: error: unsupported option '-fopenmp'
+clang: error: unsupported option '-fopenmp'
+```
+
+以[chatglm-6b-int4](https://huggingface.co/THUDM/chatglm-6b-int4)量化模型为例，需要做如下配置：
+
+1. 安装`libomp`;
+2. 配置`gcc`编译项。
+
+```bash
+# 第一步: 参考`https://mac.r-project.org/openmp/`
+## 假设gcc -v是14.x版本，其他版本见R-Project提供的表格
+curl -O https://mac.r-project.org/openmp/openmp-14.0.6-darwin20-Release.tar.gz
+sudo tar fvxz openmp-14.0.6-darwin20-Release.tar.gz -C /
+## 此时会安装下面几个文件：
+#   usr/local/lib/libomp.dylib
+#   usr/local/include/ompt.h
+#   usr/local/include/omp.h
+#   usr/local/include/omp-tools.h
+```
+
+针对`chatglm-6b-int4`, 修改[quantization.py](https://huggingface.co/THUDM/chatglm-6b-int4/blob/main/quantization.py)，主要是把硬编码的`gcc -O3 -fPIC -pthread -fopenmp -std=c99`命令修改成`gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99`，[对应代码](https://huggingface.co/THUDM/chatglm-6b-int4/blob/63d66b0572d11cedd5574b38da720299599539b3/quantization.py#L168)见下:
+
+```python
+# 第二步
+## 找到包含`gcc -O3 -fPIC -pthread -fopenmp -std=c99`的这一行
+## 修改成
+compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99 {} -shared -o {}".format(source_code, kernel_file)
+```
+
+为了兼容性，也能写成
+```python
+## 在最开始增加一个包
+import platform
+## ...
+## 上述相应部分修改为（请自行改一下缩进）：
+if platform.uname()[0] == 'Darwin':
+    compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99-o {}".format(
+    source_code, kernel_file)
+else:
+    compile_command = "gcc -O3 -fPIC -pthread -fopenmp -std=c99 {} -shared -o {}".format(
+    source_code, kernel_file)
+```
+
+> 注意：如果你之前运行过失败过，最好清一下Huggingface的缓存，i.e. `rm -rf ${HOME}/.cache/huggingface/modules/transformers_modules/chatglm-6b-int4`。由于使用了`rm`命令，请明确知道自己在删除什么。
+
 ### Mac 上的 GPU 加速
 对于搭载了Apple Silicon的Mac（以及MacBook），可以使用 MPS 后端来在 GPU 上运行 ChatGLM-6B。需要参考 Apple 的 [官方说明](https://developer.apple.com/metal/pytorch) 安装 PyTorch-Nightly。
 
-目前在 MacOS 上只支持[从本地加载模型](README.md#从本地加载模型)。将代码中的模型加载改为从本地加载，并使用 mps 后端
+目前在 MacOS 上只支持[从本地加载模型](README.md#从本地加载模型)。将代码中的模型加载改为从本地加载，并使用 mps 后端：
 ```python
 model = AutoModel.from_pretrained("your local path", trust_remote_code=True).half().to('mps')
 ```
-即可使用在 Mac 上使用 GPU 加速模型推理。
+即可使用在 Mac 上使用 GPU 加速模型推理。如果出现关于`half`的报错（比如在MacOS 13.3.x上），可以改成：
+```python
+model = AutoModel.from_pretrained("your local path", trust_remote_code=True).float().to('mps')
+```
+
+> 注意：上述方法在非量化版中，运行没有问题。量化版模型在MPS设备运行可以关注[这个](https://github.com/THUDM/ChatGLM-6B/issues/462)ISSUE，这主要是[kernel](https://huggingface.co/THUDM/chatglm-6b/blob/658202d88ac4bb782b99e99ac3adff58b4d0b813/quantization.py#L27)的原因，可以解包这个`ELF`文件看到是CUDA的实现。
 
 ### 多卡部署
 如果你有多张 GPU，但是每张 GPU 的显存大小都不足以容纳完整的模型，那么可以将模型切分在多张GPU上。首先安装 accelerate: `pip install accelerate`，然后通过如下方法加载模型：
