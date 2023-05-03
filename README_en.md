@@ -188,6 +188,36 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4", trust_remote_code=Tru
 
 If your encounter the error `Could not find module 'nvcuda.dll'` or `RuntimeError: Unknown platform: darwin`(MacOS), please [load the model locally](README_en.md#load-the-model-locally). 
 
+
+### CPU Deployment on Mac
+
+The default Mac enviroment does not support Openmp. One may encounter such warning/errors when execute the `AutoModel.from_pretrained(...)` command `clang: error: unsupported option '-fopenmp'`.
+
+Take the quantified int4 version [chatglm-6b-int4](https://huggingface.co/THUDM/chatglm-6b-int4) for example, two extra steps are needed.
+
+#### STEP 1: Install `libomp`
+
+```bash
+# STEP 1: install libopenmp, check `https://mac.r-project.org/openmp/` for details.
+# Assumption: `gcc(clang) >= 14.x`, read the R-Poject before run the code:
+curl -O https://mac.r-project.org/openmp/openmp-14.0.6-darwin20-Release.tar.gz
+sudo tar fvxz openmp-14.0.6-darwin20-Release.tar.gz -C /
+```
+Four files (`/usr/local/lib/libomp.dylib`, `/usr/local/include/ompt.h`, `/usr/local/include/omp.h`, `/usr/local/include/omp-tools.h`) are installed accordingly.
+
+#### STEP 2: Configure `gcc` with `-fopenmp`
+
+Next, modify the [quantization.py](https://huggingface.co/THUDM/chatglm-6b-int4/blob/main/quantization.py) file of the `chatglm-6b-int4` project. In the file, change the `gcc -O3 -fPIC -pthread -fopenmp -std=c99` configuration to `gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99` (check the corresponding python code [HERE](https://huggingface.co/THUDM/chatglm-6b-int4/blob/63d66b0572d11cedd5574b38da720299599539b3/quantization.py#L168)), i.e.:
+
+```python
+# STEP 2: Change the line contains `gcc -O3 -fPIC -pthread -fopenmp -std=c99` to:
+compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99 {} -shared -o {}".format(source_code, kernel_file)
+```
+
+> Notice: `platform.uname()[0] == 'Darwin'` could be used to determine the OS type and further polish the python script.
+
+> Notice: If you have executed the `ChatGLM` project and failed, you may want to clean the cache of Huggingface before your next try, i.e. `rm -rf ${HOME}/.cache/huggingface/modules/transformers_modules/chatglm-6b-int4`. Since `rm` is used, please MAKE SURE that the command deletes the right files.
+
 ### GPU Inference on Mac
 For Macs (and MacBooks) with Apple Silicon, it is possible to use the MPS backend to run ChatGLM-6B on the GPU. First, you need to refer to Apple's [official instructions](https://developer.apple.com/metal/pytorch) to install PyTorch-Nightly.
 
@@ -195,7 +225,16 @@ Currently you must [load the model locally](README_en.md#load-the-model-locally)
 ```python
 model = AutoModel.from_pretrained("your local path", trust_remote_code=True).half().to('mps')
 ```
+
+For Mac users with Mac OS >= 13.3, one may encounter errors related to the `half()` method. Use the `float()` method instead:
+
+```python
+model = AutoModel.from_pretrained("your local path", trust_remote_code=True).float().to('mps')
+```
+
 Then you can use GPU-accelerated model inference on Mac.
+
+> Notice: there is no promblem to run the non-quantified version of ChatGLM with MPS. One could check [this issue](https://github.com/THUDM/ChatGLM-6B/issues/462) to run the quantified version with MPS as the backend (and get `ERRORS`). Unpacking [kernel](https://huggingface.co/THUDM/chatglm-6b/blob/658202d88ac4bb782b99e99ac3adff58b4d0b813/quantization.py#L27) as an `ELF` file shows its backend is `cuda`, which fails on MPS currently (`torch 2.1.0.dev20230502`).
 
 ### Multi-GPU Deployment
 If you have multiple GPUs, but the memory size of each GPU is not sufficient to accommodate the entire model, you can split the model across multiple GPUs. 
