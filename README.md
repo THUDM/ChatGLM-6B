@@ -193,17 +193,11 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4",trust_remote_code=True
 
 ### Mac 上的 CPU 部署和加速
 
-Mac直接加载量化后的模型会出现问题（可运行但是单核），这是由于Mac由于本身缺乏omp导致的。
+Mac直接加载量化后的模型会出现问题，例如`clang: error: unsupported option '-fopenmp'，这是由于Mac由于本身缺乏omp导致的，此时可运行但是单核。
 
-```sh
-clang: error: unsupported option '-fopenmp'
-clang: error: unsupported option '-fopenmp'
-```
+以[chatglm-6b-int4](https://huggingface.co/THUDM/chatglm-6b-int4)量化模型为例，需要做如下配置，即可在Mac下使用OMP：
 
-以[chatglm-6b-int4](https://huggingface.co/THUDM/chatglm-6b-int4)量化模型为例，需要做如下配置：
-
-1. 安装`libomp`;
-2. 配置`gcc`编译项。
+#### 第一步：安装`libomp`
 
 ```bash
 # 第一步: 参考`https://mac.r-project.org/openmp/`
@@ -211,8 +205,9 @@ clang: error: unsupported option '-fopenmp'
 curl -O https://mac.r-project.org/openmp/openmp-14.0.6-darwin20-Release.tar.gz
 sudo tar fvxz openmp-14.0.6-darwin20-Release.tar.gz -C /
 ```
-
 此时会安装下面几个文件：`/usr/local/lib/libomp.dylib`, `/usr/local/include/ompt.h`, `/usr/local/include/omp.h`, `/usr/local/include/omp-tools.h`。
+
+#### 第二步：配置`gcc`编译项
 
 然后针对`chatglm-6b-int4`, 修改[quantization.py](https://huggingface.co/THUDM/chatglm-6b-int4/blob/main/quantization.py)，主要是把硬编码的`gcc -O3 -fPIC -pthread -fopenmp -std=c99`命令修改成`gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99`，[对应代码](https://huggingface.co/THUDM/chatglm-6b-int4/blob/63d66b0572d11cedd5574b38da720299599539b3/quantization.py#L168)见下:
 
@@ -221,21 +216,9 @@ sudo tar fvxz openmp-14.0.6-darwin20-Release.tar.gz -C /
 compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99 {} -shared -o {}".format(source_code, kernel_file)
 ```
 
-为了兼容性，也能写成
-```python
-## 在最开始增加一个包
-import platform
-## ...
-## 上述相应部分修改为（请自行改一下缩进）：
-if platform.uname()[0] == 'Darwin':
-    compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99 -o {}".format(
-    source_code, kernel_file)
-else:
-    compile_command = "gcc -O3 -fPIC -pthread -fopenmp -std=c99 {} -shared -o {}".format(
-    source_code, kernel_file)
-```
+> 补充说明：可以用`platform.uname()[0] == 'Darwin'`做OS的判断，从而使得[quantization.py](https://huggingface.co/THUDM/chatglm-6b-int4/blob/main/quantization.py)有兼容性。
 
-> 注意：如果你之前运行过失败过，最好清一下Huggingface的缓存，i.e. `rm -rf ${HOME}/.cache/huggingface/modules/transformers_modules/chatglm-6b-int4`。由于使用了`rm`命令，请明确知道自己在删除什么。
+> 注意：如果你之前运行`ChatGLM`项目失败过，最好清一下Huggingface的缓存，i.e. 默认下是 `rm -rf ${HOME}/.cache/huggingface/modules/transformers_modules/chatglm-6b-int4`。由于使用了`rm`命令，请明确知道自己在删除什么。
 
 ### Mac 上的 GPU 加速
 对于搭载了Apple Silicon的Mac（以及MacBook），可以使用 MPS 后端来在 GPU 上运行 ChatGLM-6B。需要参考 Apple 的 [官方说明](https://developer.apple.com/metal/pytorch) 安装 PyTorch-Nightly。
