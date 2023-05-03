@@ -207,22 +207,17 @@ clang: error: unsupported option '-fopenmp'
 
 ```bash
 # 第一步: 参考`https://mac.r-project.org/openmp/`
-## 假设gcc -v是14.x版本，其他版本见R-Project提供的表格
+## 假设: gcc(clang)是14.x版本，其他版本见R-Project提供的表格
 curl -O https://mac.r-project.org/openmp/openmp-14.0.6-darwin20-Release.tar.gz
 sudo tar fvxz openmp-14.0.6-darwin20-Release.tar.gz -C /
-## 此时会安装下面几个文件：
-#   usr/local/lib/libomp.dylib
-#   usr/local/include/ompt.h
-#   usr/local/include/omp.h
-#   usr/local/include/omp-tools.h
 ```
 
-针对`chatglm-6b-int4`, 修改[quantization.py](https://huggingface.co/THUDM/chatglm-6b-int4/blob/main/quantization.py)，主要是把硬编码的`gcc -O3 -fPIC -pthread -fopenmp -std=c99`命令修改成`gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99`，[对应代码](https://huggingface.co/THUDM/chatglm-6b-int4/blob/63d66b0572d11cedd5574b38da720299599539b3/quantization.py#L168)见下:
+此时会安装下面几个文件：`/usr/local/lib/libomp.dylib`, `/usr/local/include/ompt.h`, `/usr/local/include/omp.h`, `/usr/local/include/omp-tools.h`。
+
+然后针对`chatglm-6b-int4`, 修改[quantization.py](https://huggingface.co/THUDM/chatglm-6b-int4/blob/main/quantization.py)，主要是把硬编码的`gcc -O3 -fPIC -pthread -fopenmp -std=c99`命令修改成`gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99`，[对应代码](https://huggingface.co/THUDM/chatglm-6b-int4/blob/63d66b0572d11cedd5574b38da720299599539b3/quantization.py#L168)见下:
 
 ```python
-# 第二步
-## 找到包含`gcc -O3 -fPIC -pthread -fopenmp -std=c99`的这一行
-## 修改成
+# 第二步: 找到包含`gcc -O3 -fPIC -pthread -fopenmp -std=c99`的这一行，并修改成
 compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99 {} -shared -o {}".format(source_code, kernel_file)
 ```
 
@@ -233,7 +228,7 @@ import platform
 ## ...
 ## 上述相应部分修改为（请自行改一下缩进）：
 if platform.uname()[0] == 'Darwin':
-    compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99-o {}".format(
+    compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99 -o {}".format(
     source_code, kernel_file)
 else:
     compile_command = "gcc -O3 -fPIC -pthread -fopenmp -std=c99 {} -shared -o {}".format(
