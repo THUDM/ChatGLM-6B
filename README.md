@@ -51,7 +51,7 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 使用 pip 安装依赖：`pip install -r requirements.txt`，其中 `transformers` 库版本推荐为 `4.27.1`，但理论上不低于 `4.23.1` 即可。
 
-此外，如果需要在 cpu 上运行量化后的模型，还需要安装 `gcc` 与 `openmp`。多数 Linux 发行版默认已安装。对于 Windows ，可在安装 [TDM-GCC](https://jmeubank.github.io/tdm-gcc/) 时勾选 `openmp`。 Windows 测试环境 `gcc` 版本为 `TDM-GCC 10.3.0`， Linux 为 `gcc 11.3.0`。
+此外，如果需要在 cpu 上运行量化后的模型，还需要安装 `gcc` 与 `openmp`。多数 Linux 发行版默认已安装。对于 Windows ，可在安装 [TDM-GCC](https://jmeubank.github.io/tdm-gcc/) 时勾选 `openmp`。 Windows 测试环境 `gcc` 版本为 `TDM-GCC 10.3.0`， Linux 为 `gcc 11.3.0`。在 MacOS 上请参考 [Q1](FAQ.md#q1)。
 
 ### 代码调用 
 
@@ -191,48 +191,20 @@ model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4",trust_remote_code=True
 
 如果遇到了报错 `Could not find module 'nvcuda.dll'` 或者 `RuntimeError: Unknown platform: darwin` (MacOS) ，请[从本地加载模型](README.md#从本地加载模型)
 
-### Mac 上的 CPU 部署和加速
-
-Mac直接加载量化后的模型会出现问题，例如`clang: error: unsupported option '-fopenmp'，这是由于Mac由于本身缺乏omp导致的，此时可运行但是单核。
-
-以[chatglm-6b-int4](https://huggingface.co/THUDM/chatglm-6b-int4)量化模型为例，需要做如下配置，即可在Mac下使用OMP：
-
-#### 第一步：安装`libomp`
-
-```bash
-# 第一步: 参考`https://mac.r-project.org/openmp/`
-## 假设: gcc(clang)是14.x版本，其他版本见R-Project提供的表格
-curl -O https://mac.r-project.org/openmp/openmp-14.0.6-darwin20-Release.tar.gz
-sudo tar fvxz openmp-14.0.6-darwin20-Release.tar.gz -C /
-```
-此时会安装下面几个文件：`/usr/local/lib/libomp.dylib`, `/usr/local/include/ompt.h`, `/usr/local/include/omp.h`, `/usr/local/include/omp-tools.h`。
-
-#### 第二步：配置`gcc`编译项
-
-然后针对`chatglm-6b-int4`, 修改[quantization.py](https://huggingface.co/THUDM/chatglm-6b-int4/blob/main/quantization.py)，主要是把硬编码的`gcc -O3 -fPIC -pthread -fopenmp -std=c99`命令修改成`gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99`，[对应代码](https://huggingface.co/THUDM/chatglm-6b-int4/blob/63d66b0572d11cedd5574b38da720299599539b3/quantization.py#L168)见下:
-
-```python
-# 第二步: 找到包含`gcc -O3 -fPIC -pthread -fopenmp -std=c99`的这一行，并修改成
-compile_command = "gcc -O3 -fPIC -Xclang -fopenmp -pthread  -lomp -std=c99 {} -shared -o {}".format(source_code, kernel_file)
-```
-
-> 补充说明：可以用`platform.uname()[0] == 'Darwin'`做OS的判断，从而使得[quantization.py](https://huggingface.co/THUDM/chatglm-6b-int4/blob/main/quantization.py)有兼容性。
-
-> 注意：如果你之前运行`ChatGLM`项目失败过，最好清一下Huggingface的缓存，i.e. 默认下是 `rm -rf ${HOME}/.cache/huggingface/modules/transformers_modules/chatglm-6b-int4`。由于使用了`rm`命令，请明确知道自己在删除什么。
-
-### Mac 上的 GPU 加速
-对于搭载了Apple Silicon的Mac（以及MacBook），可以使用 MPS 后端来在 GPU 上运行 ChatGLM-6B。需要参考 Apple 的 [官方说明](https://developer.apple.com/metal/pytorch) 安装 PyTorch-Nightly。
+### Mac 部署
+对于搭载了 Apple Silicon 或者 AMD GPU 的Mac，可以使用 MPS 后端来在 GPU 上运行 ChatGLM-6B。需要参考 Apple 的 [官方说明](https://developer.apple.com/metal/pytorch) 安装 PyTorch-Nightly（正确的版本号应该是2.1.0.dev2023xxxx，而不是2.0.0）。
 
 目前在 MacOS 上只支持[从本地加载模型](README.md#从本地加载模型)。将代码中的模型加载改为从本地加载，并使用 mps 后端：
 ```python
 model = AutoModel.from_pretrained("your local path", trust_remote_code=True).half().to('mps')
 ```
-即可使用在 Mac 上使用 GPU 加速模型推理。如果出现关于`half`的报错（比如在MacOS 13.3.x上），可以改成：
-```python
-model = AutoModel.from_pretrained("your local path", trust_remote_code=True).float().to('mps')
-```
 
-> 注意：上述方法在非量化版中，运行没有问题。量化版模型在MPS设备运行可以关注[这个](https://github.com/THUDM/ChatGLM-6B/issues/462)ISSUE，这主要是[kernel](https://huggingface.co/THUDM/chatglm-6b/blob/658202d88ac4bb782b99e99ac3adff58b4d0b813/quantization.py#L27)的原因，可以解包这个`ELF`文件看到是CUDA的实现。
+加载半精度的 ChatGLM-6B 模型需要大概 13GB 内存。内存较小的机器（比如 16GB 内存的 MacBook Pro），在空余内存不足的情况下会使用硬盘上的虚拟内存，导致推理速度严重变慢。此时可以使用量化后的模型如 chatglm-6b-int4。因为 GPU 上量化的 kernel 是使用 CUDA 编写的，因此无法在 MacOS 上使用，只能使用 CPU 进行推理。
+```python
+# INT8 量化的模型将"THUDM/chatglm-6b-int4"改为"THUDM/chatglm-6b-int8"
+model = AutoModel.from_pretrained("THUDM/chatglm-6b-int4",trust_remote_code=True).float()
+```
+为了充分使用 CPU 并行，还需要[单独安装 OpenMP](FAQ.md#q1)。
 
 ### 多卡部署
 如果你有多张 GPU，但是每张 GPU 的显存大小都不足以容纳完整的模型，那么可以将模型切分在多张GPU上。首先安装 accelerate: `pip install accelerate`，然后通过如下方法加载模型：
