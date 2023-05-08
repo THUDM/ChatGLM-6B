@@ -28,6 +28,8 @@ def predict(input, max_length, top_p, temperature, history=None):
 
     with container:
         if len(history) > 0:
+            if len(history)>MAX_BOXES:
+                history = history[-MAX_TURNS:]
             for i, (query, response) in enumerate(history):
                 message(query, avatar_style="big-smile", key=str(i) + "_user")
                 message(response, avatar_style="bottts", key=str(i))
