@@ -6,3 +6,5 @@ gradio
 mdtex2html
 sentencepiece
 accelerate
+streamlit
+streamlit chatbot
