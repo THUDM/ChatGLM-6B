@@ -321,13 +321,11 @@ model = load_model_on_gpus("THUDM/chatglm-6b", num_gpus=2)
 如果你觉得我们的工作有帮助的话，请考虑引用下列论文
 
 ```
-@inproceedings{
-  zeng2023glm-130b,
-  title={{GLM}-130B: An Open Bilingual Pre-trained Model},
-  author={Aohan Zeng and Xiao Liu and Zhengxiao Du and Zihan Wang and Hanyu Lai and Ming Ding and Zhuoyi Yang and Yifan Xu and Wendi Zheng and Xiao Xia and Weng Lam Tam and Zixuan Ma and Yufei Xue and Jidong Zhai and Wenguang Chen and Zhiyuan Liu and Peng Zhang and Yuxiao Dong and Jie Tang},
-  booktitle={The Eleventh International Conference on Learning Representations (ICLR)},
-  year={2023},
-  url={https://openreview.net/forum?id=-Aw0rrrPUF}
+@article{zeng2022glm,
+  title={Glm-130b: An open bilingual pre-trained model},
+  author={Zeng, Aohan and Liu, Xiao and Du, Zhengxiao and Wang, Zihan and Lai, Hanyu and Ding, Ming and Yang, Zhuoyi and Xu, Yifan and Zheng, Wendi and Xia, Xiao and others},
+  journal={arXiv preprint arXiv:2210.02414},
+  year={2022}
 }
 ```
 ```
