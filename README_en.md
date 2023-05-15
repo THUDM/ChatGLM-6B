@@ -17,6 +17,30 @@ In order to facilitate downstream developers to customize the model for their ow
 
 Try the [online demo](https://huggingface.co/spaces/ysharma/ChatGLM-6b_Gradio_Streaming) on Huggingface Spaces.
 
+## Update
+**[2023/0515]** Update the checkpoint of v1.1 version, add English instruction data for training to balance the proportion of Chinese and English data, which solves the phenomenon of Chinese words mixed in English answers .
+
+<details><summary><b>The following is a comparison of English questions before and after the update</b></summary>
+
+* Question: Describe a time when you had to make a difficult decision.
+  - v1.0:
+  ![](resources/english-q1-old.png)
+  - v1.1:
+  ![](resources/english-q1-new.png)
+* Question: Describe the function of a computer motherboard
+  - v1.0:
+  ![](resources/english-q2-old.png)
+  - v1.1:
+  ![](resources/english-q2-new.png)
+* Question: Develop a plan to reduce electricity usage in a home.
+  - v1.0:
+  ![](resources/english-q3-old.png)
+  - v1.1:
+  ![](resources/english-q3-new.png)
+</details>
+
+For more update info, please refer to [UPDATE.md](UPDATE.md).
+
 ## Projects
 Open source projects that accelerate ChatGLM:
 * [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): An MNN-based implementation of ChatGLM-6B C++ inference, which supports automatic allocation of computing tasks to GPU and CPU according to the size of GPU memory
@@ -35,7 +59,7 @@ Example projects supporting online training of ChatGLM-6B and related applicatio
 Third-party evaluation:
 * [Measuring Massive Multitask Chinese Understanding](https://arxiv.org/abs/2304.12986)
 
-For more open source projects, see [PROJECT.md](PROJECT.md)
+For more open source projects, see [PROJECT.md](PROJECT.md).
 
 ## Getting Started
 
@@ -78,7 +102,7 @@ Generate dialogue with the following code
 
 如果这些方法无法帮助你入睡,你可以考虑咨询医生或睡眠专家,寻求进一步的建议。
 ```
-The implementation of the model is still in development. If you want to fix the used model implementation to ensure compatibility, you can add the `revision="v0.1.0"` parameter in the `from_pretrained` call. `v0.1.0` is the latest version number. For a complete list of versions, see [Change Log](https://huggingface.co/THUDM/chatglm-6b#change-log).
+The implementation of the model is still in development. If you want to fix the used model implementation to ensure compatibility, you can add the `revision="v1.1.0"` parameter in the `from_pretrained` call. `v1.1.0` is the latest version number. For a complete list of versions, see [Change Log](https://huggingface.co/THUDM/chatglm-6b#change-log).
 
 ### Load the model locally
 The above code will automatically download the model implementation and checkpoints by [transformers](https://github.com/huggingface/transformers). The full model implementation can be found at [Hugging Face Hub](https://huggingface.co/THUDM/chatglm-6b). If your network environment is poor, downloading model parameters may take a long time or even fail. At this point, you can download the model to the local first, and then load it from the local.
@@ -92,7 +116,7 @@ After downloading the model locally, replace `THUDM/chatglm-6b` in the above cod
 
 **Optional**: The implementation of the model is still in development. If you want to fix the used model implementation to ensure compatibility, you can execute
 ```Shell
-git checkout v0.1.0
+git checkout v1.1.0
 ```
 
 ## Demo & API
@@ -216,17 +240,6 @@ This will deploy the model onto two GPUs for inference. You can change `num_gpus
 
 ## Parameter-efficient Tuning
 Parameter-efficient tuning based on [P-tuning v2](https://github.com/THUDM/P-tuning-v2). See [ptuning/README.md](ptuning/README.md) for details on how to use it.
-
-## Update
-**[2023/04/16]** Added INT8 quantized model [ChatGLM-6B-INT8](https://huggingface.co/THUDM/chatglm-6b-int8). Added multi-GPU deployment (thanks to [@Cherrysaber](https://github.com/Cherrysaber)).
-
-**[2023/04/06]** Improve the web demo interface (thanks to [@tuteng0915](https://github.com/tuteng0915)). Remove the image tokens in the embedding layer to reduce the memory usage (need to update the model files `pytorch_model-00001-of-00008.bin` and `pytorch_model-00008-of-00008.bin`, thanks to [@silverriver](https:/ /github.com/silverriver) for proposing the idea). Removed dependency on `icetk` (need to update model file `ice_text.model`).
-
-**[2023/03/31]** Added a parameter-efficient tuning implementation based on [P-Tuning-v2](https://github.com/THUDM/P-tuning-v2). The minimum INT4 quantization level only needs 7GB GPU memory is enough for model tuning. See [Parameter-efficient tuning method](ptuning/README.md) for details.
-
-**[2023/03/23]** Add API deployment, thanks to [@LemonQu-GIT](https://github.com/LemonQu-GIT). Add embedding-quantized model [ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe). Add support for GPU inference on Mac with Apple Silicon.
-
-**[2023/03/19]** Add streaming output function `stream_chat`, already applied in web and CLI demo. Fix Chinese punctuations in output. Add quantized model [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4). 
 
 ## ChatGLM-6B Examples
 

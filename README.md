@@ -18,6 +18,30 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 *Read this in [English](README_en.md).*
 
+## 更新信息
+**[2023/0515]** 更新 v1.1 版本 checkpoint，训练数据增加英文指令微调数据以平衡中英文数据比例，解决英文回答中夹杂中文词语的现象。
+
+<details><summary><b>以下是更新前后的英文问题对比：</b></summary>
+
+* 问题：Describe a time when you had to make a difficult decision.
+  - v1.0:
+  ![](resources/english-q1-old.png)
+  - v1.1:
+  ![](resources/english-q1-new.png)
+* 问题：Describe the function of a computer motherboard
+  - v1.0:
+  ![](resources/english-q2-old.png)
+  - v1.1:
+  ![](resources/english-q2-new.png)
+* 问题：Develop a plan to reduce electricity usage in a home.
+  - v1.0:
+  ![](resources/english-q3-old.png)
+  - v1.1:
+  ![](resources/english-q3-new.png)
+</details>
+
+更多更新信息参见 [UPDATE.md](UPDATE.md)
+
 ## 友情链接
 对 ChatGLM 进行加速的开源项目：
 * [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): 一个基于 MNN 的 ChatGLM-6B C++ 推理实现，支持根据显存大小自动分配计算任务给 GPU 和 CPU
@@ -78,7 +102,7 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 
 如果这些方法无法帮助你入睡,你可以考虑咨询医生或睡眠专家,寻求进一步的建议。
 ```
-模型的实现仍然处在变动中。如果希望固定使用的模型实现以保证兼容性，可以在 `from_pretrained` 的调用中增加 `revision="v0.1.0"` 参数。`v0.1.0` 是当前最新的版本号，完整的版本列表参见 [Change Log](https://huggingface.co/THUDM/chatglm-6b#change-log)。
+模型的实现仍然处在变动中。如果希望固定使用的模型实现以保证兼容性，可以在 `from_pretrained` 的调用中增加 `revision="v1.1.0"` 参数。`v1.1.0` 是当前最新的版本号，完整的版本列表参见 [Change Log](https://huggingface.co/THUDM/chatglm-6b#change-log)。
 
 ### 从本地加载模型
 以上代码会由 `transformers` 自动下载模型实现和参数。完整的模型实现可以在 [Hugging Face Hub](https://huggingface.co/THUDM/chatglm-6b)。如果你的网络环境较差，下载模型参数可能会花费较长时间甚至失败。此时可以先将模型下载到本地，然后从本地加载。
@@ -98,7 +122,7 @@ GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/THUDM/chatglm-6b
 
 **Optional** 模型的实现仍然处在变动中。如果希望固定使用的模型实现以保证兼容性，可以执行
 ```Shell
-git checkout v0.1.0
+git checkout v1.1.0
 ```
 
 ## Demo & API
@@ -216,17 +240,6 @@ model = load_model_on_gpus("THUDM/chatglm-6b", num_gpus=2)
 
 ## 高效参数微调
 基于 [P-tuning v2](https://github.com/THUDM/P-tuning-v2) 的高效参数微调。具体使用方法详见 [ptuning/README.md](ptuning/README.md)。
-
-## 更新信息
-**[2023/04/16]** 增加 INT8 量化后的模型 [ChatGLM-6B-INT8](https://huggingface.co/THUDM/chatglm-6b-int8)。增加多卡部署（感谢 [@Cherrysaber](https://github.com/Cherrysaber)）。
-
-**[2023/04/06]** 优化web demo的界面（感谢 [@tuteng0915](https://github.com/tuteng0915)）。移除embedding中的image token以减小显存占用（需要更新模型文件`pytorch_model-00001-of-00008.bin`和`pytorch_model-00008-of-00008.bin`，感谢 [@silverriver](https://github.com/silverriver) 提出的想法）。去掉了对 `icetk` 的依赖（需要更新模型文件`ice_text.model`）。
-
-**[2023/03/31]** 增加基于 [P-Tuning-v2](https://github.com/THUDM/P-tuning-v2) 的高效参数微调实现，INT4 量化级别下最低只需 7GB 显存即可进行模型微调。详见[高效参数微调方法](ptuning/README.md)。
-
-**[2023/03/23]** 增加 API 部署（感谢 [@LemonQu-GIT](https://github.com/LemonQu-GIT)）。~~增加 Embedding 量化模型 [ChatGLM-6B-INT4-QE](https://huggingface.co/THUDM/chatglm-6b-int4-qe)~~(已停止维护)。增加配备 Apple Silicon 芯片的 Mac 上 GPU 加速的支持。
-
-**[2023/03/19]** 增加流式输出接口 `stream_chat`，已更新到网页版和命令行 Demo。修复输出中的中文标点。增加 INT4 量化后的模型 [ChatGLM-6B-INT4](https://huggingface.co/THUDM/chatglm-6b-int4)
 
 ## ChatGLM-6B 示例
 
