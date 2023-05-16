@@ -38,6 +38,11 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
   ![](resources/english-q3-old.png)
   - v1.1:
   ![](resources/english-q3-new.png)
+* 问题：未来的NFT，可能真实定义一种现实的资产，它会是一处房产，一辆汽车，一片土地等等，这样的数字凭证可能比真实的东西更有价值，你可以随时交易和使用，在虚拟和现实中无缝的让拥有的资产继续创造价值，未来会是万物归我所用，但不归我所有的时代。翻译成专业的英语
+  - v1.0:
+  ![](resources/english-q4-old.png)
+  - v1.1:
+  ![](resources/english-q4-new.png)
 </details>
 
 更多更新信息参见 [UPDATE.md](UPDATE.md)
