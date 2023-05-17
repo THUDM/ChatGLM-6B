@@ -1,6 +1,6 @@
 ## 更新信息
 
-**[2023/0515]** 更新 v1.1 版本 checkpoint，训练数据增加英文数据以平衡中英文数据比例，解决英文回答中夹杂中文词语的现象。
+**[2023/05/15]** 更新 v1.1 版本 checkpoint，训练数据增加英文数据以平衡中英文数据比例，解决英文回答中夹杂中文词语的现象。
 
 <details><summary><b>以下是更新前后的英文问题对比：</b></summary>
 
@@ -38,7 +38,7 @@
 
 
 ## Update
-**[2023/0515]** Update the checkpoint of v1.1 version, add English instruction data for training to balance the proportion of Chinese and English data, which solves the phenomenon of Chinese words mixed in English answers .
+**[2023/05/15]** Update the checkpoint of v1.1 version, add English instruction data for training to balance the proportion of Chinese and English data, which solves the phenomenon of Chinese words mixed in English answers .
 
 <details><summary><b>The following is a comparison of English questions before and after the update</b></summary>
 
