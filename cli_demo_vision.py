@@ -1,6 +1,8 @@
 import os
 import platform
 import signal
+import sys
+
 from transformers import AutoTokenizer, AutoModel
 import readline
 
@@ -52,13 +54,10 @@ def main():
             os.system(clear_command)
             print(build_prompt(history, prefix), flush=True)
             query = input("\n用户：")
-            if query.strip() == "stop":
-                break
             if query.strip() == "clear":
-                history = []
-                os.system(clear_command)
-                print(prefix)
-                continue
+                break
+            if query.strip() == "stop":
+                sys.exit(0)
 
 
 if __name__ == "__main__":
