@@ -1,4 +1,9 @@
 ## 更新信息
+**[2023/05/17]** 发布 [VisualGLM-6B](https://github.com/THUDM/VisualGLM-6B)，一个支持图像理解的多模态对话语言模型。
+
+![](resources/visualglm.png)
+
+可以通过本仓库中的 [cli_demo_vision.py](cli_demo_vision.py) 和 [web_demo_vision.py](web_demo_vision.py) 来运行命令行和网页 Demo。注意 VisualGLM-6B 需要额外安装 [SwissArmyTransformer](https://github.com/THUDM/SwissArmyTransformer/) 和 torchvision。更多信息参见 [VisualGLM-6B](https://github.com/THUDM/VisualGLM-6B)。
 
 **[2023/05/15]** 更新 v1.1 版本 checkpoint，训练数据增加英文数据以平衡中英文数据比例，解决英文回答中夹杂中文词语的现象。
 
@@ -12,7 +17,7 @@
 * 问题：Describe the function of a computer motherboard
   - v1.0:
   ![](resources/english-q2-old.png)
-  - v1.1:
+  - v1.1: 
   ![](resources/english-q2-new.png)
 * 问题：Develop a plan to reduce electricity usage in a home.
   - v1.0:
@@ -38,6 +43,12 @@
 
 
 ## Update
+**[2023/05/17]** Release [VisualGLM-6B](https://github.com/THUDM/VisualGLM-6B), a multimodal conversational language model supporting image understanding.
+
+![](resources/visualglm.png)
+
+You can run the command line and web demo through [cli_demo_vision.py](cli_demo_vision.py) and [web_demo_vision.py](web_demo_vision.py) in the repository. Note that VisualGLM-6B requires additional installation of [SwissArmyTransformer](https://github.com/THUDM/SwissArmyTransformer/) and torchvision. For more information, please refer to  [VisualGLM-6B](https://github.com/THUDM/VisualGLM-6B).
+
 **[2023/05/15]** Update the checkpoint of v1.1 version, add English instruction data for training to balance the proportion of Chinese and English data, which solves the phenomenon of Chinese words mixed in English answers .
 
 <details><summary><b>The following is a comparison of English questions before and after the update</b></summary>
