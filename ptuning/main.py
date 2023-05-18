@@ -35,7 +35,6 @@ from transformers import (
     AutoConfig,
     AutoModel,
     AutoTokenizer,
-    AutoTokenizer,
     DataCollatorForSeq2Seq,
     HfArgumentParser,
     Seq2SeqTrainingArguments,
