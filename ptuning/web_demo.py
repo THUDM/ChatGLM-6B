@@ -119,8 +119,7 @@ with gr.Blocks() as demo:
 def main():
     global model, tokenizer
 
-    parser = HfArgumentParser((
-        ModelArguments))
+    parser = HfArgumentParser((ModelArguments))
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # If we pass only one argument to the script and it's the path to a json file,
         # let's parse it to get our arguments.
@@ -158,7 +157,7 @@ def main():
         model.transformer.prefix_encoder.float().cuda()
     
     model = model.eval()
-    demo.queue().launch(share=False, inbrowser=True)
+    demo.queue().launch(share=False, inbrowser=True, server_port=11001)
 
 
 
