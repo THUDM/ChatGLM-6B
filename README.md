@@ -61,7 +61,7 @@ ChatGLM-6B 开源模型旨在与开源社区一起推动大模型技术发展，
 
 ## 友情链接
 对 ChatGLM 进行加速的开源项目：
-* [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): 一个基于 MNN 的 ChatGLM-6B C++ 推理实现，支持根据显存大小自动分配计算任务给 GPU 和 CPU
+* [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): 一个基于 MNN 的 ChatGLM-6B C++ 推理实现，支持根据显存大小自动分配计算任务给 GPU 和 CPU，离线版移动端APP仅需3G内存即可流畅运行。
 * [JittorLLMs](https://github.com/Jittor/JittorLLMs)：最低3G显存或者没有显卡都可运行 ChatGLM-6B FP16， 支持Linux、windows、Mac部署
 * [InferLLM](https://github.com/MegEngine/InferLLM)：轻量级 C++ 推理，可以实现本地 x86，Arm 处理器上实时聊天，手机上也同样可以实时运行，运行内存只需要 4G
 基于或使用了 ChatGLM-6B 的开源项目：
