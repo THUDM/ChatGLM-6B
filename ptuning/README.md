@@ -42,6 +42,10 @@ bash train.sh
 
 如果需要进行全参数的 Finetune，需要安装 [Deepspeed](https://github.com/microsoft/DeepSpeed)，然后运行以下指令：
 
+单卡全参数的 Finetune建议：
+1）如果需要在3090[24G显存]单卡进行finetune,可下载chatglm-6b-int4，地址：https://huggingface.co/THUDM/chatglm-6b-int4
+2）微调私域数据出现答案阶段问题，可修改max_source_length和max_target_length，调大即可
+
 ```shell
 bash ds_train_finetune.sh
 ```
