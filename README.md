@@ -75,6 +75,7 @@ ChatGLM-6B 开源模型旨在与开源社区一起推动大模型技术发展，
 * [闻达](https://github.com/l15y/wenda)：大型语言模型调用平台，基于 ChatGLM-6B 实现了类 ChatPDF 功能
 * [chatgpt_academic](https://github.com/binary-husky/chatgpt_academic): 支持ChatGLM-6B的学术写作与编程工具箱，具有模块化和多线程调用LLM的特点，可并行调用多种LLM。
 * [glm-bot](https://github.com/initialencounter/glm-bot)：将ChatGLM接入Koishi可在各大聊天平台上调用ChatGLM
+* [LocalAGI](https://github.com/EmbraceAGI/LocalAGI)：基于 ChatGLM 大模型和 BabyAGI 项目，可在本地运行的中文用户友好的中文AGI。
 
 支持 ChatGLM-6B 和相关应用在线训练的示例项目：
 * [ChatGLM-6B 的部署与微调教程](https://www.heywhale.com/mw/project/6436d82948f7da1fee2be59e)
