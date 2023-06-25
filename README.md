@@ -33,6 +33,10 @@ ChatGLM-6B 开源模型旨在与开源社区一起推动大模型技术发展，
 
 更多信息参见 [ChatGLM2-6B](https://github.com/THUDM/ChatGLM2-6B)。
 
+**[2023/06/14]** 发布 [WebGLM](https://github.com/THUDM/WebGLM)，一项被接受于KDD 2023的研究工作，支持利用网络信息生成带有准确引用的长回答。
+
+![](resources/webglm.jpg)
+
 **[2023/05/17]** 发布 [VisualGLM-6B](https://github.com/THUDM/VisualGLM-6B)，一个支持图像理解的多模态对话语言模型。
 
 ![](resources/visualglm.png)
