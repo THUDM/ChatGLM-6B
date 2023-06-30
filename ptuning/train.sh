@@ -1,10 +1,12 @@
 PRE_SEQ_LEN=128
 LR=2e-2
 
-CUDA_VISIBLE_DEVICES=0 python3 main.py \
+export 'PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:32'
+
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 main.py \
     --do_train \
-    --train_file AdvertiseGen/train.json \
-    --validation_file AdvertiseGen/dev.json \
+    --train_file data/AdvertiseGen/train.json \
+    --validation_file data/AdvertiseGen/dev.json \
     --prompt_column content \
     --response_column summary \
     --overwrite_cache \
