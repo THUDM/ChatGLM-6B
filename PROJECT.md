@@ -20,7 +20,8 @@
 * [ChatGLM-6B-Engineering](https://github.com/LemonQu-GIT/ChatGLM-6B-Engineering)：基于 ChatGLM-6B 后期调教，网络爬虫及 [Stable Diffusion](https://github.com/AUTOMATIC1111/stable-diffusion-webui) 实现的网络搜索及图片生成
 * [ChatGLM-OpenAI-API](https://github.com/ninehills/chatglm-openai-api): 将 ChatGLM-6B 封装为 OpenAI API 风格，并通过 ngrok/cloudflare 对外提供服务，从而将 ChatGLM 快速集成到 OpenAI 的各种生态中。
 * [ChatSQL](https://github.com/cubenlp/ChatSQL): 基于ChatGLM+SBERT实现NL2SQL本地化，并直接连接数据库查询数据返回结果，使得生成的SQL语句更具有实用性。
-
+* [LocalAGI](https://github.com/EmbraceAGI/LocalAGI)：基于 ChatGLM 大模型和 BabyAGI 项目，可在本地运行的中文用户友好的中文AGI。
+  
 对 ChatGLM-6B 进行微调的开源项目：
 * [InstructGLM](https://github.com/yanqiangmiffy/InstructGLM)：基于ChatGLM-6B进行指令学习，汇总开源中英文指令数据，基于Lora进行指令数据微调，开放了Alpaca、Belle微调后的Lora权重，修复web_demo重复问题
 * [ChatGLM-Efficient-Tuning](https://github.com/hiyouga/ChatGLM-Efficient-Tuning)：实现了ChatGLM-6B模型的监督微调和完整RLHF训练，汇总10余种指令数据集和3种微调方案，实现了4/8比特量化和模型权重融合，提供微调模型快速部署方法。
