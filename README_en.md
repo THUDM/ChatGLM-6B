@@ -62,6 +62,7 @@ For more update info, please refer to [UPDATE.md](UPDATE.md).
 
 ## Projects
 Open source projects that accelerate ChatGLM:
+* [chatglm.cpp](https://github.com/li-plus/chatglm.cpp): Real-time CPU inference on a MacBook accelerated by quantization, similar to llama.cpp.
 * [lyraChatGLM](https://huggingface.co/TMElyralab/lyraChatGLM): Inference acceleration for ChatGLM-6B, up to 9000+ tokens/s inference speed.
 * [ChatGLM-MNN](https://github.com/wangzhaode/ChatGLM-MNN): An MNN-based implementation of ChatGLM-6B C++ inference, which supports automatic allocation of computing tasks to GPU and CPU according to the size of GPU memory
 * [JittorLLMs](https://github.com/Jittor/JittorLLMs): Running ChatGLM-6B in FP16 with a minimum of 3G GPU memory or no GPU at all, with Linux, windows, and Mac support
