@@ -1,20 +1,20 @@
 The ChatGLM-6B License
 
-一、定义
+1. 定义
 
 “许可方”是指分发其软件的 ChatGLM-6B 模型团队。
 
-“软件”是指根据本许可提供的 ChatGLM-6B 模型参数。
+“软件”是指根据本许可提供的 ChatGLM-6B 模型参数。（不包括二代模型 ChatGLM2-6B 以及后续模型）
 
 2. 许可授予
 
-根据本许可的条款和条件，许可方特此授予您非排他性、全球性、不可转让、不可再许可、可撤销、免版税的版权许可，仅用于您的非商业研究目的。
+根据本许可的条款和条件，许可方特此授予您非排他性、全球性、不可转让、不可再许可、可撤销、免版税的版权许可。
 
 上述版权声明和本许可声明应包含在本软件的所有副本或重要部分中。
 
 3.限制
 
-您不得出于任何商业、军事或非法目的使用、复制、修改、合并、发布、分发、复制或创建本软件的全部或部分衍生作品。
+您不得出于任何军事或非法目的使用、复制、修改、合并、发布、分发、复制或创建本软件的全部或部分衍生作品。
 
 您不得利用本软件从事任何危害国家安全和国家统一、危害社会公共利益、侵犯人身权益的行为。
 
@@ -30,23 +30,23 @@ The ChatGLM-6B License
 
 本许可受中华人民共和国法律管辖并按其解释。 因本许可引起的或与本许可有关的任何争议应提交北京市海淀区人民法院。
 
-请注意，许可证可能会更新到更全面的版本。 有关许可和版权的任何问题，请通过 glm-130b@googlegroups.com 与我们联系。
+请注意，许可证可能会更新到更全面的版本。 有关许可和版权的任何问题，请通过 license@zhipuai.cn 与我们联系。
 
 1. Definitions
 
 “Licensor” means the ChatGLM-6B Model Team that distributes its Software.
 
-“Software” means the ChatGLM-6B model parameters made available under this license.
+“Software” means the ChatGLM-6B model parameters made available under this license (does not include the second-generation model ChatGLM2-6B and subsequent models).
 
 2. License Grant
 
-Subject to the terms and conditions of this License, the Licensor hereby grants to you a non-exclusive, worldwide, non-transferable, non-sublicensable, revocable, royalty-free copyright license to use the Software solely for your non-commercial research purposes.
+Subject to the terms and conditions of this License, the Licensor hereby grants to you a non-exclusive, worldwide, non-transferable, non-sublicensable, revocable, royalty-free copyright license to use the Software.
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 3. Restriction
 
-You will not use, copy, modify, merge, publish, distribute, reproduce, or create derivative works of the Software, in whole or in part, for any commercial, military, or illegal purposes.
+You will not use, copy, modify, merge, publish, distribute, reproduce, or create derivative works of the Software, in whole or in part, for any military, or illegal purposes.
 
 You will not use the Software for any act that may undermine China's national security and national unity, harm the public interest of society, or infringe upon the rights and interests of human beings.
 
@@ -62,4 +62,4 @@ EXCEPT TO THE EXTENT PROHIBITED BY APPLICABLE LAW, IN NO EVENT AND UNDER NO LEGA
 
 This license shall be governed and construed in accordance with the laws of People’s Republic of China. Any dispute arising from or in connection with this License shall be submitted to Haidian District People's Court in Beijing.
 
-Note that the license is subject to update to a more comprehensive version.  For any questions related to the license and copyright, please contact us at glm-130b@googlegroups.com.
+Note that the license is subject to update to a more comprehensive version.  For any questions related to the license and copyright, please contact us at license@zhipuai.cn.

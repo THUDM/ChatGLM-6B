@@ -358,7 +358,7 @@ model = load_model_on_gpus("THUDM/chatglm-6b", num_gpus=2)
 
 ## 协议
 
-本仓库的代码依照 [Apache-2.0](LICENSE) 协议开源，ChatGLM-6B 模型的权重的使用则需要遵循 [Model License](MODEL_LICENSE)。
+本仓库的代码依照 [Apache-2.0](LICENSE) 协议开源，ChatGLM-6B 模型的权重的使用则需要遵循 [Model License](MODEL_LICENSE)。ChatGLM-6B 权重对学术研究**完全开放**，在填写[问卷](http://wenjuan.tsinghua.edu.cn/s/euI3ee) 进行登记后**亦允许免费商业使用**。
 
 ## 引用
 
