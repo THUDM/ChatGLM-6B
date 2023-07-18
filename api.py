@@ -1,9 +1,8 @@
-import torch
-import asyncio
-import concurrent.futures
 from fastapi import FastAPI, Request
 from transformers import AutoTokenizer, AutoModel
 import uvicorn, json, datetime
+import torch
+import asyncio
 
 DEVICE = "cuda"
 DEVICE_ID = "0"
@@ -52,10 +51,7 @@ async def create_item(request: Request):
         torch_gc()
         return answer
 
-    loop = asyncio.get_event_loop()
-    executor = concurrent.futures.ThreadPoolExecutor()
-    answer = await loop.run_in_executor(executor, _sync_chat, history)
-    return answer
+    return await asyncio.to_thread(_sync_chat, history=history)
 
 
 if __name__ == '__main__':
