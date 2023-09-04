@@ -6,6 +6,9 @@
 <p align="center">
     👋 加入我们的 <a href="https://join.slack.com/t/chatglm/shared_invite/zt-1y7pqoloy-9b1g6T6JjA8J0KxvUjbwJw" target="_blank">Slack</a> 和 <a href="resources/WECHAT.md" target="_blank">WeChat</a>
 </p>
+<p align="center">
+📍在 <a href="https://www.chatglm.cn">chatglm.cn</a> 体验更大规模的 ChatGLM 模型。
+</p>
 
 *Read this in [English](README_en.md).*
 
@@ -17,8 +20,6 @@ ChatGLM-6B 使用了和 ChatGPT 相似的技术，针对中文问答和对话进
 为了方便下游开发者针对自己的应用场景定制模型，我们同时实现了基于 [P-Tuning v2](https://github.com/THUDM/P-tuning-v2) 的高效参数微调方法 [(使用指南)](ptuning/README.md) ，INT4 量化级别下最低只需 7GB 显存即可启动微调。
 
 ChatGLM-6B 权重对学术研究**完全开放**，在填写[问卷](https://open.bigmodel.cn/mla/form)进行登记后**亦允许免费商业使用**。
-
-想让 ChatGLM-6B 更符合你的应用场景？欢迎参与 [Badcase 反馈计划](improve/README.md)。 
 
 -----
 
