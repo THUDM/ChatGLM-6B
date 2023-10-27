@@ -12,6 +12,8 @@
 
 *Read this in [English](README_en.md).*
 
+新一代开源模型 [ChatGLM3-6B](https://github.com/THUDM/ChatGLM3) 已发布，拥有10B以下最强的基础模型，支持工具调用（Function Call）、代码执行（Code Interpreter）、Agent 任务等功能。
+
 ## 介绍
 
 ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。
