@@ -3,10 +3,12 @@ LR=2e-2
 
 CUDA_VISIBLE_DEVICES=0 python3 main.py \
     --do_train \
+    --fp16 \
     --train_file AdvertiseGen/train.json \
     --validation_file AdvertiseGen/dev.json \
     --prompt_column content \
     --response_column summary \
+    --preprocessing_num_workers 10 \
     --overwrite_cache \
     --model_name_or_path THUDM/chatglm-6b \
     --output_dir output/adgen-chatglm-6b-pt-$PRE_SEQ_LEN-$LR \
@@ -21,6 +23,5 @@ CUDA_VISIBLE_DEVICES=0 python3 main.py \
     --logging_steps 10 \
     --save_steps 1000 \
     --learning_rate $LR \
-    --pre_seq_len $PRE_SEQ_LEN \
-    --quantization_bit 4
-
+    --pre_seq_len $PRE_SEQ_LEN 
+    # --quantization_bit 4
