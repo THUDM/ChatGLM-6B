@@ -6,7 +6,7 @@ The following uses the [ADGEN](https://aclanthology.org/D19-1321.pdf) (advertisi
 ## Software dependencies
 Running p-tuning requires version 4.27.1 of `transformers`. In addition to the dependencies of ChatGLM-6B, the following dependencies are required
 ```
-pip install rouge_chinese nltk jieba datasets
+pip install rouge_chinese nltk jieba datasets cpm_kernels sentencepiece
 ```
 ## Instructions
 
