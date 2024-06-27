@@ -26,7 +26,7 @@ experience our latest model in the following two channels.
   Among them, the two models `GLM-4` and `GLM-3-Turbo` support new functions such
   as `System Prompt`, `Function Call`, `Retrieval`, and `Web_Search`. You are welcome to experience them.
 
-+ [GLM4 API open source tutorial](https://github.com/MetaGLM/glm-cookbook/) GLM-4 API tutorial and basic applications,
++ [GLM-4 API open source tutorial](https://github.com/MetaGLM/glm-cookbook/) GLM-4 API tutorial and basic applications,
   welcome to try.
   API-related questions can be asked in this open source tutorial, or
   use [GLM-4 API AI Assistant](https://open.bigmodel.cn/shareapp/v1/?share_code=sQwt5qyqYVaNh1O_87p8O)
