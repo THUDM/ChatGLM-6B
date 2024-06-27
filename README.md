@@ -1,19 +1,34 @@
 # ChatGLM-6B
 
 <p align="center">
-   🌐 <a href="https://chatglm.cn/blog" target="_blank">Blog</a> • 🤗 <a href="https://huggingface.co/THUDM/chatglm-6b" target="_blank">HF Repo</a> • 🐦 <a href="https://twitter.com/thukeg" target="_blank">Twitter</a> • 📃 <a href="https://arxiv.org/abs/2103.10360" target="_blank">[GLM@ACL 22]</a> <a href="https://github.com/THUDM/GLM" target="_blank">[GitHub]</a> • 📃 <a href="https://arxiv.org/abs/2210.02414" target="_blank">[GLM-130B@ICLR 23]</a> <a href="https://github.com/THUDM/GLM-130B" target="_blank">[GitHub]</a> <br>
+   🌐 <a href="https://chatglm.cn/blog" target="_blank">Blog</a> • 🤗 <a href="https://huggingface.co/THUDM/chatglm-6b" target="_blank">HF Repo</a> • 🐦 <a href="https://twitter.com/thukeg" target="_blank">Twitter</a> • 📄<a href="https://arxiv.org/pdf/2406.12793" target="_blank"> Report </a> <br>
 </p>
 <p align="center">
-    👋 加入我们的 <a href="https://join.slack.com/t/chatglm/shared_invite/zt-1y7pqoloy-9b1g6T6JjA8J0KxvUjbwJw" target="_blank">Slack</a> 和 <a href="resources/WECHAT.md" target="_blank">WeChat</a>
+    👋 加入我们的  <a href="https://discord.gg/fK2dz4bg" target="_blank">Discord</a> 和 <a href="resources/WECHAT.md" target="_blank">WeChat</a>
 </p>
 <p align="center">
-📍在 <a href="https://www.chatglm.cn">chatglm.cn</a> 体验更大规模的 ChatGLM 模型。
+📍在 <a href="https://open.bigmodel.cn/?utm_campaign=open&_channel_track_key=OWTVNma9">智谱AI开放平台</a> 体验和使用更大规模的 GLM 商业模型。
 </p>
 
 *Read this in [English](README_en.md).*
 
-新一代开源模型 [ChatGLM3-6B](https://github.com/THUDM/ChatGLM3) 已发布，拥有10B以下最强的基础模型，支持工具调用（Function Call）、代码执行（Code Interpreter）、Agent 任务等功能。
+## GLM-4 开源模型和API
 
+我们已经发布最新的 **GLM-4** 大语言对话模型，该模型在多个指标上有了新的突破，您可以在以下两个渠道体验我们的最新模型。
+
++ [GLM-4 开源模型](https://github.com/THUDM/GLM-4) 我们已经开源了 GLM-4-9B 系列模型，在各项指标的ce是上有明显提升，欢迎尝试。
++ [智谱清言](https://chatglm.cn/main/detail?fr=ecology_x) 体验最新版 GLM-4，包括 **GLMs，All tools**等功能。
++ [API平台](https://open.bigmodel.cn/?utm_campaign=open&_channel_track_key=OWTVNma9) 新一代 API 平台已经上线，您可以直接在
+  API
+  平台上体验 `GLM-4-0520`、`GLM-4-air`、`GLM-4-airx`、`GLM-4-flash`、`GLM-4`、`GLM-3-Turbo`、`CharacterGLM-3`，`CogView-3`
+  等新模型。
+  其中`GLM-4`、`GLM-3-Turbo`两个模型支持了 `System Prompt`、`Function Call`、 `Retrieval`、`Web_Search`等新功能，欢迎体验。
+
++ [GLM-4 API 开源教程](https://github.com/MetaGLM/glm-cookbook/) GLM-4 API教程和基础应用，欢迎尝试。
+  API相关问题可以在本开源教程疑问，或者使用 [GLM-4 API AI助手](https://open.bigmodel.cn/shareapp/v1/?share_code=sQwt5qyqYVaNh1O_87p8O)
+  来获得常见问题的帮助。
+
+-----
 ## 介绍
 
 ChatGLM-6B 是一个开源的、支持中英双语的对话语言模型，基于 [General Language Model (GLM)](https://github.com/THUDM/GLM) 架构，具有 62 亿参数。结合模型量化技术，用户可以在消费级的显卡上进行本地部署（INT4 量化级别下最低只需 6GB 显存）。
@@ -376,19 +391,12 @@ model = load_model_on_gpus("THUDM/chatglm-6b", num_gpus=2)
 如果你觉得我们的工作有帮助的话，请考虑引用下列论文
 
 ```
-@article{zeng2022glm,
-  title={Glm-130b: An open bilingual pre-trained model},
-  author={Zeng, Aohan and Liu, Xiao and Du, Zhengxiao and Wang, Zihan and Lai, Hanyu and Ding, Ming and Yang, Zhuoyi and Xu, Yifan and Zheng, Wendi and Xia, Xiao and others},
-  journal={arXiv preprint arXiv:2210.02414},
-  year={2022}
-}
-```
-```
-@inproceedings{du2022glm,
-  title={GLM: General Language Model Pretraining with Autoregressive Blank Infilling},
-  author={Du, Zhengxiao and Qian, Yujie and Liu, Xiao and Ding, Ming and Qiu, Jiezhong and Yang, Zhilin and Tang, Jie},
-  booktitle={Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
-  pages={320--335},
-  year={2022}
+@misc{glm2024chatglm,
+      title={ChatGLM: A Family of Large Language Models from GLM-130B to GLM-4 All Tools}, 
+      author={Team GLM and Aohan Zeng and Bin Xu and Bowen Wang and Chenhui Zhang and Da Yin and Diego Rojas and Guanyu Feng and Hanlin Zhao and Hanyu Lai and Hao Yu and Hongning Wang and Jiadai Sun and Jiajie Zhang and Jiale Cheng and Jiayi Gui and Jie Tang and Jing Zhang and Juanzi Li and Lei Zhao and Lindong Wu and Lucen Zhong and Mingdao Liu and Minlie Huang and Peng Zhang and Qinkai Zheng and Rui Lu and Shuaiqi Duan and Shudan Zhang and Shulin Cao and Shuxun Yang and Weng Lam Tam and Wenyi Zhao and Xiao Liu and Xiao Xia and Xiaohan Zhang and Xiaotao Gu and Xin Lv and Xinghan Liu and Xinyi Liu and Xinyue Yang and Xixuan Song and Xunkai Zhang and Yifan An and Yifan Xu and Yilin Niu and Yuantao Yang and Yueyan Li and Yushi Bai and Yuxiao Dong and Zehan Qi and Zhaoyu Wang and Zhen Yang and Zhengxiao Du and Zhenyu Hou and Zihan Wang},
+      year={2024},
+      eprint={2406.12793},
+      archivePrefix={arXiv},
+      primaryClass={id='cs.CL' full_name='Computation and Language' is_active=True alt_name='cmp-lg' in_archive='cs' is_general=False description='Covers natural language processing. Roughly includes material in ACM Subject Class I.2.7. Note that work on artificial languages (programming languages, logics, formal systems) that does not explicitly address natural-language issues broadly construed (natural-language processing, computational linguistics, speech, text retrieval, etc.) is not appropriate for this area.'}
 }
 ```
