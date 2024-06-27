@@ -1,8 +1,7 @@
 PRE_SEQ_LEN=128
 LR=2e-2
 
-deepspeed --include="localhost:0,1" main.py \
-    --deepspeed deepspeed.json \
+CUDA_VISIBLE_DEVICES=1,2 python3 main_parallel.py \
     --do_train \
     --train_file AdvertiseGen/train.json \
     --test_file AdvertiseGen/dev.json \
@@ -11,7 +10,7 @@ deepspeed --include="localhost:0,1" main.py \
     --preprocessing_num_workers 10 \
     --overwrite_cache \
     --model_name_or_path THUDM/chatglm-6b \
-    --output_dir ./output/ds-chatglm-6b-ptuning-$LR \
+    --output_dir ./output/parallel-chatglm-6b-ptuning-$LR \
     --overwrite_output_dir \
     --max_source_length 64 \
     --max_target_length 64 \
@@ -25,4 +24,5 @@ deepspeed --include="localhost:0,1" main.py \
     --learning_rate $LR \
     --pre_seq_len $PRE_SEQ_LEN \
     --save_total_limit 1 \
+    --gradient_checkpointing \
     --fp16

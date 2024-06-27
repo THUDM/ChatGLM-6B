@@ -1,8 +1,13 @@
 protobuf
-transformers==4.27.1
+transformers==4.32.0
 cpm_kernels
 torch>=1.10
 gradio
 mdtex2html
 sentencepiece
 accelerate
+datasets
+jieba
+rouge_chinese
+deepspeed
+
