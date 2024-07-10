@@ -230,6 +230,84 @@ The returned value is
 }
 ```
 
+## Stream API Deployment
+
+First install the additional dependency `pip install flask` Then run stream_api.py in the repo
+
+```shell
+python stream_api.py
+```
+
+By default the api runs at the `8000` port of the local machine. A total of 2 interfaces, need to be used together, default use application/json as Content-Type, service description is as follows:
+
+The streaming API uses Flask as a carrier to set the waiting queue and processing queue using the thread pool principle, and developers can determine the queue length according to the actual performance of the hardware.
+
+#### 1、Interface 1：/chat 
+
+To open a dialogue (referring to a question and an answer), after calling this API, you should continuously(maybe 1 second interval) call Interface 2 and use the `request_id` to obtain the conversation response content in streaming.
+
+- Example request data is as follows, where `request_id` is specified by the caller and is used to determine the conversation entity
+
+```json
+{
+    "history": [["你是谁？","我是智能机器人"]],
+    "query": "你好",
+    "request_id": "73"  
+}
+
+```
+
+- The sample response data is as follows: it represents a normal response, and the service side starts processing or queues
+
+```json
+{
+    "code": 0,
+    "msg": "start process",
+}
+```
+
+#### 2、Interface 2：/get_response
+
+Use `request_id` to obtain the response content of the dialogue, and this API should be called regularly until the `is_finished = True` returned by the interface, indicating that the conversation has been inferred.
+
+- The sample request data is as follows, where `request_id` specified in Interface 1
+
+```
+{
+    "request_id": "73"
+}
+```
+
+- Example response data 1 is as follows: (Indicates that the request is still waiting in the queue and has not yet started being inferred)
+
+```
+{
+    "code": 0,
+    "msg": "success",
+    "response": {
+        "is_finished": false,
+        "is_handled": false,
+        "response": "",
+        "timestamp": 1679813631.926929
+    }
+}
+```
+
+- The sample response data 2 is as follows: (It means that the request has entered the inference queue and has not yet been inferenced)
+
+```
+{
+    "code": 0,
+    "msg": "success",
+    "response": {
+        "is_finished": false,
+        "is_handled": true,
+        "response": "我是智能机器人，请问",
+        "timestamp": 1679813631.926929
+    }
+}
+```
+
 ## Deployment
 
 ### Quantization
