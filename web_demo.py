@@ -12,12 +12,12 @@ model = model.eval()
 def postprocess(self, y):
     if y is None:
         return []
-    for i, (message, response) in enumerate(y):
-        y[i] = (
-            None if message is None else mdtex2html.convert((message)),
-            None if response is None else mdtex2html.convert(response),
-        )
-    return y
+    processed_y = []
+    for message, response in y:
+        processed_message = None if message is None else mdtex2html.convert(message)
+        processed_response = None if response is None else mdtex2html.convert(response)
+        processed_y.append((processed_message, processed_response))
+    return processed_y
 
 
 gr.Chatbot.postprocess = postprocess
